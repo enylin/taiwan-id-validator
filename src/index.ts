@@ -9,13 +9,13 @@ export function isGuiNumberValid(input: string | number): boolean {
       throw new Error('GUI number should be a 8-digit string.')
     }
 
-    const sum = GUI_NUMBER_COEFFICIENTS.reduce(
-      (sum, c, index) => sum + c * parseInt(n.charAt(index))
+    const checksum = GUI_NUMBER_COEFFICIENTS.reduce(
+      (sum, c, index) => sum + c * parseInt(n.charAt(index), 10)
     )
 
     if (
-      sum % 10 === 0 ||
-      (parseInt(n.charAt(6)) === 7 && (sum + 1) % 10 === 0)
+      checksum % 10 === 0 ||
+      (parseInt(n.charAt(6), 10) === 7 && (checksum + 1) % 10 === 0)
     ) {
       return true
     }
