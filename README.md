@@ -10,8 +10,6 @@ npm i -S taiwan-id-validator
 
 ## Usage
 
-After that you can use suitable loaders to access `dependencies`, `resolvers` and `container`.  
-
 ```js
 // index.js
 import { isGuiNumberValid } from 'taiwan-id-validator'
