@@ -2,7 +2,7 @@ const GUI_NUMBER_COEFFICIENTS = [1, 2, 1, 2, 1, 2, 4, 1]
 
 export function isGuiNumberValid(input: string | number): boolean {
   try {
-    const n = input as string
+    const n = input.toString()
     const regex: RegExp = /^\d{8}$/
 
     if (!regex.test(n)) {
@@ -10,7 +10,11 @@ export function isGuiNumberValid(input: string | number): boolean {
     }
 
     const checksum = GUI_NUMBER_COEFFICIENTS.reduce(
-      (sum, c, index) => sum + c * parseInt(n.charAt(index), 10)
+      (sum, c, index) => {
+        const product = c * parseInt(n.charAt(index), 10)
+        return sum + product % 10 + Math.floor(product / 10)
+      },
+      0
     )
 
     if (
