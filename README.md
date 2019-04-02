@@ -1,6 +1,8 @@
 # taiwan-id-validator
 
-台灣身分證字號驗證與公司統一編號驗證
+* 台灣身分證字號驗證
+* 公司統一編號驗證
+* 自然人憑證驗證
 
 ## Installation
 
@@ -12,7 +14,14 @@ npm i -S taiwan-id-validator
 
 ```js
 // index.js
-import { isGuiNumberValid } from 'taiwan-id-validator'
 
-console.log(isGuiNumberValid('12345678'))
+import {
+  isGuiNumberValid,
+  isNationalIdentificationNumberValid,
+  isCitizenDigitalCertificateValid
+} from 'taiwan-id-validator'
+
+console.log(isGuiNumberValid('12345675'))
+console.log(isNationalIdentificationNumberValid('A12345678'))
+console.log(isCitizenDigitalCertificateValid('AA12345678901234'))
 ```
