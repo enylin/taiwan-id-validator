@@ -11,6 +11,7 @@
     "build": "npm run clean && tsc",
     "clean": "rimraf dist",
     "test": "jest --silent",
+    "test:log": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage"
   },
