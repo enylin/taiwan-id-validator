@@ -20,8 +20,12 @@
     "url": "https://github.com/enylin/taiwan-id-validator"
   },
   "keywords": [
+    "中華民國",
+    "台灣",
     "統一編號",
-    "身分證字號"
+    "身分證字號",
+    "自然人憑證",
+    "手機條碼"
   ],
   "author": {
     "name": "enylin",
