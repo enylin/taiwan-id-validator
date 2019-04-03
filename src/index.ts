@@ -78,26 +78,30 @@ export function isGuiNumberValid(input: string | number): boolean {
  *  H=17 桃園縣     Q=24 嘉義縣     Z=33 連江縣*
  *  I=34 嘉義市*    R=25 台南縣
  *
+ *  Step 1: 英文字母按照上表轉換為數字之後，十位數 * 1 + 個位數 * 9 相加
+ *  Step 2: 第 1 位數字 (只能為 1 or 2) 至第 8 位數字分別乘上 8, 7, 6, 5, 4, 3, 2, 1 後相加，再加上第 9 位數字
+ *  Step 3: 如果該數字為 10 的倍數，則為正確身分證字號
  * @param { string } input National Identification Number
  * @returns { boolean }
  */
 export function isNationalIdentificationNumberValid(input: string): boolean {
   const ALPHABET_CODE_LIST = [
-    1, // A
-    10, // B
-    19, // C
+    // Step 1
+    1, // A -> 10 -> 1 * 1 + 9 * 0 = 1
+    10, // B -> 11 -> 1 * 1 + 9 * 1 = 10
+    19, // C -> 12 -> 1 * 1 + 9 * 2 = 19
     28, // D
     37, // E
     46, // F
     55, // G
     64, // H
-    39, // I
+    39, // I -> 34 -> 1 * 3 + 9 * 4 = 39
     73, // J
     82, // K
     2, // L
     11, // M
     20, // N
-    48, // O
+    48, // O -> 35 -> 1 * 3 + 9 * 5 = 48
     29, // P
     38, // Q
     47, // R
@@ -105,13 +109,17 @@ export function isNationalIdentificationNumberValid(input: string): boolean {
     65, // T
     74, // U
     83, // V
-    21, // W
+    21, // W -> 32 -> 1 * 3 + 9 * 2 = 21
     3, // X
     12, // Y
-    30 // Z
+    30 // Z -> 33 -> 1 * 3 + 9 * 3 = 30
   ]
 
   try {
+    if (typeof input !== 'string') {
+      throw new Error('Input type should be string.')
+    }
+
     const regex: RegExp = /^[A-Z][1,2]\d{8}$/
 
     if (!regex.test(input)) {
@@ -121,6 +129,7 @@ export function isNationalIdentificationNumberValid(input: string): boolean {
     const result =
       ALPHABET_CODE_LIST[input.charCodeAt(0) - 65] +
       [8, 7, 6, 5, 4, 3, 2, 1].reduce(
+        // Step 2
         (sum: number, coefficient: number, index: number) =>
           sum + coefficient * parseInt(input.charAt(index + 1), 10), // Σ coefficient * digit
         0
@@ -128,6 +137,7 @@ export function isNationalIdentificationNumberValid(input: string): boolean {
       parseInt(input.charAt(9), 10)
 
     if (result % 10 === 0) {
+      // Step 3
       return true
     }
     return false
@@ -140,16 +150,74 @@ export function isNationalIdentificationNumberValid(input: string): boolean {
 /**
  * Verify the input is a valid citizen digital certificate (自然人憑證)
  * 驗證規則為兩碼英文 + 14 碼數字
- * @param { string | number } input citizen digital certificate
+ * @param { string } input citizen digital certificate
  * @returns { boolean }
  */
 export function isCitizenDigitalCertificateValid(input: string): boolean {
   try {
+    if (typeof input !== 'string') {
+      throw new Error('Input type should be string.')
+    }
+
     const n = input.toString()
     const regex: RegExp = /^[A-Z]{2}\d{14}$/
 
     if (!regex.test(n)) {
       throw new Error('Citizen digital certificate format incorrect.')
+    }
+
+    return true
+  } catch (e) {
+    console.error(e.message)
+    return false
+  }
+}
+
+/**
+ * Verify the input is a valid E-Invoice cell phone barcode (電子發票手機條碼)
+ * 總長度為 8 碼
+ * 第 1 碼為 /
+ * 第 2~8 碼由 0~9 (數字), A-Z (大寫英文字母), .(period), -(hyphen), +(plus) 組成
+ * @param { string } input E-Invoice cell phone barcode
+ * @returns { boolean }
+ */
+export function isEInvoiceCellPhoneBarcodeValid(input: string): boolean {
+  try {
+    if (typeof input !== 'string') {
+      throw new Error('Input type should be string.')
+    }
+
+    const n = input.toString()
+    const regex: RegExp = /^\/[\dA-Z.\-+]{7}$/
+
+    if (!regex.test(n)) {
+      throw new Error('E-Invoice cell phone barcode format incorrect.')
+    }
+
+    return true
+  } catch (e) {
+    console.error(e.message)
+    return false
+  }
+}
+
+/**
+ * Verify the input is a valid E-Invoice donate code (電子發票捐贈碼)
+ * 總長度為 3~7 碼 0~9 的數字
+ * @param { string } input E-Invoice donate code
+ * @returns { boolean }
+ */
+export function isEInvoiceDonateCodeValid(input: string): boolean {
+  try {
+    if (typeof input !== 'string') {
+      throw new Error('Input type should be string.')
+    }
+
+    const n = input.toString()
+    const regex: RegExp = /^[\d]{3,7}$/
+
+    if (!regex.test(n)) {
+      throw new Error('E-Invoice donate code format incorrect.')
     }
 
     return true
