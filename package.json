@@ -24,13 +24,17 @@
     "台灣",
     "E-Invoice",
     "Tawian",
+    "ES6",
+    "Typescript",
     "電子發票",
     "統一編號",
     "身分證字號",
     "自然人憑證",
     "手機條碼",
     "捐贈碼",
-    "愛心碼"
+    "愛心碼",
+    "ARC",
+    "APRC"
   ],
   "author": {
     "name": "enylin",

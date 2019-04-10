@@ -1,6 +1,7 @@
 import {
   isGuiNumberValid,
   isNationalIdentificationNumberValid,
+  isResidentCertificateNumberValid,
   isCitizenDigitalCertificateValid,
   isEInvoiceCellPhoneBarcodeValid,
   isEInvoiceDonateCodeValid
@@ -29,7 +30,7 @@ describe('isNationalIdentificationNumberValid', () => {
     expect(isNationalIdentificationNumberValid('A12345678')).toBe(false)
   })
 
-  it('should only accpet strings Begin with English Letter', () => {
+  it('should only accpet strings Begin with English letter', () => {
     expect(isNationalIdentificationNumberValid('2123456789')).toBe(false)
     expect(isNationalIdentificationNumberValid('1123456789')).toBe(false)
   })
@@ -53,6 +54,30 @@ describe('isNationalIdentificationNumberValid', () => {
     expect(isNationalIdentificationNumberValid('A123456788')).toBe(false)
     expect(isNationalIdentificationNumberValid('F131104091')).toBe(false)
     expect(isNationalIdentificationNumberValid('O158238842')).toBe(false)
+  })
+})
+
+describe('isResidentCertificateNumberValid', () => {
+  it('should only accpet strings with length 10', () => {
+    expect(isResidentCertificateNumberValid('AA234567899')).toBe(false)
+    expect(isResidentCertificateNumberValid('AA2345678')).toBe(false)
+  })
+
+  it('should only accpet strings Begin with 2 English letters', () => {
+    expect(isResidentCertificateNumberValid('2123456789')).toBe(false)
+    expect(isResidentCertificateNumberValid('1A23456789')).toBe(false)
+    expect(isResidentCertificateNumberValid('A123456789')).toBe(false)
+  })
+
+  it('should return true if the input is correct', () => {
+    expect(isResidentCertificateNumberValid('AA00000009')).toBe(true)
+    // TODO: more test cases needed here
+  })
+
+  it('should return false if the input is incorrect', () => {
+    expect(isResidentCertificateNumberValid('AA00000000')).toBe(false)
+    expect(isResidentCertificateNumberValid('FG31104091')).toBe(false)
+    expect(isResidentCertificateNumberValid('OY58238842')).toBe(false)
   })
 })
 
