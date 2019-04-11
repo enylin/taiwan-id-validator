@@ -117,7 +117,7 @@ export function isNationalIdentificationNumberValid(input: string): boolean {
  *
  *  Step 1: 第一位英文字母按照上表轉換為數字之後，十位數 * 1 + 個位數 * 9 相加，第二位英文字母按上表轉換為對應數值的個位數
  *  Step 2: 第 1 位數字 (由第二位英文所轉換) 至第 8 位數字分別乘上 8, 7, 6, 5, 4, 3, 2, 1 後相加，再加上第 9 位數字
- *  Step 3: 如果該數字為 10 的倍數，則為正確身分證字號
+ *  Step 3: 如果該數字為 10 的倍數，則為正確居留證號
  * @param { string } input Resident certificate number
  * @returns { boolean }
  */
@@ -220,6 +220,11 @@ export function isEInvoiceDonateCodeValid(input: string): boolean {
   }
 }
 
+/**
+ * Verify the intermediate string for isNationalIdentificationNumberValid and isResidentCertificateNumberValid
+ * @param { string } input String to verify
+ * @returns { boolean }
+ */
 function verifyTaiwanIdIntermediateString(input: string): boolean {
   const idArray: string[] = input.split('')
   const intRadix = 10
