@@ -71,7 +71,12 @@ describe('isResidentCertificateNumberValid', () => {
 
   it('should return true if the input is correct', () => {
     expect(isResidentCertificateNumberValid('AA00000009')).toBe(true)
-    // TODO: more test cases needed here
+    expect(isResidentCertificateNumberValid('AB00207171')).toBe(true)
+    expect(isResidentCertificateNumberValid('AC03095424')).toBe(true)
+    expect(isResidentCertificateNumberValid('BD01300667')).toBe(true)
+    expect(isResidentCertificateNumberValid('CC00151114')).toBe(true)
+    expect(isResidentCertificateNumberValid('HD02717288')).toBe(true)
+    expect(isResidentCertificateNumberValid('TD00251124')).toBe(true)
   })
 
   it('should return false if the input is incorrect', () => {
