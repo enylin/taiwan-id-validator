@@ -1,7 +1,7 @@
 {
   "name": "taiwan-id-validator",
-  "version": "0.0.8",
-  "description": "中華民國統一編號、身分證字號驗證規則",
+  "version": "0.0.9",
+  "description": "中華民國統一編號、身分證字號驗證規則、電子發票號碼等規則驗證",
   "main": "dist/index.js",
   "license": "ISC",
   "scripts": {
