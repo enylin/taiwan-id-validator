@@ -51,6 +51,7 @@ describe('isNationalIdentificationNumberValid', () => {
   })
 
   it('should return false if the input is incorrect', () => {
+    expect(isNationalIdentificationNumberValid('a123456789')).toBe(false)
     expect(isNationalIdentificationNumberValid('A123456788')).toBe(false)
     expect(isNationalIdentificationNumberValid('F131104091')).toBe(false)
     expect(isNationalIdentificationNumberValid('O158238842')).toBe(false)
@@ -77,9 +78,11 @@ describe('isResidentCertificateNumberValid', () => {
     expect(isResidentCertificateNumberValid('CC00151114')).toBe(true)
     expect(isResidentCertificateNumberValid('HD02717288')).toBe(true)
     expect(isResidentCertificateNumberValid('TD00251124')).toBe(true)
+    expect(isResidentCertificateNumberValid('AD30196818')).toBe(true)
   })
 
   it('should return false if the input is incorrect', () => {
+    expect(isResidentCertificateNumberValid('aa00000009')).toBe(false)
     expect(isResidentCertificateNumberValid('AA00000000')).toBe(false)
     expect(isResidentCertificateNumberValid('FG31104091')).toBe(false)
     expect(isResidentCertificateNumberValid('OY58238842')).toBe(false)
@@ -98,6 +101,7 @@ describe('isCitizenDigitalCertificateValid', () => {
   })
 
   it('should return false if the input is incorrect', () => {
+    expect(isCitizenDigitalCertificateValid('ab12345678901234')).toBe(false)
     expect(isCitizenDigitalCertificateValid('A112345678901234')).toBe(false)
     expect(isCitizenDigitalCertificateValid('9B12345678901234')).toBe(false)
     expect(isCitizenDigitalCertificateValid('AA123456789012J4')).toBe(false)
