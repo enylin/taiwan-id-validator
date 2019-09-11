@@ -61,7 +61,7 @@ export function isGuiNumberValid(input: string | number): boolean {
 
     return false
   } catch (e) {
-    console.error(e.message)
+    console.debug(e.message)
     return false
   }
 }
@@ -98,7 +98,7 @@ export function isNationalIdentificationNumberValid(input: string): boolean {
 
     return verifyTaiwanIdIntermediateString(input)
   } catch (e) {
-    console.error(e.message)
+    console.debug(e.message)
     return false
   }
 }
@@ -135,7 +135,7 @@ export function isResidentCertificateNumberValid(input: string): boolean {
 
     return verifyTaiwanIdIntermediateString(input)
   } catch (e) {
-    console.error(e.message)
+    console.debug(e.message)
     return false
   }
 }
@@ -161,7 +161,7 @@ export function isCitizenDigitalCertificateValid(input: string): boolean {
 
     return true
   } catch (e) {
-    console.error(e.message)
+    console.debug(e.message)
     return false
   }
 }
@@ -189,7 +189,7 @@ export function isEInvoiceCellPhoneBarcodeValid(input: string): boolean {
 
     return true
   } catch (e) {
-    console.error(e.message)
+    console.debug(e.message)
     return false
   }
 }
@@ -215,7 +215,7 @@ export function isEInvoiceDonateCodeValid(input: string): boolean {
 
     return true
   } catch (e) {
-    console.error(e.message)
+    console.debug(e.message)
     return false
   }
 }
