@@ -14,5 +14,4 @@ node_modules/
 
 # Custom
 .idea
-dist
 feature

@@ -1,3 +1,5 @@
+'use strict'
+exports.__esModule = true
 /**
  * Verify the input is a valid GUI Number (中華民國統一編號)
  * 規則:
@@ -35,37 +37,32 @@
  * @param { string | number } input GUI Number
  * @returns { boolean }
  */
-export function isGuiNumberValid(input: string | number): boolean {
-  const GUI_NUMBER_COEFFICIENTS = [1, 2, 1, 2, 1, 2, 4, 1]
-
+function isGuiNumberValid(input) {
+  var GUI_NUMBER_COEFFICIENTS = [1, 2, 1, 2, 1, 2, 4, 1]
   try {
-    const n = input.toString()
-    const regex: RegExp = /^\d{8}$/
-
-    if (!regex.test(n)) {
+    var n_1 = input.toString()
+    var regex = /^\d{8}$/
+    if (!regex.test(n_1)) {
       throw new Error('GUI number should be a 8-digit string.')
     }
-
-    const checksum = GUI_NUMBER_COEFFICIENTS.reduce((sum, c, index) => {
-      const product = c * parseInt(n.charAt(index), 10) // Step 1
+    var checksum = GUI_NUMBER_COEFFICIENTS.reduce(function(sum, c, index) {
+      var product = c * parseInt(n_1.charAt(index), 10) // Step 1
       return sum + (product % 10) + Math.floor(product / 10) // Step 2
     }, 0)
-
     if (
       // Step 3 & Step 4
       checksum % 10 === 0 ||
-      (parseInt(n.charAt(6), 10) === 7 && (checksum + 1) % 10 === 0)
+      (parseInt(n_1.charAt(6), 10) === 7 && (checksum + 1) % 10 === 0)
     ) {
       return true
     }
-
     return false
   } catch (e) {
     console.debug(e.message)
     return false
   }
 }
-
+exports.isGuiNumberValid = isGuiNumberValid
 /**
  *  Verify the input is a valid National identification number (中華民國身分證字號)
  *  A=10 台北市     J=18 新竹縣     S=26 高雄縣
@@ -84,25 +81,22 @@ export function isGuiNumberValid(input: string | number): boolean {
  * @param { string } input National identification number
  * @returns { boolean }
  */
-export function isNationalIdentificationNumberValid(input: string): boolean {
+function isNationalIdentificationNumberValid(input) {
   try {
     if (typeof input !== 'string') {
       throw new Error('Input type should be string.')
     }
-
-    const regex: RegExp = /^[A-Z][1,2]\d{8}$/
-
+    var regex = /^[A-Z][1,2]\d{8}$/
     if (!regex.test(input)) {
       throw new Error('National identification number format incorrect.')
     }
-
     return verifyTaiwanIdIntermediateString(input)
   } catch (e) {
     console.debug(e.message)
     return false
   }
 }
-
+exports.isNationalIdentificationNumberValid = isNationalIdentificationNumberValid
 /**
  *  Verify the input is a valid Resident certificate number (外僑及大陸人士在台居留證、旅行證統一證號)
  *  A=10 台北市     J=18 新竹縣     S=26 高雄縣
@@ -121,51 +115,45 @@ export function isNationalIdentificationNumberValid(input: string): boolean {
  * @param { string } input Resident certificate number
  * @returns { boolean }
  */
-export function isResidentCertificateNumberValid(input: string): boolean {
+function isResidentCertificateNumberValid(input) {
   try {
     if (typeof input !== 'string') {
       throw new Error('Input type should be string.')
     }
-
-    const regex: RegExp = /^[A-Z]{2}\d{8}$/
-
+    var regex = /^[A-Z]{2}\d{8}$/
     if (!regex.test(input)) {
       throw new Error('Resident certificate number format incorrect.')
     }
-
     return verifyTaiwanIdIntermediateString(input)
   } catch (e) {
     console.debug(e.message)
     return false
   }
 }
-
+exports.isResidentCertificateNumberValid = isResidentCertificateNumberValid
 /**
  * Verify the input is a valid citizen digital certificate (自然人憑證)
  * 驗證規則為兩碼英文 + 14 碼數字
  * @param { string } input citizen digital certificate
  * @returns { boolean }
  */
-export function isCitizenDigitalCertificateValid(input: string): boolean {
+function isCitizenDigitalCertificateValid(input) {
   try {
     if (typeof input !== 'string') {
       throw new Error('Input type should be string.')
     }
-
-    const n = input.toString()
-    const regex: RegExp = /^[A-Z]{2}\d{14}$/
-
+    var n = input.toString()
+    var regex = /^[A-Z]{2}\d{14}$/
     if (!regex.test(n)) {
       throw new Error('Citizen digital certificate format incorrect.')
     }
-
     return true
   } catch (e) {
     console.debug(e.message)
     return false
   }
 }
-
+exports.isCitizenDigitalCertificateValid = isCitizenDigitalCertificateValid
 /**
  * Verify the input is a valid E-Invoice cell phone barcode (電子發票手機條碼)
  * 總長度為 8 碼
@@ -174,143 +162,129 @@ export function isCitizenDigitalCertificateValid(input: string): boolean {
  * @param { string } input E-Invoice cell phone barcode
  * @returns { boolean }
  */
-export function isEInvoiceCellPhoneBarcodeValid(input: string): boolean {
+function isEInvoiceCellPhoneBarcodeValid(input) {
   try {
     if (typeof input !== 'string') {
       throw new Error('Input type should be string.')
     }
-
-    const n = input.toString()
-    const regex: RegExp = /^\/[\dA-Z.\-+]{7}$/
-
+    var n = input.toString()
+    var regex = /^\/[\dA-Z.\-+]{7}$/
     if (!regex.test(n)) {
       throw new Error('E-Invoice cell phone barcode format incorrect.')
     }
-
     return true
   } catch (e) {
     console.debug(e.message)
     return false
   }
 }
-
+exports.isEInvoiceCellPhoneBarcodeValid = isEInvoiceCellPhoneBarcodeValid
 /**
  * Verify the input is a valid E-Invoice donate code (電子發票捐贈碼)
  * 總長度為 3~7 碼 0~9 的數字
  * @param { string } input E-Invoice donate code
  * @returns { boolean }
  */
-export function isEInvoiceDonateCodeValid(input: string): boolean {
+function isEInvoiceDonateCodeValid(input) {
   try {
     if (typeof input !== 'string') {
       throw new Error('Input type should be string.')
     }
-
-    const n = input.toString()
-    const regex: RegExp = /^[\d]{3,7}$/
-
+    var n = input.toString()
+    var regex = /^[\d]{3,7}$/
     if (!regex.test(n)) {
       throw new Error('E-Invoice donate code format incorrect.')
     }
-
     return true
   } catch (e) {
     console.debug(e.message)
     return false
   }
 }
-
+exports.isEInvoiceDonateCodeValid = isEInvoiceDonateCodeValid
 /**
  * Verify the intermediate string for isNationalIdentificationNumberValid and isResidentCertificateNumberValid
  * @param { string } input String to verify
  * @returns { boolean }
  */
-function verifyTaiwanIdIntermediateString(input: string): boolean {
-  const idArray: string[] = input.split('')
-  const intRadix = 10
-  const TAIWAN_ID_LOCALE_CODE_LIST = [
-    1, // A -> 10 -> 1 * 1 + 9 * 0 = 1
-    10, // B -> 11 -> 1 * 1 + 9 * 1 = 10
-    19, // C -> 12 -> 1 * 1 + 9 * 2 = 19
-    28, // D
-    37, // E
-    46, // F
-    55, // G
-    64, // H
-    39, // I -> 34 -> 1 * 3 + 9 * 4 = 39
-    73, // J
-    82, // K
-    2, // L
-    11, // M
-    20, // N
-    48, // O -> 35 -> 1 * 3 + 9 * 5 = 48
-    29, // P
-    38, // Q
-    47, // R
-    56, // S
-    65, // T
-    74, // U
-    83, // V
-    21, // W -> 32 -> 1 * 3 + 9 * 2 = 21
-    3, // X
-    12, // Y
+function verifyTaiwanIdIntermediateString(input) {
+  var idArray = input.split('')
+  var intRadix = 10
+  var TAIWAN_ID_LOCALE_CODE_LIST = [
+    1,
+    10,
+    19,
+    28,
+    37,
+    46,
+    55,
+    64,
+    39,
+    73,
+    82,
+    2,
+    11,
+    20,
+    48,
+    29,
+    38,
+    47,
+    56,
+    65,
+    74,
+    83,
+    21,
+    3,
+    12,
     30 // Z -> 33 -> 1 * 3 + 9 * 3 = 30
   ]
-
-  const RESIDENT_CERTIFICATE_NUMBER_LIST = [
-    '0', // A
-    '1', // B
-    '2', // C
-    '3', // D
-    '4', // E
-    '5', // F
-    '6', // G
-    '7', // H
-    '4', // I
-    '8', // J
-    '9', // K
-    '0', // L
-    '1', // M
-    '2', // N
-    '5', // O
-    '3', // P
-    '4', // Q
-    '5', // R
-    '6', // S
-    '7', // T
-    '8', // U
-    '9', // V
-    '2', // W
-    '0', // X
-    '1', // Y
+  var RESIDENT_CERTIFICATE_NUMBER_LIST = [
+    '0',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '4',
+    '8',
+    '9',
+    '0',
+    '1',
+    '2',
+    '5',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '2',
+    '0',
+    '1',
     '3' // Z
   ]
-
   // if is not a number (居留證編號)
   if (isNaN(parseInt(idArray[1], intRadix))) {
     idArray[1] =
       RESIDENT_CERTIFICATE_NUMBER_LIST[input.charCodeAt(1) - 'A'.charCodeAt(0)]
   }
-
-  const result = idArray.reduce(
-    (sum: number, n: string, index: number): number => {
-      if (index === 0) {
-        return (
-          sum +
-          TAIWAN_ID_LOCALE_CODE_LIST[
-            idArray[0].charCodeAt(0) - 'A'.charCodeAt(0)
-          ]
-        )
-      } else if (index === 9) {
-        return sum + parseInt(idArray[9], intRadix)
-      }
-      return sum + parseInt(idArray[index], intRadix) * (9 - index)
-    },
-    0
-  )
-
+  var result = idArray.reduce(function(sum, n, index) {
+    if (index === 0) {
+      return (
+        sum +
+        TAIWAN_ID_LOCALE_CODE_LIST[idArray[0].charCodeAt(0) - 'A'.charCodeAt(0)]
+      )
+    } else if (index === 9) {
+      return sum + parseInt(idArray[9], intRadix)
+    }
+    return sum + parseInt(idArray[index], intRadix) * (9 - index)
+  }, 0)
   if (result % 10 === 0) {
     return true
   }
   return false
 }
+//# sourceMappingURL=index.js.map
