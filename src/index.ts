@@ -40,7 +40,7 @@ export function isGuiNumberValid(input: string | number): boolean {
 
   try {
     const n = input.toString()
-    const regex: RegExp = /^\d{8}$/
+    const regex = /^\d{8}$/
 
     if (!regex.test(n)) {
       throw new Error('GUI number should be a 8-digit string.')
@@ -90,7 +90,7 @@ export function isNationalIdentificationNumberValid(input: string): boolean {
       throw new Error('Input type should be string.')
     }
 
-    const regex: RegExp = /^[A-Z][1,2]\d{8}$/
+    const regex = /^[A-Z][1,2]\d{8}$/
 
     if (!regex.test(input)) {
       throw new Error('National identification number format incorrect.')
@@ -127,7 +127,7 @@ export function isResidentCertificateNumberValid(input: string): boolean {
       throw new Error('Input type should be string.')
     }
 
-    const regex: RegExp = /^[A-Z]{2}\d{8}$/
+    const regex = /^[A-Z]{2}\d{8}$/
 
     if (!regex.test(input)) {
       throw new Error('Resident certificate number format incorrect.')
@@ -153,7 +153,7 @@ export function isCitizenDigitalCertificateValid(input: string): boolean {
     }
 
     const n = input.toString()
-    const regex: RegExp = /^[A-Z]{2}\d{14}$/
+    const regex = /^[A-Z]{2}\d{14}$/
 
     if (!regex.test(n)) {
       throw new Error('Citizen digital certificate format incorrect.')
@@ -181,7 +181,7 @@ export function isEInvoiceCellPhoneBarcodeValid(input: string): boolean {
     }
 
     const n = input.toString()
-    const regex: RegExp = /^\/[\dA-Z.\-+]{7}$/
+    const regex = /^\/[\dA-Z.\-+]{7}$/
 
     if (!regex.test(n)) {
       throw new Error('E-Invoice cell phone barcode format incorrect.')
@@ -207,7 +207,7 @@ export function isEInvoiceDonateCodeValid(input: string): boolean {
     }
 
     const n = input.toString()
-    const regex: RegExp = /^[\d]{3,7}$/
+    const regex = /^[\d]{3,7}$/
 
     if (!regex.test(n)) {
       throw new Error('E-Invoice donate code format incorrect.')
@@ -292,25 +292,13 @@ function verifyTaiwanIdIntermediateString(input: string): boolean {
       RESIDENT_CERTIFICATE_NUMBER_LIST[input.charCodeAt(1) - 'A'.charCodeAt(0)]
   }
 
-  const result = idArray.reduce(
-    (sum: number, n: string, index: number): number => {
-      if (index === 0) {
-        return (
-          sum +
-          TAIWAN_ID_LOCALE_CODE_LIST[
-            idArray[0].charCodeAt(0) - 'A'.charCodeAt(0)
-          ]
-        )
-      } else if (index === 9) {
-        return sum + parseInt(idArray[9], intRadix)
-      }
-      return sum + parseInt(idArray[index], intRadix) * (9 - index)
-    },
-    0
-  )
+  const cb = (sum: number, n: string, index: number) =>
+    sum +
+    (index === 0
+      ? TAIWAN_ID_LOCALE_CODE_LIST[idArray[0].charCodeAt(0) - 'A'.charCodeAt(0)]
+      : index === 9
+      ? parseInt(idArray[9], intRadix)
+      : parseInt(idArray[index], intRadix) * (9 - index))
 
-  if (result % 10 === 0) {
-    return true
-  }
-  return false
+  return idArray.reduce(cb, 0) % 10 === 0
 }
