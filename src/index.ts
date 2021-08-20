@@ -296,9 +296,7 @@ function verifyTaiwanIdIntermediateString(input: string): boolean {
     sum +
     (index === 0
       ? TAIWAN_ID_LOCALE_CODE_LIST[idArray[0].charCodeAt(0) - 'A'.charCodeAt(0)]
-      : index === 9
-      ? parseInt(idArray[9], intRadix)
-      : parseInt(idArray[index], intRadix) * (9 - index))
+      : parseInt(idArray[index], intRadix) * (index === 9 ? 1 : 9 - index))
 
   return idArray.reduce(cb, 0) % 10 === 0
 }
