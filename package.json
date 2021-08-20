@@ -42,9 +42,14 @@
     "email": "sean.enylin@gmail.com"
   },
   "devDependencies": {
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-angular": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
     "@types/jest": "^27.0.1",
     "@typescript-eslint/eslint-plugin": "^4.29.2",
     "@typescript-eslint/parser": "^4.29.2",
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
@@ -58,5 +63,10 @@
     "tslint": "^5.14.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^4.3.5"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
