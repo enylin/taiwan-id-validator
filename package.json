@@ -50,7 +50,6 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "husky": "^7.0.1",
     "jest": "^27.0.6",
-    "lint-staged": "^11.1.2",
     "prettier": "2.3.2",
     "rimraf": "^2.6.3",
     "ts-jest": "^27.0.5",
@@ -61,14 +60,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm t"
+      "pre-commit": "npx eslint && npm t"
     }
-  },
-  "lint-staged": {
-    "*.{js,json,ts,css}": [
-      "tslint --fix",
-      "npm run format",
-      "git add"
-    ]
   }
 }
