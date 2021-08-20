@@ -13,7 +13,8 @@
     "test": "jest --silent",
     "test:log": "jest",
     "test:watch": "jest --watch",
-    "test:cov": "jest --coverage"
+    "test:cov": "jest --coverage",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -57,10 +58,5 @@
     "tslint": "^5.14.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^4.3.5"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npx eslint && npm t"
-    }
   }
 }
