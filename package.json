@@ -14,7 +14,15 @@
     "test:log": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "v:prerelease": "npm version prerelease -m \"build: release %s\"",
+    "v:prepatch": "npm version prepatch -m \"build: release %s\"",
+    "v:preminor": "npm version preminor -m \"build: release %s\"",
+    "v:premajor": "npm version premajor -m \"build: release %s\"",
+    "v:patch": "npm version patch -m \"build: release %s\"",
+    "v:minor": "npm version minor -m \"build: release %s\"",
+    "v:major": "npm version major -m \"build: release %s\"",
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
   },
   "repository": {
     "type": "git",
@@ -50,6 +58,7 @@
     "@typescript-eslint/eslint-plugin": "^4.29.2",
     "@typescript-eslint/parser": "^4.29.2",
     "commitizen": "^4.2.4",
+    "conventional-changelog-cli": "^2.1.1",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
