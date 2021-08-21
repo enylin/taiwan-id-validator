@@ -62,7 +62,7 @@ export function isGuiNumberValid(input: string | number): boolean {
 }
 
 /**
- *  Verify the input is a valid National identification number (中華民國身分證字號)
+ * Verify the input is a valid National identification number (中華民國身分證字號)
  *
  * @param { string } input National identification number
  * @returns { boolean } is `input` a valid national ID number
@@ -72,28 +72,13 @@ export function isNationalIdentificationNumberValid(input: string): boolean {
     throw new Error('Input type should be string.')
   }
 
-  /**
-   *  A=10 台北市     J=18 新竹縣     S=26 高雄縣
-   *  B=11 台中市     K=19 苗栗縣     T=27 屏東縣
-   *  C=12 基隆市     L=20 台中縣     U=28 花蓮縣
-   *  D=13 台南市     M=21 南投縣     V=29 台東縣
-   *  E=14 高雄市     N=22 彰化縣     W=32 金門縣*
-   *  F=15 台北縣     O=35 新竹市*    X=30 澎湖縣
-   *  G=16 宜蘭縣     P=23 雲林縣     Y=31 陽明山
-   *  H=17 桃園縣     Q=24 嘉義縣     Z=33 連江縣*
-   *  I=34 嘉義市*    R=25 台南縣
-   *
-   *  Step 1: 英文字母按照上表轉換為數字之後，十位數 * 1 + 個位數 * 9 相加
-   *  Step 2: 第 1 位數字 (只能為 1 or 2) 至第 8 位數字分別乘上 8, 7, 6, 5, 4, 3, 2, 1 後相加，再加上第 9 位數字
-   *  Step 3: 如果該數字為 10 的倍數，則為正確身分證字號
-   */
   const regex = /^[A-Z][1,2]\d{8}$/
 
   return regex.test(input) && verifyTaiwanIdIntermediateString(input)
 }
 
 /**
- *  Verify the input is a valid resident certificate number (外僑及大陸人士在台居留證、旅行證統一證號)
+ * Verify the input is a valid resident certificate number (臺灣地區無戶籍國民、外國人、大陸地區人民及香港或澳門居民之專屬代號)
  *
  * @param { string } input resident certificate number
  * @returns { boolean } is `input` a valid resident certificate number
@@ -103,21 +88,41 @@ export function isResidentCertificateNumberValid(input: string): boolean {
     throw new Error('Input type should be string.')
   }
 
-  /**
-   *  A=10 台北市     J=18 新竹縣     S=26 高雄縣
-   *  B=11 台中市     K=19 苗栗縣     T=27 屏東縣
-   *  C=12 基隆市     L=20 台中縣     U=28 花蓮縣
-   *  D=13 台南市     M=21 南投縣     V=29 台東縣
-   *  E=14 高雄市     N=22 彰化縣     W=32 金門縣*
-   *  F=15 台北縣     O=35 新竹市*    X=30 澎湖縣
-   *  G=16 宜蘭縣     P=23 雲林縣     Y=31 陽明山
-   *  H=17 桃園縣     Q=24 嘉義縣     Z=33 連江縣*
-   *  I=34 嘉義市*    R=25 台南縣
-   *
-   *  Step 1: 第一位英文字母按照上表轉換為數字之後，十位數 * 1 + 個位數 * 9 相加，第二位英文字母按上表轉換為對應數值的個位數
-   *  Step 2: 第 1 位數字 (由第二位英文所轉換) 至第 8 位數字分別乘上 8, 7, 6, 5, 4, 3, 2, 1 後相加，再加上第 9 位數字
-   *  Step 3: 如果該數字為 10 的倍數，則為正確居留證號
-   */
+  return (
+    isNewResidentCertificateNumberValid(input) ||
+    isOriginalResidentCertificateNumberValid(input)
+  )
+}
+
+/**
+ * Verify the input is a valid new resident certificate number (臺灣地區無戶籍國民、外國人、大陸地區人民及香港或澳門居民之專屬代號)
+ *
+ * @param { string } input resident certificate number
+ * @returns { boolean } is `input` a valid new resident certificate number
+ */
+export function isNewResidentCertificateNumberValid(input: string): boolean {
+  if (typeof input !== 'string') {
+    throw new Error('Input type should be string.')
+  }
+
+  const regex = /^[A-Z][8,9]\d{8}$/
+
+  return regex.test(input) && verifyTaiwanIdIntermediateString(input)
+}
+
+/**
+ * Verify the input is a original valid resident certificate number (臺灣地區無戶籍國民、外國人、大陸地區人民及香港或澳門居民之專屬代號)
+ *
+ * @param { string } input resident certificate number
+ * @returns { boolean } is `input` a valid original resident certificate number
+ */
+export function isOriginalResidentCertificateNumberValid(
+  input: string
+): boolean {
+  if (typeof input !== 'string') {
+    throw new Error('Input type should be string.')
+  }
+
   const regex = /^[A-Z]{2}\d{8}$/
 
   return regex.test(input) && verifyTaiwanIdIntermediateString(input)
@@ -193,6 +198,20 @@ export function isEInvoiceDonateCodeValid(input: string): boolean {
 function verifyTaiwanIdIntermediateString(input: string): boolean {
   const idArray: string[] = input.split('')
   const intRadix = 10
+
+  /**
+   *  A=10 台北市     J=18 新竹縣     S=26 高雄縣
+   *  B=11 台中市     K=19 苗栗縣     T=27 屏東縣
+   *  C=12 基隆市     L=20 台中縣     U=28 花蓮縣
+   *  D=13 台南市     M=21 南投縣     V=29 台東縣
+   *  E=14 高雄市     N=22 彰化縣     W=32 金門縣*
+   *  F=15 台北縣     O=35 新竹市*    X=30 澎湖縣
+   *  G=16 宜蘭縣     P=23 雲林縣     Y=31 陽明山
+   *  H=17 桃園縣     Q=24 嘉義縣     Z=33 連江縣*
+   *  I=34 嘉義市*    R=25 台南縣
+   *
+   *  Step 1: 英文字母按照上表轉換為數字之後，十位數 * 1 + 個位數 * 9 相加
+   */
   const TAIWAN_ID_LOCALE_CODE_LIST = [
     1, // A -> 10 -> 1 * 1 + 9 * 0 = 1
     10, // B -> 11 -> 1 * 1 + 9 * 1 = 10
@@ -251,17 +270,19 @@ function verifyTaiwanIdIntermediateString(input: string): boolean {
     '3' // Z
   ]
 
-  // if is not a number (居留證編號)
+  // if is not a number (舊版居留證編號)
   if (isNaN(parseInt(idArray[1], intRadix))) {
     idArray[1] =
       RESIDENT_CERTIFICATE_NUMBER_LIST[input.charCodeAt(1) - 'A'.charCodeAt(0)]
   }
 
+  // Step 2: 第 1 位數字 (只能為 1 or 2) 至第 8 位數字分別乘上 8, 7, 6, 5, 4, 3, 2, 1 後相加，再加上第 9 位數字
   const cb = (sum: number, n: string, index: number) =>
     sum +
     (index === 0
-      ? TAIWAN_ID_LOCALE_CODE_LIST[idArray[0].charCodeAt(0) - 'A'.charCodeAt(0)]
-      : parseInt(idArray[index], intRadix) * (index === 9 ? 1 : 9 - index))
+      ? TAIWAN_ID_LOCALE_CODE_LIST[n.charCodeAt(0) - 'A'.charCodeAt(0)]
+      : parseInt(n, intRadix) * (index === 9 ? 1 : 9 - index))
 
+  // Step 3: 如果該數字為 10 的倍數，則為正確身分證字號
   return idArray.reduce(cb, 0) % 10 === 0
 }

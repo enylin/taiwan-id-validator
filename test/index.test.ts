@@ -1,6 +1,8 @@
 import {
   isGuiNumberValid,
   isNationalIdentificationNumberValid,
+  isOriginalResidentCertificateNumberValid,
+  isNewResidentCertificateNumberValid,
   isResidentCertificateNumberValid,
   isCitizenDigitalCertificateValid,
   isEInvoiceCellPhoneBarcodeValid,
@@ -55,6 +57,73 @@ describe('isNationalIdentificationNumberValid', () => {
     expect(isNationalIdentificationNumberValid('A123456788')).toBe(false)
     expect(isNationalIdentificationNumberValid('F131104091')).toBe(false)
     expect(isNationalIdentificationNumberValid('O158238842')).toBe(false)
+  })
+})
+
+describe('isOriginalResidentCertificateNumberValid', () => {
+  it('should only accept strings with length 10', () => {
+    expect(isOriginalResidentCertificateNumberValid('AA234567899')).toBe(false)
+    expect(isOriginalResidentCertificateNumberValid('AA2345678')).toBe(false)
+  })
+
+  it('should only accept strings Begin with 2 English letters', () => {
+    expect(isOriginalResidentCertificateNumberValid('2123456789')).toBe(false)
+    expect(isOriginalResidentCertificateNumberValid('1A23456789')).toBe(false)
+    expect(isOriginalResidentCertificateNumberValid('A123456789')).toBe(false)
+  })
+
+  it('should return true if the input is correct', () => {
+    expect(isOriginalResidentCertificateNumberValid('AA00000009')).toBe(true)
+    expect(isOriginalResidentCertificateNumberValid('AB00207171')).toBe(true)
+    expect(isOriginalResidentCertificateNumberValid('AC03095424')).toBe(true)
+    expect(isOriginalResidentCertificateNumberValid('BD01300667')).toBe(true)
+    expect(isOriginalResidentCertificateNumberValid('CC00151114')).toBe(true)
+    expect(isOriginalResidentCertificateNumberValid('HD02717288')).toBe(true)
+    expect(isOriginalResidentCertificateNumberValid('TD00251124')).toBe(true)
+    expect(isOriginalResidentCertificateNumberValid('AD30196818')).toBe(true)
+  })
+
+  it('should return false if the input is incorrect', () => {
+    expect(isOriginalResidentCertificateNumberValid('aa00000009')).toBe(false)
+    expect(isOriginalResidentCertificateNumberValid('AA00000000')).toBe(false)
+    expect(isOriginalResidentCertificateNumberValid('FG31104091')).toBe(false)
+    expect(isOriginalResidentCertificateNumberValid('OY58238842')).toBe(false)
+  })
+})
+
+describe('isNewResidentCertificateNumberValid', () => {
+  it('should only accept strings with length 10', () => {
+    expect(isNewResidentCertificateNumberValid('AA234567899')).toBe(false)
+    expect(isNewResidentCertificateNumberValid('AA2345678')).toBe(false)
+  })
+
+  it('should only accept strings Begin with 1 English letters', () => {
+    expect(isNewResidentCertificateNumberValid('2123456789')).toBe(false)
+    expect(isNewResidentCertificateNumberValid('1A23456789')).toBe(false)
+    expect(isNewResidentCertificateNumberValid('AA23456789')).toBe(false)
+  })
+
+  it('should return false if the first number is not 8 or 9', () => {
+    expect(isNationalIdentificationNumberValid('A323456789')).toBe(false)
+    expect(isNationalIdentificationNumberValid('A423456789')).toBe(false)
+  })
+
+  it('should return true if the input is correct', () => {
+    expect(isNewResidentCertificateNumberValid('A800000014')).toBe(true)
+    expect(isNewResidentCertificateNumberValid('A900207177')).toBe(true)
+    expect(isNewResidentCertificateNumberValid('A803095426')).toBe(true)
+    expect(isNewResidentCertificateNumberValid('B801300667')).toBe(true)
+    expect(isNewResidentCertificateNumberValid('C800151116')).toBe(true)
+    expect(isNewResidentCertificateNumberValid('H802717288')).toBe(true)
+    expect(isNewResidentCertificateNumberValid('T900251126')).toBe(true)
+    expect(isNewResidentCertificateNumberValid('A930196810')).toBe(true)
+  })
+
+  it('should return false if the input is incorrect', () => {
+    expect(isNewResidentCertificateNumberValid('a800000009')).toBe(false)
+    expect(isNewResidentCertificateNumberValid('A800000000')).toBe(false)
+    expect(isNewResidentCertificateNumberValid('F931104091')).toBe(false)
+    expect(isNewResidentCertificateNumberValid('O958238842')).toBe(false)
   })
 })
 
