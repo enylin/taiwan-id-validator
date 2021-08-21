@@ -1,3 +1,7 @@
+# [1.1.0](https://github.com/enylin/taiwan-id-validator/compare/v1.0.0...v1.1.0) (2021-08-21)
+
+
+
 # [1.0.0](https://github.com/enylin/taiwan-id-validator/compare/0.0.9...1.0.0) (2021-08-21)
 
 
