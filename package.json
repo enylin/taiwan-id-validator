@@ -9,6 +9,7 @@
     "eslint": "eslint \"src/**/*.ts\"",
     "lint": "npm run eslint && npm run check-types",
     "build": "npm run clean && tsc",
+    "release": "npm run build && npm publish",
     "clean": "rimraf dist",
     "test": "jest --silent",
     "test:log": "jest",
