@@ -8,7 +8,7 @@ import {
 } from '../src/index'
 
 describe('isGuiNumValid', () => {
-  it('should only accpet 8-digit strings', () => {
+  it('should only accept 8-digit strings', () => {
     expect(isGuiNumberValid(12345678)).toBe(false)
   })
 
@@ -25,12 +25,12 @@ describe('isGuiNumValid', () => {
 })
 
 describe('isNationalIdentificationNumberValid', () => {
-  it('should only accpet strings with length 10', () => {
+  it('should only accept strings with length 10', () => {
     expect(isNationalIdentificationNumberValid('A1234567899')).toBe(false)
     expect(isNationalIdentificationNumberValid('A12345678')).toBe(false)
   })
 
-  it('should only accpet strings Begin with English letter', () => {
+  it('should only accept strings Begin with English letter', () => {
     expect(isNationalIdentificationNumberValid('2123456789')).toBe(false)
     expect(isNationalIdentificationNumberValid('1123456789')).toBe(false)
   })
@@ -59,12 +59,12 @@ describe('isNationalIdentificationNumberValid', () => {
 })
 
 describe('isResidentCertificateNumberValid', () => {
-  it('should only accpet strings with length 10', () => {
+  it('should only accept strings with length 10', () => {
     expect(isResidentCertificateNumberValid('AA234567899')).toBe(false)
     expect(isResidentCertificateNumberValid('AA2345678')).toBe(false)
   })
 
-  it('should only accpet strings Begin with 2 English letters', () => {
+  it('should only accept strings Begin with 2 English letters', () => {
     expect(isResidentCertificateNumberValid('2123456789')).toBe(false)
     expect(isResidentCertificateNumberValid('1A23456789')).toBe(false)
     expect(isResidentCertificateNumberValid('A123456789')).toBe(false)
