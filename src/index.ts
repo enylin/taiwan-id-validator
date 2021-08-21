@@ -134,7 +134,7 @@ export function isOriginalResidentCertificateNumberValid(
  * @param { string } input citizen digital certificate number
  * @returns { boolean } is `input` a valid citizen digital certificate number
  */
-export function isCitizenDigitalCertificateValid(input: string): boolean {
+export function isCitizenDigitalCertificateNumberValid(input: string): boolean {
   if (typeof input !== 'string') {
     throw new Error('Input type should be string.')
   }

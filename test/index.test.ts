@@ -4,7 +4,7 @@ import {
   isOriginalResidentCertificateNumberValid,
   isNewResidentCertificateNumberValid,
   isResidentCertificateNumberValid,
-  isCitizenDigitalCertificateValid,
+  isCitizenDigitalCertificateNumberValid,
   isEInvoiceCellPhoneBarcodeValid,
   isEInvoiceDonateCodeValid
 } from '../src/index'
@@ -158,22 +158,38 @@ describe('isResidentCertificateNumberValid', () => {
   })
 })
 
-describe('isCitizenDigitalCertificateValid', () => {
+describe('isCitizenDigitalCertificateNumberValid', () => {
   it('should have length 16', () => {
-    expect(isCitizenDigitalCertificateValid('AB123456789012345')).toBe(false)
-    expect(isCitizenDigitalCertificateValid('AB1234567890123')).toBe(false)
+    expect(isCitizenDigitalCertificateNumberValid('AB123456789012345')).toBe(
+      false
+    )
+    expect(isCitizenDigitalCertificateNumberValid('AB1234567890123')).toBe(
+      false
+    )
   })
 
   it('should return true if the input is correct', () => {
-    expect(isCitizenDigitalCertificateValid('AB12345678901234')).toBe(true)
-    expect(isCitizenDigitalCertificateValid('RP47809425348791')).toBe(true)
+    expect(isCitizenDigitalCertificateNumberValid('AB12345678901234')).toBe(
+      true
+    )
+    expect(isCitizenDigitalCertificateNumberValid('RP47809425348791')).toBe(
+      true
+    )
   })
 
   it('should return false if the input is incorrect', () => {
-    expect(isCitizenDigitalCertificateValid('ab12345678901234')).toBe(false)
-    expect(isCitizenDigitalCertificateValid('A112345678901234')).toBe(false)
-    expect(isCitizenDigitalCertificateValid('9B12345678901234')).toBe(false)
-    expect(isCitizenDigitalCertificateValid('AA123456789012J4')).toBe(false)
+    expect(isCitizenDigitalCertificateNumberValid('ab12345678901234')).toBe(
+      false
+    )
+    expect(isCitizenDigitalCertificateNumberValid('A112345678901234')).toBe(
+      false
+    )
+    expect(isCitizenDigitalCertificateNumberValid('9B12345678901234')).toBe(
+      false
+    )
+    expect(isCitizenDigitalCertificateNumberValid('AA123456789012J4')).toBe(
+      false
+    )
   })
 })
 

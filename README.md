@@ -28,7 +28,7 @@ console.log(taiwanIdValidator.isNationalIdentificationNumberValid('A12345678'));
 console.log(taiwanIdValidator.isResidentCertificateNumberValid('AA00000009')); // 居留證編號 (舊式與新式)
 console.log(taiwanIdValidator.isNewResidentCertificateNumberValid('A800000014')); // 新式居留證編號
 console.log(taiwanIdValidator.isOriginalResidentCertificateNumberValid('AA00000009')); // 舊式居留證編號
-console.log(taiwanIdValidator.isCitizenDigitalCertificateValid('AA12345678901234')); // 自然人憑證
+console.log(taiwanIdValidator.isCitizenDigitalCertificateNumberValid('AA12345678901234')); // 自然人憑證
 console.log(taiwanIdValidator.isEInvoiceCellPhoneBarcodeValid('/U.5+A33')); // 手機條碼
 console.log(taiwanIdValidator.isEInvoiceDonateCodeValid('001')); // 捐贈碼
 
@@ -52,7 +52,7 @@ import {
   isResidentCertificateNumberValid, // 居留證編號
   isNewResidentCertificateNumberValid, // 新式居留證編號
   isOriginalResidentCertificateNumberValid, // 舊式居留證編號
-  isCitizenDigitalCertificateValid, // 自然人憑證
+  isCitizenDigitalCertificateNumberValid, // 自然人憑證
   isEInvoiceCellPhoneBarcodeValid, // 手機條碼
   isEInvoiceDonateCodeValid // 捐贈碼
 } from 'taiwan-id-validator'
@@ -62,7 +62,7 @@ console.log(isNationalIdentificationNumberValid('A12345678'))
 console.log(isResidentCertificateNumberValid('AA00000009')) // 居留證編號 (舊式與新式)
 console.log(isNewResidentCertificateNumberValid('A800000014')) // 新式居留證編號
 console.log(isOriginalResidentCertificateNumberValid('AA00000009')) // 舊式居留證編號
-console.log(isCitizenDigitalCertificateValid('AA12345678901234'))
+console.log(isCitizenDigitalCertificateNumberValid('AA12345678901234'))
 console.log(isEInvoiceCellPhoneBarcodeValid('AA12345678901234'))
 console.log(isEInvoiceDonateCodeValid('AA12345678901234'))
 
