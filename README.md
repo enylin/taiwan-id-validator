@@ -75,6 +75,19 @@ if (isGuiNumberValid(s)) {
 }
 ```
 
+## Function alias
+
+```js
+const isGUI = isGuiNumberValid
+const isNI = isNationalIdentificationNumberValid
+const isRC = isResidentCertificateNumberValid
+const isNewRC = isNewResidentCertificateNumberValid
+const isOriginalRC = isOriginalResidentCertificateNumberValid
+const isCDC = isCitizenDigitalCertificateNumberValid
+const isCellPhoneBarcode = isEInvoiceCellPhoneBarcodeValid
+const isDonateCode = isEInvoiceDonateCodeValid
+```
+
 ## 新式外來人口統一證號檢查
 
 ### 內政部移民署新式外來人口統一證號專案說明

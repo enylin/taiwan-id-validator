@@ -286,3 +286,12 @@ function verifyTaiwanIdIntermediateString(input: string): boolean {
   // Step 3: 如果該數字為 10 的倍數，則為正確身分證字號
   return idArray.reduce(cb, 0) % 10 === 0
 }
+
+export const isGUI = isGuiNumberValid
+export const isNI = isNationalIdentificationNumberValid
+export const isRC = isResidentCertificateNumberValid
+export const isNewRC = isNewResidentCertificateNumberValid
+export const isOriginalRC = isOriginalResidentCertificateNumberValid
+export const isCDC = isCitizenDigitalCertificateNumberValid
+export const isCellPhoneBarcode = isEInvoiceCellPhoneBarcodeValid
+export const isDonateCode = isEInvoiceDonateCodeValid

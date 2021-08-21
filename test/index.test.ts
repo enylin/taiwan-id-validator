@@ -6,7 +6,15 @@ import {
   isResidentCertificateNumberValid,
   isCitizenDigitalCertificateNumberValid,
   isEInvoiceCellPhoneBarcodeValid,
-  isEInvoiceDonateCodeValid
+  isEInvoiceDonateCodeValid,
+  isGUI,
+  isNI,
+  isRC,
+  isNewRC,
+  isOriginalRC,
+  isCDC,
+  isCellPhoneBarcode,
+  isDonateCode
 } from '../src/index'
 
 describe('isGuiNumValid', () => {
@@ -224,5 +232,18 @@ describe('isEInvoiceDonateCodeValid', () => {
     expect(isEInvoiceDonateCodeValid('001')).toBe(true)
     expect(isEInvoiceDonateCodeValid('10001')).toBe(true)
     expect(isEInvoiceDonateCodeValid('2134567')).toBe(true)
+  })
+})
+
+describe('function alias', () => {
+  it('should be identical to the original function', () => {
+    expect(isGUI).toBe(isGuiNumberValid)
+    expect(isNI).toBe(isNationalIdentificationNumberValid)
+    expect(isRC).toBe(isResidentCertificateNumberValid)
+    expect(isNewRC).toBe(isNewResidentCertificateNumberValid)
+    expect(isOriginalRC).toBe(isOriginalResidentCertificateNumberValid)
+    expect(isCDC).toBe(isCitizenDigitalCertificateNumberValid)
+    expect(isCellPhoneBarcode).toBe(isEInvoiceCellPhoneBarcodeValid)
+    expect(isDonateCode).toBe(isEInvoiceDonateCodeValid)
   })
 })
