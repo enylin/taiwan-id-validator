@@ -1,10 +1,5 @@
 # [1.1.0](https://github.com/enylin/taiwan-id-validator/compare/v1.0.0...v1.1.0) (2021-08-21)
 
-
-
-# [1.0.0](https://github.com/enylin/taiwan-id-validator/compare/0.0.9...1.0.0) (2021-08-21)
-
-
 ### Bug Fixes
 
 * **cdc:** rename isCitizenDigitalCertificateValid to isCitizenDigitalCertificateNumberValid ([4abeacc](https://github.com/enylin/taiwan-id-validator/commit/4abeacc9b1585833b4cc6d9e8f7dcf5caa9e3268))
