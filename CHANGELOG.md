@@ -1,3 +1,12 @@
+# [1.2.0](https://github.com/enylin/taiwan-id-validator/compare/v1.1.0...v1.2.0) (2021-08-22)
+
+
+### Features
+
+* **input:** support more types of input ([5ff9b2a](https://github.com/enylin/taiwan-id-validator/commit/5ff9b2a6aab32498918b6ebe92bb6f4e9bdc67f7))
+
+
+
 # [1.1.0](https://github.com/enylin/taiwan-id-validator/compare/v1.0.0...v1.1.0) (2021-08-21)
 
 ### Bug Fixes
