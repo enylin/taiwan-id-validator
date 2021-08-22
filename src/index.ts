@@ -5,6 +5,8 @@
  * @returns { boolean } is `input` a valid GUI number
  */
 export function isGuiNumberValid(input: string | number): boolean {
+  if (typeof input !== 'string' && typeof input !== 'number') return false
+
   /**
    * Example: 12345675
    * Step 1:
@@ -36,9 +38,7 @@ export function isGuiNumberValid(input: string | number): boolean {
   const n = input.toString()
   const regex = /^\d{8}$/
 
-  if (!regex.test(n)) {
-    return false
-  }
+  if (!regex.test(n)) return false
 
   /**
    * Step 1: 先把統一編號的每個數字分別乘上對應的係數 (1, 2, 1, 2, 1, 2, 4, 1)
@@ -68,9 +68,7 @@ export function isGuiNumberValid(input: string | number): boolean {
  * @returns { boolean } is `input` a valid national ID number
  */
 export function isNationalIdentificationNumberValid(input: string): boolean {
-  if (typeof input !== 'string') {
-    throw new Error('Input type should be string.')
-  }
+  if (typeof input !== 'string') return false
 
   const regex = /^[A-Z][1,2]\d{8}$/
 
@@ -84,9 +82,7 @@ export function isNationalIdentificationNumberValid(input: string): boolean {
  * @returns { boolean } is `input` a valid resident certificate number
  */
 export function isResidentCertificateNumberValid(input: string): boolean {
-  if (typeof input !== 'string') {
-    throw new Error('Input type should be string.')
-  }
+  if (typeof input !== 'string') return false
 
   return (
     isNewResidentCertificateNumberValid(input) ||
@@ -101,9 +97,7 @@ export function isResidentCertificateNumberValid(input: string): boolean {
  * @returns { boolean } is `input` a valid new resident certificate number
  */
 export function isNewResidentCertificateNumberValid(input: string): boolean {
-  if (typeof input !== 'string') {
-    throw new Error('Input type should be string.')
-  }
+  if (typeof input !== 'string') return false
 
   const regex = /^[A-Z][8,9]\d{8}$/
 
@@ -119,9 +113,7 @@ export function isNewResidentCertificateNumberValid(input: string): boolean {
 export function isOriginalResidentCertificateNumberValid(
   input: string
 ): boolean {
-  if (typeof input !== 'string') {
-    throw new Error('Input type should be string.')
-  }
+  if (typeof input !== 'string') return false
 
   const regex = /^[A-Z]{2}\d{8}$/
 
@@ -135,9 +127,7 @@ export function isOriginalResidentCertificateNumberValid(
  * @returns { boolean } is `input` a valid citizen digital certificate number
  */
 export function isCitizenDigitalCertificateNumberValid(input: string): boolean {
-  if (typeof input !== 'string') {
-    throw new Error('Input type should be string.')
-  }
+  if (typeof input !== 'string') return false
 
   const n = input.toString()
 
@@ -154,9 +144,7 @@ export function isCitizenDigitalCertificateNumberValid(input: string): boolean {
  * @returns { boolean } is `input` a valid e-invoice cell phone barcode
  */
 export function isEInvoiceCellPhoneBarcodeValid(input: string): boolean {
-  if (typeof input !== 'string') {
-    throw new Error('Input type should be string.')
-  }
+  if (typeof input !== 'string') return false
 
   const n = input.toString()
 
@@ -173,13 +161,11 @@ export function isEInvoiceCellPhoneBarcodeValid(input: string): boolean {
 /**
  * Verify the input is a valid E-Invoice donate code (電子發票捐贈碼)
  *
- * @param { string } input E-Invoice donate code
+ * @param { string | number } input E-Invoice donate code
  * @returns { boolean } is `input` a valid e-invoice donate code
  */
-export function isEInvoiceDonateCodeValid(input: string): boolean {
-  if (typeof input !== 'string') {
-    throw new Error('Input type should be string.')
-  }
+export function isEInvoiceDonateCodeValid(input: string | number): boolean {
+  if (typeof input !== 'string' && typeof input !== 'number') return false
 
   const n = input.toString()
 

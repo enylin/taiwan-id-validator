@@ -18,24 +18,35 @@ import {
 } from '../src/index'
 
 describe('isGuiNumValid', () => {
-  it('should only accept 8-digit strings', () => {
-    expect(isGuiNumberValid(12345678)).toBe(false)
+  it('should only accept 8-digit of string or number', () => {
+    expect(isGuiNumberValid({} as number)).toBe(false)
+    expect(isGuiNumberValid(undefined as unknown as string)).toBe(false)
   })
 
   it('should return true if the input is correct', () => {
+    expect(isGuiNumberValid(12345676)).toBe(true)
     expect(isGuiNumberValid('12345675')).toBe(true)
     expect(isGuiNumberValid('12345676')).toBe(true) // 6th char is 7
   })
 
   it('should return false if the input is incorrect', () => {
     expect(isGuiNumberValid('1234567')).toBe(false)
-    expect(isGuiNumberValid('123456789')).toBe(false)
+    expect(isGuiNumberValid(1234567)).toBe(false)
+    expect(isGuiNumberValid('123456769')).toBe(false)
+    expect(isGuiNumberValid(123456769)).toBe(false)
     expect(isGuiNumberValid('12345678')).toBe(false)
   })
 })
 
 describe('isNationalIdentificationNumberValid', () => {
   it('should only accept strings with length 10', () => {
+    expect(isNationalIdentificationNumberValid({} as string)).toBe(false)
+    expect(
+      isNationalIdentificationNumberValid(123456789 as unknown as string)
+    ).toBe(false)
+    expect(
+      isNationalIdentificationNumberValid(undefined as unknown as string)
+    ).toBe(false)
     expect(isNationalIdentificationNumberValid('A1234567899')).toBe(false)
     expect(isNationalIdentificationNumberValid('A12345678')).toBe(false)
   })
@@ -70,6 +81,13 @@ describe('isNationalIdentificationNumberValid', () => {
 
 describe('isOriginalResidentCertificateNumberValid', () => {
   it('should only accept strings with length 10', () => {
+    expect(isOriginalResidentCertificateNumberValid({} as string)).toBe(false)
+    expect(
+      isOriginalResidentCertificateNumberValid(30196818 as unknown as string)
+    ).toBe(false)
+    expect(
+      isOriginalResidentCertificateNumberValid(undefined as unknown as string)
+    ).toBe(false)
     expect(isOriginalResidentCertificateNumberValid('AA234567899')).toBe(false)
     expect(isOriginalResidentCertificateNumberValid('AA2345678')).toBe(false)
   })
@@ -101,6 +119,13 @@ describe('isOriginalResidentCertificateNumberValid', () => {
 
 describe('isNewResidentCertificateNumberValid', () => {
   it('should only accept strings with length 10', () => {
+    expect(isNewResidentCertificateNumberValid({} as string)).toBe(false)
+    expect(
+      isNewResidentCertificateNumberValid(930196810 as unknown as string)
+    ).toBe(false)
+    expect(
+      isNewResidentCertificateNumberValid(undefined as unknown as string)
+    ).toBe(false)
     expect(isNewResidentCertificateNumberValid('AA234567899')).toBe(false)
     expect(isNewResidentCertificateNumberValid('AA2345678')).toBe(false)
   })
@@ -137,6 +162,13 @@ describe('isNewResidentCertificateNumberValid', () => {
 
 describe('isResidentCertificateNumberValid', () => {
   it('should only accept strings with length 10', () => {
+    expect(isResidentCertificateNumberValid({} as string)).toBe(false)
+    expect(
+      isResidentCertificateNumberValid(58238842 as unknown as string)
+    ).toBe(false)
+    expect(
+      isResidentCertificateNumberValid(undefined as unknown as string)
+    ).toBe(false)
     expect(isResidentCertificateNumberValid('AA234567899')).toBe(false)
     expect(isResidentCertificateNumberValid('AA2345678')).toBe(false)
   })
@@ -167,7 +199,16 @@ describe('isResidentCertificateNumberValid', () => {
 })
 
 describe('isCitizenDigitalCertificateNumberValid', () => {
-  it('should have length 16', () => {
+  it('should only accept strings with length 16', () => {
+    expect(isCitizenDigitalCertificateNumberValid({} as string)).toBe(false)
+    expect(
+      isCitizenDigitalCertificateNumberValid(
+        47809425348791 as unknown as string
+      )
+    ).toBe(false)
+    expect(
+      isCitizenDigitalCertificateNumberValid(undefined as unknown as string)
+    ).toBe(false)
     expect(isCitizenDigitalCertificateNumberValid('AB123456789012345')).toBe(
       false
     )
@@ -202,7 +243,14 @@ describe('isCitizenDigitalCertificateNumberValid', () => {
 })
 
 describe('isEInvoiceCellPhoneBarcodeValid', () => {
-  it('should have length 8', () => {
+  it('should only accept strings with length 8', () => {
+    expect(isEInvoiceCellPhoneBarcodeValid({} as string)).toBe(false)
+    expect(isEInvoiceCellPhoneBarcodeValid(3030101 as unknown as string)).toBe(
+      false
+    )
+    expect(
+      isEInvoiceCellPhoneBarcodeValid(undefined as unknown as string)
+    ).toBe(false)
     expect(isEInvoiceCellPhoneBarcodeValid('/ABCD1234')).toBe(false)
     expect(isEInvoiceCellPhoneBarcodeValid('/ABCD12')).toBe(false)
   })
@@ -222,9 +270,14 @@ describe('isEInvoiceCellPhoneBarcodeValid', () => {
 })
 
 describe('isEInvoiceDonateCodeValid', () => {
-  it('should have length 3~7', () => {
+  it('should only accept strings with length 3-7', () => {
+    expect(isEInvoiceDonateCodeValid({} as string)).toBe(false)
+    expect(isEInvoiceDonateCodeValid(undefined as unknown as string)).toBe(
+      false
+    )
     expect(isEInvoiceDonateCodeValid('00')).toBe(false)
     expect(isEInvoiceDonateCodeValid('12345678')).toBe(false)
+    expect(isEInvoiceDonateCodeValid(12345678)).toBe(false)
     expect(isEInvoiceDonateCodeValid('ab3456')).toBe(false)
   })
 
@@ -232,6 +285,9 @@ describe('isEInvoiceDonateCodeValid', () => {
     expect(isEInvoiceDonateCodeValid('001')).toBe(true)
     expect(isEInvoiceDonateCodeValid('10001')).toBe(true)
     expect(isEInvoiceDonateCodeValid('2134567')).toBe(true)
+    expect(isEInvoiceDonateCodeValid(123)).toBe(true)
+    expect(isEInvoiceDonateCodeValid(10001)).toBe(true)
+    expect(isEInvoiceDonateCodeValid(2134567)).toBe(true)
   })
 })
 
