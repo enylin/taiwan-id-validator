@@ -6,6 +6,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Test
+coverage
+
 # Temporary
 upload
 
