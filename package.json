@@ -3,6 +3,7 @@
   "version": "1.1.0",
   "description": "中華民國統一編號、外籍人士居留證統一編號、身分證字號驗證規則、電子發票號碼等規則驗證",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "license": "ISC",
   "scripts": {
     "check-types": "tsc --noemit -p tsconfig.json",
@@ -39,7 +40,7 @@
     "電子發票",
     "統一編號",
     "身分證字號",
-    "居留證統一編號",
+    "外來人口統一證號",
     "自然人憑證",
     "手機條碼",
     "捐贈碼",
