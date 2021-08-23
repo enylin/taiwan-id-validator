@@ -10,14 +10,34 @@
 * 電子發票手機條碼驗證
 * 電子發票捐贈碼驗證
 
-## Installation
+## Quick start
 
-```bash
-npm i taiwan-id-validator
-```
+- Via CDN: `<script src="https://unpkg.com/taiwan-id-validator"></script>`
+- Install with [npm](https://www.npmjs.com/): `npm install taiwan-id-validator`
+- Clone the repo: `git clone https://github.com/enylin/taiwan-id-validator.git`
 
 ## Usage
 
+CDN:
+```html
+<head>
+    <title>Taiwan ID Validator</title>
+    <meta charset="utf-8" />
+    <script src="https://unpkg.com/taiwan-id-validator"></script>
+    <script>
+        console.log(taiwanIdValidator.isGuiNumberValid('12345675')); // 統一編號
+        console.log(taiwanIdValidator.isNationalIdentificationNumberValid('A12345678')); // 身分證字號
+        console.log(taiwanIdValidator.isResidentCertificateNumberValid('AA00000009')); // 居留證編號 (舊式與新式)
+        console.log(taiwanIdValidator.isNewResidentCertificateNumberValid('A800000014')); // 新式居留證編號
+        console.log(taiwanIdValidator.isOriginalResidentCertificateNumberValid('AA00000009')); // 舊式居留證編號
+        console.log(taiwanIdValidator.isCitizenDigitalCertificateNumberValid('AA12345678901234')); // 自然人憑證
+        console.log(taiwanIdValidator.isEInvoiceCellPhoneBarcodeValid('/U.5+A33')); // 手機條碼
+        console.log(taiwanIdValidator.isEInvoiceDonateCodeValid('001')); // 捐贈碼
+    </script>
+</head>
+```
+
+JavaScript:
 ```js
 // index.js
 
@@ -41,8 +61,7 @@ if (taiwanIdValidator.isGuiNumberValid(s)) {
 }
 ```
 
-## ES6, Typescript
-
+ES6, Typescript:
 ```js
 // index.ts
 

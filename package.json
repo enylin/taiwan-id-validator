@@ -9,9 +9,9 @@
     "check-types": "tsc --noemit -p tsconfig.json",
     "eslint": "eslint \"src/**/*.ts\"",
     "lint": "npm run eslint && npm run check-types",
-    "build": "npm run clean && tsc",
+    "build": "npm run clean && npx webpack",
     "release": "npm run build && npm publish",
-    "clean": "rimraf dist",
+    "clean": "rimraf dist coverage",
     "test": "jest --silent",
     "test:log": "jest",
     "test:watch": "jest --watch",
@@ -71,9 +71,13 @@
     "prettier": "2.3.2",
     "rimraf": "^2.6.3",
     "ts-jest": "^27.0.5",
+    "ts-loader": "^9.2.5",
     "tsconfig-paths": "^3.8.0",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "webpack": "^5.51.1",
+    "webpack-cli": "^4.8.0"
   },
+  "unpkg": "dist/index.min.js",
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
