@@ -16,7 +16,8 @@ module.exports = {
     },
     path: path.resolve(__dirname, './dist'),
     filename: '[name].js',
-    sourceMapFilename: '[name].map'
+    sourceMapFilename: '[name].map',
+    globalObject: 'this'
   },
   resolve: {
     extensions: ['.ts', '.js']
