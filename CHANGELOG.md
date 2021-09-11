@@ -1,3 +1,12 @@
+## [1.3.1](https://github.com/enylin/taiwan-id-validator/compare/v1.3.0...v1.3.1) (2021-09-11)
+
+
+### Bug Fixes
+
+* **nodejs:** fix self is not defined issue on node js ([961fd8f](https://github.com/enylin/taiwan-id-validator/commit/961fd8fb940a9771e6f78ff0a709e564947a6fd0))
+
+
+
 # [1.3.0](https://github.com/enylin/taiwan-id-validator/compare/v1.2.0...v1.3.0) (2021-09-11)
 
 
