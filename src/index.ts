@@ -2,9 +2,13 @@
  * Verify the input is a valid GUI Number (中華民國統一編號)
  *
  * @param { string | number } input GUI Number
+ * @param { boolean } extended check input using extended format: https://www.fia.gov.tw/singlehtml/6?cntId=aaa97a9dcf2649d5bdd317f554e24f75
  * @returns { boolean } is `input` a valid GUI number
  */
-export function isGuiNumberValid(input: string | number): boolean {
+export function isGuiNumberValid(
+  input: string | number,
+  extended = false
+): boolean {
   if (typeof input !== 'string' && typeof input !== 'number') return false
 
   /**
@@ -55,9 +59,12 @@ export function isGuiNumberValid(input: string | number): boolean {
    *  4-1: 若是餘數為 0，則為正確的統一編號
    *  4-2: 若是餘數為 9，且原統一編號的第七位是 7，則也為正確的統一編號
    */
+
+  const divisor = extended ? 5 : 10
+
   return (
-    checksum % 10 === 0 ||
-    (parseInt(n.charAt(6), 10) === 7 && (checksum + 1) % 10 === 0)
+    checksum % divisor === 0 ||
+    (parseInt(n.charAt(6), 10) === 7 && (checksum + 1) % divisor === 0)
   )
 }
 
