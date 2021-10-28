@@ -4,7 +4,7 @@
   "description": "中華民國統一編號、外籍人士居留證統一編號、身分證字號驗證規則、電子發票號碼等規則驗證",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "license": "ISC",
+  "license": "MIT",
   "scripts": {
     "check-types": "tsc --noemit -p tsconfig.json",
     "eslint": "eslint \"src/**/*.ts\"",
