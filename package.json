@@ -1,6 +1,6 @@
 {
   "name": "taiwan-id-validator",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "description": "中華民國統一編號、外籍人士居留證統一編號、身分證字號驗證規則、電子發票號碼等規則驗證",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

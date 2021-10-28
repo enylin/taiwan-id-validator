@@ -1,3 +1,12 @@
+# [1.4.0](https://github.com/enylin/taiwan-id-validator/compare/v1.3.1...v1.4.0) (2021-10-28)
+
+
+### Features
+
+* **gui:** support extended GUI format validation ([617920a](https://github.com/enylin/taiwan-id-validator/commit/617920a8fcd11a782cb813928c2b606cd8281d59))
+
+
+
 ## [1.3.1](https://github.com/enylin/taiwan-id-validator/compare/v1.3.0...v1.3.1) (2021-09-11)
 
 
