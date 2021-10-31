@@ -1,3 +1,20 @@
+function zipWith<T, R>(a1: T[], a2: T[], f: (v1: T, v2: T) => R): R[] {
+  const length = Math.min(a1.length, a2.length)
+  const result: R[] = []
+
+  for (let i = 0; i < length; i++) result[i] = f(a1[i], a2[i])
+
+  return result
+}
+
+function add(a: number, b: number) {
+  return a + b
+}
+
+function multiply(a: number, b: number) {
+  return a * b
+}
+
 /**
  * Verify the input is a valid GUI Number (中華民國統一編號)
  *
@@ -48,13 +65,18 @@ export function isGuiNumberValid(
    * Step 1: 先把統一編號的每個數字分別乘上對應的係數 (1, 2, 1, 2, 1, 2, 4, 1)
    * Step 2: 再把個別乘積的十位數與個位數相加，得出八個小於 10 的數字
    */
-  const checksum = GUI_NUMBER_COEFFICIENTS.reduce((sum, c, index) => {
-    const product = c * parseInt(n.charAt(index), 10)
-    return sum + (product % 10) + Math.floor(product / 10)
-  }, 0)
+
+  const intRadix = 10
+  const checksum = zipWith(
+    GUI_NUMBER_COEFFICIENTS,
+    n.split('').map(c => parseInt(c, intRadix)),
+    multiply
+  )
+    .map(n => (n % 10) + Math.floor(n / 10))
+    .reduce(add, 0)
 
   /**
-   * Step 3: 檢查把這 8 個數字相加之後計算此和除以 10 的餘數
+   * Step 3: 檢查把這 8 個數字相加之後計算此和除以 5 or 10 的餘數
    * Step 4:
    *  4-1: 若是餘數為 0，則為正確的統一編號
    *  4-2: 若是餘數為 9，且原統一編號的第七位是 7，則也為正確的統一編號
@@ -64,7 +86,7 @@ export function isGuiNumberValid(
 
   return (
     checksum % divisor === 0 ||
-    (parseInt(n.charAt(6), 10) === 7 && (checksum + 1) % divisor === 0)
+    (parseInt(n.charAt(6), intRadix) === 7 && (checksum + 1) % divisor === 0)
   )
 }
 
@@ -189,7 +211,6 @@ export function isEInvoiceDonateCodeValid(input: string | number): boolean {
  * @returns { boolean } is `input` a valid Taiwan ID intermediate string
  */
 function verifyTaiwanIdIntermediateString(input: string): boolean {
-  const idArray: string[] = input.split('')
   const intRadix = 10
 
   /**
@@ -235,49 +256,58 @@ function verifyTaiwanIdIntermediateString(input: string): boolean {
   ]
 
   const RESIDENT_CERTIFICATE_NUMBER_LIST = [
-    '0', // A
-    '1', // B
-    '2', // C
-    '3', // D
-    '4', // E
-    '5', // F
-    '6', // G
-    '7', // H
-    '4', // I
-    '8', // J
-    '9', // K
-    '0', // L
-    '1', // M
-    '2', // N
-    '5', // O
-    '3', // P
-    '4', // Q
-    '5', // R
-    '6', // S
-    '7', // T
-    '8', // U
-    '9', // V
-    '2', // W
-    '0', // X
-    '1', // Y
-    '3' // Z
+    0, // A
+    1, // B
+    2, // C
+    3, // D
+    4, // E
+    5, // F
+    6, // G
+    7, // H
+    4, // I
+    8, // J
+    9, // K
+    0, // L
+    1, // M
+    2, // N
+    5, // O
+    3, // P
+    4, // Q
+    5, // R
+    6, // S
+    7, // T
+    8, // U
+    9, // V
+    2, // W
+    0, // X
+    1, // Y
+    3 // Z
   ]
 
-  // if is not a number (舊版居留證編號)
-  if (isNaN(parseInt(idArray[1], intRadix))) {
-    idArray[1] =
-      RESIDENT_CERTIFICATE_NUMBER_LIST[input.charCodeAt(1) - 'A'.charCodeAt(0)]
-  }
+  const getCharOrder = (s: string, i: number) =>
+    s.charCodeAt(i) - 'A'.charCodeAt(0)
+
+  const firstDigit = TAIWAN_ID_LOCALE_CODE_LIST[getCharOrder(input, 0)]
+
+  const secondDigit = isNaN(parseInt(input[1], intRadix)) // if is not a number (舊版居留證編號)
+    ? RESIDENT_CERTIFICATE_NUMBER_LIST[getCharOrder(input, 1)]
+    : parseInt(input[1], intRadix)
+
+  const rest = input
+    .substr(2)
+    .split('')
+    .map(n => parseInt(n, intRadix))
+
+  const idInDigits = [firstDigit, secondDigit, ...rest]
 
   // Step 2: 第 1 位數字 (只能為 1 or 2) 至第 8 位數字分別乘上 8, 7, 6, 5, 4, 3, 2, 1 後相加，再加上第 9 位數字
-  const cb = (sum: number, n: string, index: number) =>
-    sum +
-    (index === 0
-      ? TAIWAN_ID_LOCALE_CODE_LIST[n.charCodeAt(0) - 'A'.charCodeAt(0)]
-      : parseInt(n, intRadix) * (index === 9 ? 1 : 9 - index))
+
+  const ID_COEFFICIENTS = [1, 8, 7, 6, 5, 4, 3, 2, 1, 1]
+  const sum = zipWith(idInDigits, ID_COEFFICIENTS, multiply).reduce(add, 0)
 
   // Step 3: 如果該數字為 10 的倍數，則為正確身分證字號
-  return idArray.reduce(cb, 0) % 10 === 0
+
+  return sum % 10 === 0
 }
 
 export const isGUI = isGuiNumberValid
