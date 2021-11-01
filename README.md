@@ -138,3 +138,7 @@ const isDonateCode = isEInvoiceDonateCodeValid
 
 參考資料：
 [附件-營利事業統一編號檢查碼邏輯修正說明](https://www.fia.gov.tw/download/37cd8c16911244c29e00f85b2be4ebab)
+
+### 捐贈碼
+
+電子發票整合服務平台：[捐贈碼查詢](https://www.einvoice.nat.gov.tw/APCONSUMER/BTC603W/)
