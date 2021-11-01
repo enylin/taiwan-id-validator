@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES5",
+    "target": "ES2015",
     "strict": true,
     "importHelpers": true,
     "moduleResolution": "node",
@@ -17,6 +17,7 @@
     },
     "outDir": "dist",
     "rootDir": "./src",
+    "resolveJsonModule": true
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules"]
