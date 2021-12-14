@@ -1,3 +1,12 @@
+## [1.4.1](https://github.com/enylin/taiwan-id-validator/compare/v1.4.0...v1.4.1) (2021-12-14)
+
+
+### Bug Fixes
+
+* make project compatible with es5 environment ([9cb9a44](https://github.com/enylin/taiwan-id-validator/commit/9cb9a440597974649ff79576b1723881b4e1aa26))
+
+
+
 # [1.4.0](https://github.com/enylin/taiwan-id-validator/compare/v1.3.1...v1.4.0) (2021-10-28)
 
 
