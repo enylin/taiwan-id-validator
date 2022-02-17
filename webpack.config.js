@@ -2,14 +2,9 @@
 const path = require('path')
 const TerserPlugin = require('terser-webpack-plugin')
 
-module.exports = {
+const common = {
   mode: 'production',
   devtool: 'source-map',
-  target: ['web', 'es5'],
-  entry: {
-    index: './src/index.ts',
-    'index.min': './src/index.ts'
-  },
   output: {
     library: {
       name: 'taiwanIdValidator',
@@ -41,3 +36,38 @@ module.exports = {
     ]
   }
 }
+
+const es5Config = {
+  ...common,
+  target: ['web', 'es5'],
+  entry: {
+    'es5/index': './src/index.ts',
+    'es5/index.min': './src/index.ts'
+  },
+  module: {
+    rules: [
+      {
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              configFile: 'tsconfig.es5.json'
+            }
+          }
+        ],
+        exclude: /node_modules/
+      }
+    ]
+  }
+}
+
+const defaultConfig = {
+  ...common,
+  target: ['web', 'es6'],
+  entry: {
+    index: './src/index.ts',
+    'index.min': './src/index.ts'
+  }
+}
+
+module.exports = [es5Config, defaultConfig]
