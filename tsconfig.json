@@ -4,6 +4,7 @@
     "module": "UMD",
     "strict": true,
     "moduleResolution": "node",
+    "lib": ["es5"],
     "experimentalDecorators": true,
     "esModuleInterop": true,
     "sourceMap": true,
