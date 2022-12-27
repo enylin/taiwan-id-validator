@@ -14,7 +14,9 @@ import {
   isOriginalRC,
   isCDC,
   isCellPhoneBarcode,
-  isDonateCode
+  isDonateCode,
+  isCreditCardNumberValid,
+  isCreditCard
 } from '../src/index'
 
 describe('isGuiNumValid', () => {
@@ -313,6 +315,86 @@ describe('isEInvoiceDonateCodeValid', () => {
   })
 })
 
+describe('isNationalIdentificationNumberValid', () => {
+  it('should only accept strings with length 12 ~ 19', () => {
+    expect(isCreditCardNumberValid({} as string)).toBe(false)
+    expect(
+      isCreditCardNumberValid(123456789 as unknown as string)
+    ).toBe(false)
+    expect(
+      isCreditCardNumberValid(undefined as unknown as string)
+    ).toBe(false)
+    expect(isCreditCardNumberValid('1234567890')).toBe(false)
+    expect(isCreditCardNumberValid('12345678901234567890')).toBe(false)
+  })
+
+  it('should return false if the input contains invalid char', () => {
+    expect(isCreditCardNumberValid('123456789012345a')).toBe(false)
+    expect(isCreditCardNumberValid('123456789012345;')).toBe(false)
+    expect(isCreditCardNumberValid('123456789012345$')).toBe(false)
+  })
+
+  it('should return true if the input card number belongs to American Express', () => {
+    expect(isCreditCardNumberValid('348282246310002', { checkIssuerRegexes: true })).toBe(true)
+    expect(isCreditCardNumberValid('371449635398431', { checkIssuerRegexes: true })).toBe(true)
+  })
+
+  it('should return true if the input card number belongs to Diners Club', () => {
+    expect(isCreditCardNumberValid('30569309025904', { checkIssuerRegexes: true })).toBe(true)
+    expect(isCreditCardNumberValid('38520000023237', { checkIssuerRegexes: true })).toBe(true)
+  })
+
+  it('should return true if the input card number belongs to Discover', () => {
+    expect(isCreditCardNumberValid('6011111111111117', { checkIssuerRegexes: true })).toBe(true)
+    expect(isCreditCardNumberValid('6011000990139424', { checkIssuerRegexes: true })).toBe(true)
+  })
+
+  it('should return true if the input card number belongs to JCB', () => {
+    expect(isCreditCardNumberValid('3530111333300000', { checkIssuerRegexes: true })).toBe(true)
+    expect(isCreditCardNumberValid('3566002020360505', { checkIssuerRegexes: true })).toBe(true)
+  })
+
+  it('should return true if the input card number belongs to MasterCard', () => {
+    expect(isCreditCardNumberValid('5555555555554444', { checkIssuerRegexes: true })).toBe(true)
+    expect(isCreditCardNumberValid('5105105105105100', { checkIssuerRegexes: true })).toBe(true)
+  })
+
+  it('should return true if the input card number belongs to Visa', () => {
+    expect(isCreditCardNumberValid('4111111111111111', { checkIssuerRegexes: true })).toBe(true)
+    expect(isCreditCardNumberValid('4012888888881881', { checkIssuerRegexes: true })).toBe(true)
+  })
+
+  it('should return true if the input card number belongs to UnionPay', () => {
+    expect(isCreditCardNumberValid('6221260000000000', { checkIssuerRegexes: true })).toBe(true)
+    expect(isCreditCardNumberValid('6221260000000091', { checkIssuerRegexes: true })).toBe(true)
+  })
+
+  it('should return true if the input card number belongs to Maestro', () => {
+    expect(isCreditCardNumberValid('6759649826438453', { checkIssuerRegexes: true })).toBe(true)
+    expect(isCreditCardNumberValid('6759649826438461', { checkIssuerRegexes: true })).toBe(true)
+  })
+
+  it('should return true if the input card number belongs to Switch', () => {
+    expect(isCreditCardNumberValid('6331101999990016', { checkIssuerRegexes: true })).toBe(true)
+    expect(isCreditCardNumberValid('6331101999990024', { checkIssuerRegexes: true })).toBe(true)
+  })
+
+  it('should return false if the input card number does not belong to any issuer', () => {
+    expect(isCreditCardNumberValid('1234567890123456', { checkIssuerRegexes: true })).toBe(false)
+    expect(isCreditCardNumberValid('1234567890123464', { checkIssuerRegexes: true })).toBe(false)
+  })
+
+  it('should return true if checkIssuerRegexes is false', () => {
+    expect(isCreditCardNumberValid('1234567890123452', { checkIssuerRegexes: false })).toBe(true)
+    expect(isCreditCardNumberValid('0123456789012347', {})).toBe(true)
+  })
+
+  it('should return false if the input card number is invalid', () => {
+    expect(isCreditCardNumberValid('1234567890123456')).toBe(false)
+    expect(isCreditCardNumberValid('0123456789012345')).toBe(false)
+  })
+})
+
 describe('function alias', () => {
   it('should be identical to the original function', () => {
     expect(isGUI).toBe(isGuiNumberValid)
@@ -323,5 +405,6 @@ describe('function alias', () => {
     expect(isCDC).toBe(isCitizenDigitalCertificateNumberValid)
     expect(isCellPhoneBarcode).toBe(isEInvoiceCellPhoneBarcodeValid)
     expect(isDonateCode).toBe(isEInvoiceDonateCodeValid)
+    expect(isCreditCard).toBe(isCreditCardNumberValid)
   })
 })
