@@ -294,7 +294,7 @@ function verifyTaiwanIdIntermediateString(input: string): boolean {
     : parseInt(input[1], intRadix)
 
   const rest = input
-    .substr(2)
+    .substring(2)
     .split('')
     .map(n => parseInt(n, intRadix))
 
