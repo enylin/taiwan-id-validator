@@ -1,3 +1,17 @@
+# [1.5.0](https://github.com/enylin/taiwan-id-validator/compare/v1.4.1...v1.5.0) (2022-12-28)
+
+
+### Bug Fixes
+
+* **js:** replace "substr" (deprecated) by "substring" ([0177111](https://github.com/enylin/taiwan-id-validator/commit/01771112e97cffd2ebde2a4fb581fc62034e2160))
+
+
+### Features
+
+* **credit-card:** support credit card validation ([669f4ff](https://github.com/enylin/taiwan-id-validator/commit/669f4ff87a828f96d5aa4494860008bb60492982))
+
+
+
 ## [1.4.1](https://github.com/enylin/taiwan-id-validator/compare/v1.4.0...v1.4.1) (2021-12-14)
 
 
