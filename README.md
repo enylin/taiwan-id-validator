@@ -5,10 +5,11 @@
 * 台灣身分證字號驗證
 * 舊版臺灣地區無戶籍國民、外國人、大陸地區人民及香港或澳門居民之專屬代號
 * 新版臺灣地區無戶籍國民、外國人、大陸地區人民及香港或澳門居民之專屬代號
-* 公司統一編號驗證 (2021/10/28 新增新版統一編號檢查)
+* 公司統一編號驗證 (支援新/舊版統一編號檢查)
 * 自然人憑證編號驗證
 * 電子發票手機條碼驗證
 * 電子發票捐贈碼驗證
+* 信用卡號碼驗證
 
 ## Quick start
 
@@ -35,6 +36,7 @@ CDN:
         console.log(taiwanIdValidator.isCitizenDigitalCertificateNumberValid('AA12345678901234')); // 自然人憑證
         console.log(taiwanIdValidator.isEInvoiceCellPhoneBarcodeValid('/U.5+A33')); // 手機條碼
         console.log(taiwanIdValidator.isEInvoiceDonateCodeValid('001')); // 捐贈碼
+        console.log(taiwanIdValidator.isCreditCardNumberValid('5105105105105100')); // 信用卡
     </script>
 </head>
 ```
@@ -55,6 +57,7 @@ console.log(taiwanIdValidator.isOriginalResidentCertificateNumberValid('AA000000
 console.log(taiwanIdValidator.isCitizenDigitalCertificateNumberValid('AA12345678901234')); // 自然人憑證
 console.log(taiwanIdValidator.isEInvoiceCellPhoneBarcodeValid('/U.5+A33')); // 手機條碼
 console.log(taiwanIdValidator.isEInvoiceDonateCodeValid('001')); // 捐贈碼
+console.log(taiwanIdValidator.isCreditCardNumberValid('5105105105105100')); // 信用卡
 
 var s = '12345675';
 
@@ -77,7 +80,8 @@ import {
   isOriginalResidentCertificateNumberValid, // 舊式居留證編號
   isCitizenDigitalCertificateNumberValid, // 自然人憑證
   isEInvoiceCellPhoneBarcodeValid, // 手機條碼
-  isEInvoiceDonateCodeValid // 捐贈碼
+  isEInvoiceDonateCodeValid, // 捐贈碼
+  isCreditCardNumberValid // 信用卡
 } from 'taiwan-id-validator'
 
 console.log(isGuiNumberValid('04595252', true)) // 新版統一編號
@@ -90,6 +94,7 @@ console.log(isOriginalResidentCertificateNumberValid('AA00000009')) // 舊式居
 console.log(isCitizenDigitalCertificateNumberValid('AA12345678901234'))
 console.log(isEInvoiceCellPhoneBarcodeValid('AA12345678901234'))
 console.log(isEInvoiceDonateCodeValid('AA12345678901234'))
+console.log(isCreditCardNumberValid('5105105105105100'))
 
 const s = '12345675'
 
@@ -111,6 +116,7 @@ const isOriginalRC = isOriginalResidentCertificateNumberValid
 const isCDC = isCitizenDigitalCertificateNumberValid
 const isCellPhoneBarcode = isEInvoiceCellPhoneBarcodeValid
 const isDonateCode = isEInvoiceDonateCodeValid
+const isCreditCard = isCreditCardNumberValid
 ```
 
 ## 補充資料
@@ -134,7 +140,7 @@ const isDonateCode = isEInvoiceDonateCodeValid
 一、營利事業統一編號（下稱統一編號）供營利事業及扣繳單位配號使用，預估空號將於113年用罄。\
 二、為擴增統一編號號碼並與現行配賦之統一編號相容（新舊統一編號格式相同），後續請公私部門配合修改統一編號檢核程式，主要係修正「檢查邏輯由可被『10』整除改為可被『5』整除」，相關說明詳如附件。\
 三、全國公私部門倘有使用統一編號檢核程式，請於112年3月31日前完成統一編號檢核程式修改作業，相關系統文件請併同檢視修正。\
-四、預計112年4月以後，將視舊號餘存狀況逐步釋出新產製之統一編號。\
+四、預計112年4月以後，將視舊號餘存狀況逐步釋出新產製之統一編號。
 
 參考資料：
 [附件-營利事業統一編號檢查碼邏輯修正說明](https://www.fia.gov.tw/download/37cd8c16911244c29e00f85b2be4ebab)
