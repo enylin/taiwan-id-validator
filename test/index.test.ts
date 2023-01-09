@@ -45,23 +45,25 @@ describe('isGuiNumValid', () => {
   })
 })
 
-describe('isGuiNumValid extended format', () => {
+describe('isGuiNumValid using old format', () => {
+  const checkOldFormatOnly = true
+
   it('should return true if the input is correct', () => {
     expect(isGuiNumberValid(12345676)).toBe(true)
-    expect(isGuiNumberValid('12345675', false)).toBe(true)
-    expect(isGuiNumberValid('12345676', false)).toBe(true) // 6th char is 7
-    expect(isGuiNumberValid('04595257', false)).toBe(true)
+    expect(isGuiNumberValid('12345675', { checkOldFormatOnly })).toBe(true)
+    expect(isGuiNumberValid('12345676', { checkOldFormatOnly })).toBe(true) // 6th char is 7
+    expect(isGuiNumberValid('04595257', { checkOldFormatOnly })).toBe(true)
   })
 
   it('should return false if the input is incorrect', () => {
-    expect(isGuiNumberValid('1234567', false)).toBe(false)
-    expect(isGuiNumberValid(1234567, false)).toBe(false)
-    expect(isGuiNumberValid('123456769', false)).toBe(false)
-    expect(isGuiNumberValid(123456769, false)).toBe(false)
-    expect(isGuiNumberValid('12345678', false)).toBe(false)
-    expect(isGuiNumberValid('12345670', false)).toBe(false)
-    expect(isGuiNumberValid('12345671', false)).toBe(false)
-    expect(isGuiNumberValid('04595252', false)).toBe(false)
+    expect(isGuiNumberValid('1234567', { checkOldFormatOnly })).toBe(false)
+    expect(isGuiNumberValid(1234567, { checkOldFormatOnly })).toBe(false)
+    expect(isGuiNumberValid('123456769', { checkOldFormatOnly })).toBe(false)
+    expect(isGuiNumberValid(123456769, { checkOldFormatOnly })).toBe(false)
+    expect(isGuiNumberValid('12345678', { checkOldFormatOnly })).toBe(false)
+    expect(isGuiNumberValid('12345670', { checkOldFormatOnly })).toBe(false)
+    expect(isGuiNumberValid('12345671', { checkOldFormatOnly })).toBe(false)
+    expect(isGuiNumberValid('04595252', { checkOldFormatOnly })).toBe(false)
   })
 })
 

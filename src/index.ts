@@ -15,17 +15,26 @@ function multiply(a: number, b: number) {
   return a * b
 }
 
+export type GuiNumberValidationOptions = {
+  /**
+   * validate `input` with old format only: https://www.fia.gov.tw/singlehtml/3?cntId=c4d9cff38c8642ef8872774ee9987283
+   */
+  checkOldFormatOnly?: boolean
+}
+
 /**
  * Verify the input is a valid GUI Number (中華民國統一編號)
  *
  * @param { string | number } input GUI Number
- * @param { boolean } extended check input using extended format: https://www.fia.gov.tw/singlehtml/3?cntId=c4d9cff38c8642ef8872774ee9987283
+ * @param { GuiNumberValidationOptions } guiNumberValidationOptions GUI Number validation options
  * @returns { boolean } is `input` a valid GUI number
  */
 export function isGuiNumberValid(
   input: string | number,
-  extended = true
+  options: GuiNumberValidationOptions = {}
 ): boolean {
+  const { checkOldFormatOnly = false } = options
+
   if (typeof input !== 'string' && typeof input !== 'number') return false
 
   /**
@@ -82,7 +91,7 @@ export function isGuiNumberValid(
    *  4-2: 若是餘數為 9，且原統一編號的第七位是 7，則也為正確的統一編號
    */
 
-  const divisor = extended ? 5 : 10
+  const divisor = checkOldFormatOnly ? 10 : 5
 
   return (
     checksum % divisor === 0 ||
