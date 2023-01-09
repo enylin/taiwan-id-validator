@@ -35,8 +35,14 @@ module.exports = {
   module: {
     rules: [
       {
-        use: 'ts-loader',
-        exclude: /node_modules/
+        loader: 'ts-loader',
+        exclude: [
+          /node_modules/,
+          "/src/**/*.test.ts"
+        ],
+        options: {
+          configFile: "tsconfig.webpack.json"
+        }
       }
     ]
   }
