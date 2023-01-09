@@ -27,6 +27,8 @@ describe('isGuiNumValid', () => {
 
   it('should return true if the input is correct', () => {
     expect(isGuiNumberValid(12345676)).toBe(true)
+    expect(isGuiNumberValid('12345670')).toBe(true)
+    expect(isGuiNumberValid('12345671')).toBe(true)
     expect(isGuiNumberValid('12345675')).toBe(true)
     expect(isGuiNumberValid('12345676')).toBe(true) // 6th char is 7
     expect(isGuiNumberValid('04595257')).toBe(true)
@@ -38,27 +40,28 @@ describe('isGuiNumValid', () => {
     expect(isGuiNumberValid('123456769')).toBe(false)
     expect(isGuiNumberValid(123456769)).toBe(false)
     expect(isGuiNumberValid('12345678')).toBe(false)
-    expect(isGuiNumberValid('12345670')).toBe(false)
-    expect(isGuiNumberValid('04595252')).toBe(false)
+    expect(isGuiNumberValid('12345672')).toBe(false)
+    expect(isGuiNumberValid('04595253')).toBe(false)
   })
 })
 
 describe('isGuiNumValid extended format', () => {
   it('should return true if the input is correct', () => {
     expect(isGuiNumberValid(12345676)).toBe(true)
-    expect(isGuiNumberValid('12345675', true)).toBe(true)
-    expect(isGuiNumberValid('12345676', true)).toBe(true) // 6th char is 7
-    expect(isGuiNumberValid('12345670', true)).toBe(true)
-    expect(isGuiNumberValid('04595257', true)).toBe(true)
-    expect(isGuiNumberValid('04595252', true)).toBe(true)
+    expect(isGuiNumberValid('12345675', false)).toBe(true)
+    expect(isGuiNumberValid('12345676', false)).toBe(true) // 6th char is 7
+    expect(isGuiNumberValid('04595257', false)).toBe(true)
   })
 
   it('should return false if the input is incorrect', () => {
-    expect(isGuiNumberValid('1234567', true)).toBe(false)
-    expect(isGuiNumberValid(1234567, true)).toBe(false)
-    expect(isGuiNumberValid('123456769', true)).toBe(false)
-    expect(isGuiNumberValid(123456769, true)).toBe(false)
-    expect(isGuiNumberValid('12345678', true)).toBe(false)
+    expect(isGuiNumberValid('1234567', false)).toBe(false)
+    expect(isGuiNumberValid(1234567, false)).toBe(false)
+    expect(isGuiNumberValid('123456769', false)).toBe(false)
+    expect(isGuiNumberValid(123456769, false)).toBe(false)
+    expect(isGuiNumberValid('12345678', false)).toBe(false)
+    expect(isGuiNumberValid('12345670', false)).toBe(false)
+    expect(isGuiNumberValid('12345671', false)).toBe(false)
+    expect(isGuiNumberValid('04595252', false)).toBe(false)
   })
 })
 

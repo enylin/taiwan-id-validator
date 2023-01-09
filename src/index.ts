@@ -24,7 +24,7 @@ function multiply(a: number, b: number) {
  */
 export function isGuiNumberValid(
   input: string | number,
-  extended = false
+  extended = true
 ): boolean {
   if (typeof input !== 'string' && typeof input !== 'number') return false
 
