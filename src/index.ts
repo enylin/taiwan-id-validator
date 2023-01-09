@@ -19,7 +19,7 @@ function multiply(a: number, b: number) {
  * Verify the input is a valid GUI Number (中華民國統一編號)
  *
  * @param { string | number } input GUI Number
- * @param { boolean } extended check input using extended format: https://www.fia.gov.tw/singlehtml/6?cntId=aaa97a9dcf2649d5bdd317f554e24f75
+ * @param { boolean } extended check input using extended format: https://www.fia.gov.tw/singlehtml/3?cntId=c4d9cff38c8642ef8872774ee9987283
  * @returns { boolean } is `input` a valid GUI number
  */
 export function isGuiNumberValid(

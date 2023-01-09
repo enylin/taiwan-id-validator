@@ -143,4 +143,5 @@ const isCreditCard = isCreditCardNumberValid
 四、預計112年4月以後，將視舊號餘存狀況逐步釋出新產製之統一編號。
 
 參考資料：
-[附件-營利事業統一編號檢查碼邏輯修正說明](https://www.fia.gov.tw/download/37cd8c16911244c29e00f85b2be4ebab)
+- [營利事業統一編號檢查碼邏輯修正說明](https://www.fia.gov.tw/singlehtml/3?cntId=c4d9cff38c8642ef8872774ee9987283)
+- [附件-營利事業統一編號檢查碼邏輯修正說明](https://www.fia.gov.tw/download/ff9c37611e9e46dab952676d24dc0b67)
