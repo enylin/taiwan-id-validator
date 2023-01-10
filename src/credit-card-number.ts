@@ -60,5 +60,3 @@ export function isCreditCardNumberValid(
 
   return sum % 10 === 0
 }
-
-export const isCreditCard = isCreditCardNumberValid

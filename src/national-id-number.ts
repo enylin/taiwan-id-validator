@@ -164,8 +164,3 @@ function verifyTaiwanIdIntermediateString(input: string): boolean {
 
   return sum % 10 === 0
 }
-
-export const isNI = isNationalIdentificationNumberValid
-export const isRC = isResidentCertificateNumberValid
-export const isNewRC = isNewResidentCertificateNumberValid
-export const isOriginalRC = isOriginalResidentCertificateNumberValid

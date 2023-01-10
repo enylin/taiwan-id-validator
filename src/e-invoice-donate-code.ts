@@ -14,5 +14,3 @@ export function isEInvoiceDonateCodeValid(input: string | number): boolean {
 
   return regex.test(n)
 }
-
-export const isDonateCode = isEInvoiceDonateCodeValid

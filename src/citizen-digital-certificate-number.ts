@@ -14,5 +14,3 @@ export function isCitizenDigitalCertificateNumberValid(input: string): boolean {
 
   return regex.test(n)
 }
-
-export const isCDC = isCitizenDigitalCertificateNumberValid

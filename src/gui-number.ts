@@ -83,5 +83,3 @@ export function isGuiNumberValid(
     (parseInt(n.charAt(6), intRadix) === 7 && (checksum + 1) % divisor === 0)
   )
 }
-
-export const isGUI = isGuiNumberValid

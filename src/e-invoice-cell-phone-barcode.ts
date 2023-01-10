@@ -18,5 +18,3 @@ export function isEInvoiceCellPhoneBarcodeValid(input: string): boolean {
 
   return regex.test(n)
 }
-
-export const isCellPhoneBarcode = isEInvoiceCellPhoneBarcodeValid
