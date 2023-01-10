@@ -27,23 +27,23 @@ describe('isGuiNumber', () => {
 })
 
 describe('isGuiNum using old format', () => {
-  const checkOldFormatOnly = true
+  const applyOldRules = true
 
   it('should return true if the input is correct', () => {
     expect(isGuiNumber(12345676)).toBe(true)
-    expect(isGuiNumber('12345675', { checkOldFormatOnly })).toBe(true)
-    expect(isGuiNumber('12345676', { checkOldFormatOnly })).toBe(true) // 6th char is 7
-    expect(isGuiNumber('04595257', { checkOldFormatOnly })).toBe(true)
+    expect(isGuiNumber('12345675', { applyOldRules })).toBe(true)
+    expect(isGuiNumber('12345676', { applyOldRules })).toBe(true) // 6th char is 7
+    expect(isGuiNumber('04595257', { applyOldRules })).toBe(true)
   })
 
   it('should return false if the input is incorrect', () => {
-    expect(isGuiNumber('1234567', { checkOldFormatOnly })).toBe(false)
-    expect(isGuiNumber(1234567, { checkOldFormatOnly })).toBe(false)
-    expect(isGuiNumber('123456769', { checkOldFormatOnly })).toBe(false)
-    expect(isGuiNumber(123456769, { checkOldFormatOnly })).toBe(false)
-    expect(isGuiNumber('12345678', { checkOldFormatOnly })).toBe(false)
-    expect(isGuiNumber('12345670', { checkOldFormatOnly })).toBe(false)
-    expect(isGuiNumber('12345671', { checkOldFormatOnly })).toBe(false)
-    expect(isGuiNumber('04595252', { checkOldFormatOnly })).toBe(false)
+    expect(isGuiNumber('1234567', { applyOldRules })).toBe(false)
+    expect(isGuiNumber(1234567, { applyOldRules })).toBe(false)
+    expect(isGuiNumber('123456769', { applyOldRules })).toBe(false)
+    expect(isGuiNumber(123456769, { applyOldRules })).toBe(false)
+    expect(isGuiNumber('12345678', { applyOldRules })).toBe(false)
+    expect(isGuiNumber('12345670', { applyOldRules })).toBe(false)
+    expect(isGuiNumber('12345671', { applyOldRules })).toBe(false)
+    expect(isGuiNumber('04595252', { applyOldRules })).toBe(false)
   })
 })

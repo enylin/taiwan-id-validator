@@ -4,7 +4,7 @@ export type GuiNumberValidationOptions = {
   /**
    * validate `input` with old format only: https://www.fia.gov.tw/singlehtml/3?cntId=c4d9cff38c8642ef8872774ee9987283
    */
-  checkOldFormatOnly?: boolean
+  applyOldRules?: boolean
 }
 
 /**
@@ -18,7 +18,7 @@ export function isGuiNumber(
   input: string | number,
   options: GuiNumberValidationOptions = {}
 ): boolean {
-  const { checkOldFormatOnly = false } = options
+  const { applyOldRules = false } = options
 
   if (typeof input !== 'string' && typeof input !== 'number') return false
 
@@ -76,7 +76,7 @@ export function isGuiNumber(
    *  4-2: 若是餘數為 9，且原統一編號的第七位是 7，則也為正確的統一編號
    */
 
-  const divisor = checkOldFormatOnly ? 10 : 5
+  const divisor = applyOldRules ? 10 : 5
 
   return (
     checksum % divisor === 0 ||

@@ -1,9 +1,9 @@
 export type CreditCardValidationOptions = {
   /**
-   * validate `input` with regex
+   * validate `input` with issuer regex
    * (Warning! Card issuers might introduce new card number patterns. Use this in production might cause unexpected results.)
    */
-  checkIssuer?: boolean
+  applyIssuerRules?: boolean
 }
 
 /**
@@ -45,9 +45,9 @@ export function isCreditCardNumber(
     /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14})$/ // Visa Master
   ]
 
-  const { checkIssuer = false } = options
+  const { applyIssuerRules = false } = options
 
-  if (checkIssuer && !issuerRegexes.some(regex => regex.test(input)))
+  if (applyIssuerRules && !issuerRegexes.some(regex => regex.test(input)))
     return false
 
   // Luhn algorithm
