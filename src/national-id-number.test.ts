@@ -1,166 +1,166 @@
 import {
-  isNationalIdentificationNumberValid,
-  isNewResidentCertificateNumberValid,
-  isOriginalResidentCertificateNumberValid,
-  isResidentCertificateNumberValid
+  isNationalIdentificationNumber,
+  isNewResidentCertificateNumber,
+  isOriginalResidentCertificateNumber,
+  isResidentCertificateNumber
 } from './national-id-number'
 
-describe('isNationalIdentificationNumberValid', () => {
+describe('isNationalIdentificationNumber', () => {
   it('should only accept strings with length 10', () => {
-    expect(isNationalIdentificationNumberValid({} as string)).toBe(false)
-    expect(
-      isNationalIdentificationNumberValid(123456789 as unknown as string)
-    ).toBe(false)
-    expect(
-      isNationalIdentificationNumberValid(undefined as unknown as string)
-    ).toBe(false)
-    expect(isNationalIdentificationNumberValid('A1234567899')).toBe(false)
-    expect(isNationalIdentificationNumberValid('A12345678')).toBe(false)
+    expect(isNationalIdentificationNumber({} as string)).toBe(false)
+    expect(isNationalIdentificationNumber(123456789 as unknown as string)).toBe(
+      false
+    )
+    expect(isNationalIdentificationNumber(undefined as unknown as string)).toBe(
+      false
+    )
+    expect(isNationalIdentificationNumber('A1234567899')).toBe(false)
+    expect(isNationalIdentificationNumber('A12345678')).toBe(false)
   })
 
   it('should only accept strings Begin with English letter', () => {
-    expect(isNationalIdentificationNumberValid('2123456789')).toBe(false)
-    expect(isNationalIdentificationNumberValid('1123456789')).toBe(false)
+    expect(isNationalIdentificationNumber('2123456789')).toBe(false)
+    expect(isNationalIdentificationNumber('1123456789')).toBe(false)
   })
 
   it('should return false if the first number is not 1 or 2', () => {
-    expect(isNationalIdentificationNumberValid('A323456789')).toBe(false)
-    expect(isNationalIdentificationNumberValid('A423456789')).toBe(false)
+    expect(isNationalIdentificationNumber('A323456789')).toBe(false)
+    expect(isNationalIdentificationNumber('A423456789')).toBe(false)
   })
 
   it('should return true if the input is correct', () => {
-    expect(isNationalIdentificationNumberValid('A123456789')).toBe(true)
-    expect(isNationalIdentificationNumberValid('F131104093')).toBe(true)
-    expect(isNationalIdentificationNumberValid('O158238845')).toBe(true)
-    expect(isNationalIdentificationNumberValid('N116247806')).toBe(true)
-    expect(isNationalIdentificationNumberValid('L122544270')).toBe(true)
-    expect(isNationalIdentificationNumberValid('C180661564')).toBe(true)
-    expect(isNationalIdentificationNumberValid('Y123456788')).toBe(true)
+    expect(isNationalIdentificationNumber('A123456789')).toBe(true)
+    expect(isNationalIdentificationNumber('F131104093')).toBe(true)
+    expect(isNationalIdentificationNumber('O158238845')).toBe(true)
+    expect(isNationalIdentificationNumber('N116247806')).toBe(true)
+    expect(isNationalIdentificationNumber('L122544270')).toBe(true)
+    expect(isNationalIdentificationNumber('C180661564')).toBe(true)
+    expect(isNationalIdentificationNumber('Y123456788')).toBe(true)
   })
 
   it('should return false if the input is incorrect', () => {
-    expect(isNationalIdentificationNumberValid('a123456789')).toBe(false)
-    expect(isNationalIdentificationNumberValid('A123456788')).toBe(false)
-    expect(isNationalIdentificationNumberValid('F131104091')).toBe(false)
-    expect(isNationalIdentificationNumberValid('O158238842')).toBe(false)
+    expect(isNationalIdentificationNumber('a123456789')).toBe(false)
+    expect(isNationalIdentificationNumber('A123456788')).toBe(false)
+    expect(isNationalIdentificationNumber('F131104091')).toBe(false)
+    expect(isNationalIdentificationNumber('O158238842')).toBe(false)
   })
 })
 
-describe('isOriginalResidentCertificateNumberValid', () => {
+describe('isOriginalResidentCertificateNumber', () => {
   it('should only accept strings with length 10', () => {
-    expect(isOriginalResidentCertificateNumberValid({} as string)).toBe(false)
+    expect(isOriginalResidentCertificateNumber({} as string)).toBe(false)
     expect(
-      isOriginalResidentCertificateNumberValid(30196818 as unknown as string)
+      isOriginalResidentCertificateNumber(30196818 as unknown as string)
     ).toBe(false)
     expect(
-      isOriginalResidentCertificateNumberValid(undefined as unknown as string)
+      isOriginalResidentCertificateNumber(undefined as unknown as string)
     ).toBe(false)
-    expect(isOriginalResidentCertificateNumberValid('AA234567899')).toBe(false)
-    expect(isOriginalResidentCertificateNumberValid('AA2345678')).toBe(false)
+    expect(isOriginalResidentCertificateNumber('AA234567899')).toBe(false)
+    expect(isOriginalResidentCertificateNumber('AA2345678')).toBe(false)
   })
 
   it('should only accept strings Begin with 2 English letters', () => {
-    expect(isOriginalResidentCertificateNumberValid('2123456789')).toBe(false)
-    expect(isOriginalResidentCertificateNumberValid('1A23456789')).toBe(false)
-    expect(isOriginalResidentCertificateNumberValid('A123456789')).toBe(false)
+    expect(isOriginalResidentCertificateNumber('2123456789')).toBe(false)
+    expect(isOriginalResidentCertificateNumber('1A23456789')).toBe(false)
+    expect(isOriginalResidentCertificateNumber('A123456789')).toBe(false)
   })
 
   it('should return true if the input is correct', () => {
-    expect(isOriginalResidentCertificateNumberValid('AA00000009')).toBe(true)
-    expect(isOriginalResidentCertificateNumberValid('AB00207171')).toBe(true)
-    expect(isOriginalResidentCertificateNumberValid('AC03095424')).toBe(true)
-    expect(isOriginalResidentCertificateNumberValid('BD01300667')).toBe(true)
-    expect(isOriginalResidentCertificateNumberValid('CC00151114')).toBe(true)
-    expect(isOriginalResidentCertificateNumberValid('HD02717288')).toBe(true)
-    expect(isOriginalResidentCertificateNumberValid('TD00251124')).toBe(true)
-    expect(isOriginalResidentCertificateNumberValid('AD30196818')).toBe(true)
+    expect(isOriginalResidentCertificateNumber('AA00000009')).toBe(true)
+    expect(isOriginalResidentCertificateNumber('AB00207171')).toBe(true)
+    expect(isOriginalResidentCertificateNumber('AC03095424')).toBe(true)
+    expect(isOriginalResidentCertificateNumber('BD01300667')).toBe(true)
+    expect(isOriginalResidentCertificateNumber('CC00151114')).toBe(true)
+    expect(isOriginalResidentCertificateNumber('HD02717288')).toBe(true)
+    expect(isOriginalResidentCertificateNumber('TD00251124')).toBe(true)
+    expect(isOriginalResidentCertificateNumber('AD30196818')).toBe(true)
   })
 
   it('should return false if the input is incorrect', () => {
-    expect(isOriginalResidentCertificateNumberValid('aa00000009')).toBe(false)
-    expect(isOriginalResidentCertificateNumberValid('AA00000000')).toBe(false)
-    expect(isOriginalResidentCertificateNumberValid('FG31104091')).toBe(false)
-    expect(isOriginalResidentCertificateNumberValid('OY58238842')).toBe(false)
+    expect(isOriginalResidentCertificateNumber('aa00000009')).toBe(false)
+    expect(isOriginalResidentCertificateNumber('AA00000000')).toBe(false)
+    expect(isOriginalResidentCertificateNumber('FG31104091')).toBe(false)
+    expect(isOriginalResidentCertificateNumber('OY58238842')).toBe(false)
   })
 })
 
-describe('isNewResidentCertificateNumberValid', () => {
+describe('isNewResidentCertificateNumber', () => {
   it('should only accept strings with length 10', () => {
-    expect(isNewResidentCertificateNumberValid({} as string)).toBe(false)
-    expect(
-      isNewResidentCertificateNumberValid(930196810 as unknown as string)
-    ).toBe(false)
-    expect(
-      isNewResidentCertificateNumberValid(undefined as unknown as string)
-    ).toBe(false)
-    expect(isNewResidentCertificateNumberValid('AA234567899')).toBe(false)
-    expect(isNewResidentCertificateNumberValid('AA2345678')).toBe(false)
+    expect(isNewResidentCertificateNumber({} as string)).toBe(false)
+    expect(isNewResidentCertificateNumber(930196810 as unknown as string)).toBe(
+      false
+    )
+    expect(isNewResidentCertificateNumber(undefined as unknown as string)).toBe(
+      false
+    )
+    expect(isNewResidentCertificateNumber('AA234567899')).toBe(false)
+    expect(isNewResidentCertificateNumber('AA2345678')).toBe(false)
   })
 
   it('should only accept strings Begin with 1 English letters', () => {
-    expect(isNewResidentCertificateNumberValid('2123456789')).toBe(false)
-    expect(isNewResidentCertificateNumberValid('1A23456789')).toBe(false)
-    expect(isNewResidentCertificateNumberValid('AA23456789')).toBe(false)
+    expect(isNewResidentCertificateNumber('2123456789')).toBe(false)
+    expect(isNewResidentCertificateNumber('1A23456789')).toBe(false)
+    expect(isNewResidentCertificateNumber('AA23456789')).toBe(false)
   })
 
   it('should return false if the first number is not 8 or 9', () => {
-    expect(isNationalIdentificationNumberValid('A323456789')).toBe(false)
-    expect(isNationalIdentificationNumberValid('A423456789')).toBe(false)
+    expect(isNationalIdentificationNumber('A323456789')).toBe(false)
+    expect(isNationalIdentificationNumber('A423456789')).toBe(false)
   })
 
   it('should return true if the input is correct', () => {
-    expect(isNewResidentCertificateNumberValid('A800000014')).toBe(true)
-    expect(isNewResidentCertificateNumberValid('A900207177')).toBe(true)
-    expect(isNewResidentCertificateNumberValid('A803095426')).toBe(true)
-    expect(isNewResidentCertificateNumberValid('B801300667')).toBe(true)
-    expect(isNewResidentCertificateNumberValid('C800151116')).toBe(true)
-    expect(isNewResidentCertificateNumberValid('H802717288')).toBe(true)
-    expect(isNewResidentCertificateNumberValid('T900251126')).toBe(true)
-    expect(isNewResidentCertificateNumberValid('A930196810')).toBe(true)
+    expect(isNewResidentCertificateNumber('A800000014')).toBe(true)
+    expect(isNewResidentCertificateNumber('A900207177')).toBe(true)
+    expect(isNewResidentCertificateNumber('A803095426')).toBe(true)
+    expect(isNewResidentCertificateNumber('B801300667')).toBe(true)
+    expect(isNewResidentCertificateNumber('C800151116')).toBe(true)
+    expect(isNewResidentCertificateNumber('H802717288')).toBe(true)
+    expect(isNewResidentCertificateNumber('T900251126')).toBe(true)
+    expect(isNewResidentCertificateNumber('A930196810')).toBe(true)
   })
 
   it('should return false if the input is incorrect', () => {
-    expect(isNewResidentCertificateNumberValid('a800000009')).toBe(false)
-    expect(isNewResidentCertificateNumberValid('A800000000')).toBe(false)
-    expect(isNewResidentCertificateNumberValid('F931104091')).toBe(false)
-    expect(isNewResidentCertificateNumberValid('O958238842')).toBe(false)
+    expect(isNewResidentCertificateNumber('a800000009')).toBe(false)
+    expect(isNewResidentCertificateNumber('A800000000')).toBe(false)
+    expect(isNewResidentCertificateNumber('F931104091')).toBe(false)
+    expect(isNewResidentCertificateNumber('O958238842')).toBe(false)
   })
 })
 
-describe('isResidentCertificateNumberValid', () => {
+describe('isResidentCertificateNumber', () => {
   it('should only accept strings with length 10', () => {
-    expect(isResidentCertificateNumberValid({} as string)).toBe(false)
-    expect(
-      isResidentCertificateNumberValid(58238842 as unknown as string)
-    ).toBe(false)
-    expect(
-      isResidentCertificateNumberValid(undefined as unknown as string)
-    ).toBe(false)
-    expect(isResidentCertificateNumberValid('AA234567899')).toBe(false)
-    expect(isResidentCertificateNumberValid('AA2345678')).toBe(false)
+    expect(isResidentCertificateNumber({} as string)).toBe(false)
+    expect(isResidentCertificateNumber(58238842 as unknown as string)).toBe(
+      false
+    )
+    expect(isResidentCertificateNumber(undefined as unknown as string)).toBe(
+      false
+    )
+    expect(isResidentCertificateNumber('AA234567899')).toBe(false)
+    expect(isResidentCertificateNumber('AA2345678')).toBe(false)
   })
 
   it('should only accept strings Begin with 2 English letters', () => {
-    expect(isResidentCertificateNumberValid('2123456789')).toBe(false)
-    expect(isResidentCertificateNumberValid('1A23456789')).toBe(false)
-    expect(isResidentCertificateNumberValid('A123456789')).toBe(false)
+    expect(isResidentCertificateNumber('2123456789')).toBe(false)
+    expect(isResidentCertificateNumber('1A23456789')).toBe(false)
+    expect(isResidentCertificateNumber('A123456789')).toBe(false)
   })
 
   it('should return true if the input is correct', () => {
-    expect(isResidentCertificateNumberValid('AA00000009')).toBe(true)
-    expect(isResidentCertificateNumberValid('AB00207171')).toBe(true)
-    expect(isResidentCertificateNumberValid('AC03095424')).toBe(true)
-    expect(isResidentCertificateNumberValid('BD01300667')).toBe(true)
-    expect(isResidentCertificateNumberValid('CC00151114')).toBe(true)
-    expect(isResidentCertificateNumberValid('HD02717288')).toBe(true)
-    expect(isResidentCertificateNumberValid('TD00251124')).toBe(true)
-    expect(isResidentCertificateNumberValid('AD30196818')).toBe(true)
+    expect(isResidentCertificateNumber('AA00000009')).toBe(true)
+    expect(isResidentCertificateNumber('AB00207171')).toBe(true)
+    expect(isResidentCertificateNumber('AC03095424')).toBe(true)
+    expect(isResidentCertificateNumber('BD01300667')).toBe(true)
+    expect(isResidentCertificateNumber('CC00151114')).toBe(true)
+    expect(isResidentCertificateNumber('HD02717288')).toBe(true)
+    expect(isResidentCertificateNumber('TD00251124')).toBe(true)
+    expect(isResidentCertificateNumber('AD30196818')).toBe(true)
   })
 
   it('should return false if the input is incorrect', () => {
-    expect(isResidentCertificateNumberValid('aa00000009')).toBe(false)
-    expect(isResidentCertificateNumberValid('AA00000000')).toBe(false)
-    expect(isResidentCertificateNumberValid('FG31104091')).toBe(false)
-    expect(isResidentCertificateNumberValid('OY58238842')).toBe(false)
+    expect(isResidentCertificateNumber('aa00000009')).toBe(false)
+    expect(isResidentCertificateNumber('AA00000000')).toBe(false)
+    expect(isResidentCertificateNumber('FG31104091')).toBe(false)
+    expect(isResidentCertificateNumber('OY58238842')).toBe(false)
   })
 })

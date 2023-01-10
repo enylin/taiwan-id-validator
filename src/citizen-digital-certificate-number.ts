@@ -4,7 +4,7 @@
  * @param { string } input citizen digital certificate number
  * @returns { boolean } is `input` a valid citizen digital certificate number
  */
-export function isCitizenDigitalCertificateNumberValid(input: string): boolean {
+export function isCitizenDigitalCertificateNumber(input: string): boolean {
   if (typeof input !== 'string') return false
 
   const n = input.toString()

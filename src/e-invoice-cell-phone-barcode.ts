@@ -4,7 +4,7 @@
  * @param { string } input E-Invoice cell phone barcode
  * @returns { boolean } is `input` a valid e-invoice cell phone barcode
  */
-export function isEInvoiceCellPhoneBarcodeValid(input: string): boolean {
+export function isEInvoiceCellPhoneBarcode(input: string): boolean {
   if (typeof input !== 'string') return false
 
   const n = input.toString()

@@ -6,7 +6,7 @@ import { zipWith, multiply, add } from './helper'
  * @param { string } input National identification number
  * @returns { boolean } is `input` a valid national ID number
  */
-export function isNationalIdentificationNumberValid(input: string): boolean {
+export function isNationalIdentificationNumber(input: string): boolean {
   if (typeof input !== 'string') return false
 
   const regex = /^[A-Z][1,2]\d{8}$/
@@ -20,12 +20,12 @@ export function isNationalIdentificationNumberValid(input: string): boolean {
  * @param { string } input resident certificate number
  * @returns { boolean } is `input` a valid resident certificate number
  */
-export function isResidentCertificateNumberValid(input: string): boolean {
+export function isResidentCertificateNumber(input: string): boolean {
   if (typeof input !== 'string') return false
 
   return (
-    isNewResidentCertificateNumberValid(input) ||
-    isOriginalResidentCertificateNumberValid(input)
+    isNewResidentCertificateNumber(input) ||
+    isOriginalResidentCertificateNumber(input)
   )
 }
 
@@ -35,7 +35,7 @@ export function isResidentCertificateNumberValid(input: string): boolean {
  * @param { string } input resident certificate number
  * @returns { boolean } is `input` a valid new resident certificate number
  */
-export function isNewResidentCertificateNumberValid(input: string): boolean {
+export function isNewResidentCertificateNumber(input: string): boolean {
   if (typeof input !== 'string') return false
 
   const regex = /^[A-Z][8,9]\d{8}$/
@@ -49,9 +49,7 @@ export function isNewResidentCertificateNumberValid(input: string): boolean {
  * @param { string } input resident certificate number
  * @returns { boolean } is `input` a valid original resident certificate number
  */
-export function isOriginalResidentCertificateNumberValid(
-  input: string
-): boolean {
+export function isOriginalResidentCertificateNumber(input: string): boolean {
   if (typeof input !== 'string') return false
 
   const regex = /^[A-Z]{2}\d{8}$/
@@ -60,7 +58,7 @@ export function isOriginalResidentCertificateNumberValid(
 }
 
 /**
- * Verify the intermediate string for isNationalIdentificationNumberValid and isResidentCertificateNumberValid
+ * Verify the intermediate string for isNationalIdentificationNumber and isResidentCertificateNumber
  *
  * @param { string } input String to verify
  * @returns { boolean } is `input` a valid Taiwan ID intermediate string

@@ -1,11 +1,11 @@
-export { isCitizenDigitalCertificateNumberValid } from './citizen-digital-certificate-number'
-export { isCreditCardNumberValid } from './credit-card-number'
-export { isEInvoiceCellPhoneBarcodeValid } from './e-invoice-cell-phone-barcode'
-export { isEInvoiceDonateCodeValid } from './e-invoice-donate-code'
-export { isGuiNumberValid } from './gui-number'
+export { isCitizenDigitalCertificateNumber } from './citizen-digital-certificate-number'
+export { isCreditCardNumber } from './credit-card-number'
+export { isEInvoiceCellPhoneBarcode } from './e-invoice-cell-phone-barcode'
+export { isEInvoiceDonateCode } from './e-invoice-donate-code'
+export { isGuiNumber } from './gui-number'
 export {
-  isNationalIdentificationNumberValid,
-  isResidentCertificateNumberValid,
-  isNewResidentCertificateNumberValid,
-  isOriginalResidentCertificateNumberValid
+  isNationalIdentificationNumber,
+  isResidentCertificateNumber,
+  isNewResidentCertificateNumber,
+  isOriginalResidentCertificateNumber
 } from './national-id-number'

@@ -4,7 +4,7 @@
  * @param { string | number } input E-Invoice donate code
  * @returns { boolean } is `input` a valid e-invoice donate code
  */
-export function isEInvoiceDonateCodeValid(input: string | number): boolean {
+export function isEInvoiceDonateCode(input: string | number): boolean {
   if (typeof input !== 'string' && typeof input !== 'number') return false
 
   const n = input.toString()

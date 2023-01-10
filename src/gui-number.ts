@@ -14,7 +14,7 @@ export type GuiNumberValidationOptions = {
  * @param { GuiNumberValidationOptions } guiNumberValidationOptions GUI Number validation options
  * @returns { boolean } is `input` a valid GUI number
  */
-export function isGuiNumberValid(
+export function isGuiNumber(
   input: string | number,
   options: GuiNumberValidationOptions = {}
 ): boolean {

@@ -13,7 +13,7 @@ export type CreditCardValidationOptions = {
  * @param { CreditCardValidationOptions } creditCardValidationOptions credit card validation options
  * @returns { boolean } is `input` a valid credit card number
  */
-export function isCreditCardNumberValid(
+export function isCreditCardNumber(
   input: string,
   options: CreditCardValidationOptions = {}
 ): boolean {
