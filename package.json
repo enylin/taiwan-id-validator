@@ -54,7 +54,7 @@
     "email": "sean.enylin@gmail.com"
   },
   "devDependencies": {
-    "@commitlint/cli": "^13.1.0",
+    "@commitlint/cli": "^17.6.1",
     "@commitlint/config-angular": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
     "@types/jest": "^29.2.4",
