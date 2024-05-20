@@ -9,9 +9,16 @@ export type NationalIdNumberValidationOptions = {
 /**
  * Verify the input is a valid identification number based on provided options.
  *
- * @param { string } input The identification number to verify
- * @param { NationalIdNumberValidationOptions } [options] Options specifying which types of identification numbers to check
+ * @param { string } input - The identification number to verify
+ * @param { NationalIdNumberValidationOptions } [options] - Options specifying which types of identification numbers to check
  * @returns `true` if the input is a valid identification number according to the specified options, otherwise `false`
+ * @example
+ * isIdCardNumber('A123456789') // true
+ * isIdCardNumber('B123456789', {
+ *   nationalId: true,
+ *   uiNumber: false,
+ *   originalUiNumber: false
+ * }) // true
  */
 export function isIdCardNumber(
   input: string,
@@ -39,8 +46,11 @@ export function isIdCardNumber(
 /**
  * Verify the input is a valid National identification number (中華民國身分證字號)
  *
- * @param { string } input National identification number
+ * @param { string } input - National identification number
  * @returns { boolean } is `input` a valid national ID number
+ * @example
+ * isNationalIdentificationNumber('A123456789') // true
+ * isNationalIdentificationNumber('Z123456789') // false
  */
 export function isNationalIdentificationNumber(input: string): boolean {
   if (typeof input !== 'string') return false
@@ -53,8 +63,11 @@ export function isNationalIdentificationNumber(input: string): boolean {
 /**
  * Verify the input is a valid resident certificate number (臺灣地區無戶籍國民、外國人、大陸地區人民及香港或澳門居民之專屬代號)
  *
- * @param { string } input resident certificate number
+ * @param { string } input - resident certificate number
  * @returns { boolean } is `input` a valid resident certificate number
+ * @example
+ * isResidentCertificateNumber('AB12345678') // true
+ * isResidentCertificateNumber('AC12345678') // false
  */
 export function isResidentCertificateNumber(input: string): boolean {
   if (typeof input !== 'string') return false
@@ -68,8 +81,11 @@ export function isResidentCertificateNumber(input: string): boolean {
 /**
  * Verify the input is a valid new resident certificate number (臺灣地區無戶籍國民、外國人、大陸地區人民及香港或澳門居民之專屬代號)
  *
- * @param { string } input resident certificate number
+ * @param { string } input - resident certificate number
  * @returns { boolean } is `input` a valid new resident certificate number
+ * @example
+ * isNewResidentCertificateNumber('A812345678') // true
+ * isNewResidentCertificateNumber('A712345678') // false
  */
 export function isNewResidentCertificateNumber(input: string): boolean {
   if (typeof input !== 'string') return false
@@ -82,8 +98,11 @@ export function isNewResidentCertificateNumber(input: string): boolean {
 /**
  * Verify the input is a original valid resident certificate number (臺灣地區無戶籍國民、外國人、大陸地區人民及香港或澳門居民之專屬代號)
  *
- * @param { string } input resident certificate number
+ * @param { string } input - resident certificate number
  * @returns { boolean } is `input` a valid original resident certificate number
+ * @example
+ * isOriginalResidentCertificateNumber('AB12345678') // true
+ * isOriginalResidentCertificateNumber('A123456789') // false
  */
 export function isOriginalResidentCertificateNumber(input: string): boolean {
   if (typeof input !== 'string') return false
@@ -96,8 +115,11 @@ export function isOriginalResidentCertificateNumber(input: string): boolean {
 /**
  * Verify the intermediate string for isNationalIdentificationNumber and isResidentCertificateNumber
  *
- * @param { string } input String to verify
+ * @param { string } input - String to verify
  * @returns { boolean } is `input` a valid Taiwan ID intermediate string
+ * @example
+ * verifyTaiwanIdIntermediateString('A123456789') // true
+ * verifyTaiwanIdIntermediateString('A123456788') // false
  */
 function verifyTaiwanIdIntermediateString(input: string): boolean {
   const intRadix = 10

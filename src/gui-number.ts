@@ -10,9 +10,13 @@ export type GuiNumberValidationOptions = {
 /**
  * Verify the input is a valid GUI Number (中華民國統一編號)
  *
- * @param { string | number } input GUI Number
- * @param { GuiNumberValidationOptions } guiNumberValidationOptions GUI Number validation options
+ * @param { string | number } input - GUI Number
+ * @param { GuiNumberValidationOptions } [guiNumberValidationOptions] - GUI Number validation options
  * @returns { boolean } is `input` a valid GUI number
+ * @example
+ * isGuiNumber('12345675') // true
+ * isGuiNumber('12345675', { applyOldRules: true }) // true
+ * isGuiNumber('12345678') // false
  */
 export function isGuiNumber(
   input: string | number,

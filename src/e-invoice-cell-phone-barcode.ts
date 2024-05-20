@@ -1,8 +1,11 @@
 /**
  * Verify the input is a valid E-Invoice cell phone barcode (電子發票手機條碼)
  *
- * @param { string } input E-Invoice cell phone barcode
+ * @param { string } input - E-Invoice cell phone barcode
  * @returns { boolean } is `input` a valid e-invoice cell phone barcode
+ * @example
+ * isEInvoiceCellPhoneBarcode('/+.-++..') // true
+ * isEInvoiceCellPhoneBarcode('/12345678') // false
  */
 export function isEInvoiceCellPhoneBarcode(input: string): boolean {
   if (typeof input !== 'string') return false

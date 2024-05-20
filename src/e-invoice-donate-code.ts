@@ -1,8 +1,11 @@
 /**
  * Verify the input is a valid E-Invoice donate code (電子發票捐贈碼)
  *
- * @param { string | number } input E-Invoice donate code
+ * @param { string | number } input - E-Invoice donate code
  * @returns { boolean } is `input` a valid e-invoice donate code
+ * @example
+ * isEInvoiceDonateCode('123') // true
+ * isEInvoiceDonateCode('abc123') // false
  */
 export function isEInvoiceDonateCode(input: string | number): boolean {
   if (typeof input !== 'string' && typeof input !== 'number') return false
