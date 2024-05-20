@@ -1,5 +1,41 @@
 import { zipWith, multiply, add } from './helper'
 
+export type NationalIdNumberValidationOptions = {
+  nationalId?: boolean
+  uiNumber?: boolean
+  originalUiNumber?: boolean
+}
+
+/**
+ * Verify the input is a valid identification number based on provided options.
+ *
+ * @param { string } input The identification number to verify
+ * @param { NationalIdNumberValidationOptions } [options] Options specifying which types of identification numbers to check
+ * @returns `true` if the input is a valid identification number according to the specified options, otherwise `false`
+ */
+export function isIdCardNumber(
+  input: string,
+  options: NationalIdNumberValidationOptions = {
+    nationalId: true,
+    uiNumber: true,
+    originalUiNumber: true
+  }
+): boolean {
+  if ((options.nationalId ?? true) && isNationalIdentificationNumber(input))
+    return true
+
+  if ((options.uiNumber ?? true) && isNewResidentCertificateNumber(input))
+    return true
+
+  if (
+    (options.originalUiNumber ?? true) &&
+    isOriginalResidentCertificateNumber(input)
+  )
+    return true
+
+  return false
+}
+
 /**
  * Verify the input is a valid National identification number (中華民國身分證字號)
  *

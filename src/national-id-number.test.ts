@@ -1,9 +1,210 @@
 import {
+  NationalIdNumberValidationOptions,
+  isIdCardNumber,
   isNationalIdentificationNumber,
   isNewResidentCertificateNumber,
   isOriginalResidentCertificateNumber,
   isResidentCertificateNumber
 } from './national-id-number'
+
+describe('isIdCardNumber', () => {
+  it('should return true for valid national ID number with default options', () => {
+    expect(isIdCardNumber('A123456789')).toBe(true)
+  })
+
+  it('should return false for invalid national ID number with default options', () => {
+    expect(isIdCardNumber('A123456780')).toBe(false)
+  })
+
+  it('should return true for valid new resident certificate number with default options', () => {
+    expect(isIdCardNumber('A800000014')).toBe(true)
+  })
+
+  it('should return false for invalid new resident certificate number with default options', () => {
+    expect(isIdCardNumber('A800000015')).toBe(false)
+  })
+
+  it('should return true for valid original resident certificate number with default options', () => {
+    expect(isIdCardNumber('AB23456789')).toBe(true)
+  })
+
+  it('should return false for invalid original resident certificate number with default options', () => {
+    expect(isIdCardNumber('AB23456780')).toBe(false)
+  })
+
+  it('should return true for valid national ID number with only nationalId option', () => {
+    const options: NationalIdNumberValidationOptions = {
+      nationalId: true,
+      uiNumber: false,
+      originalUiNumber: false
+    }
+    expect(isIdCardNumber('A123456789', options)).toBe(true)
+  })
+
+  it('should return false for valid new resident certificate number with only nationalId option', () => {
+    const options: NationalIdNumberValidationOptions = {
+      nationalId: true,
+      uiNumber: false,
+      originalUiNumber: false
+    }
+    expect(isIdCardNumber('A800000014', options)).toBe(false)
+  })
+
+  it('should return true for valid new resident certificate number with only uiNumber option', () => {
+    const options: NationalIdNumberValidationOptions = {
+      nationalId: false,
+      uiNumber: true,
+      originalUiNumber: false
+    }
+    expect(isIdCardNumber('A800000014', options)).toBe(true)
+  })
+
+  it('should return false for valid national ID number with only uiNumber option', () => {
+    const options: NationalIdNumberValidationOptions = {
+      nationalId: false,
+      uiNumber: true,
+      originalUiNumber: false
+    }
+    expect(isIdCardNumber('A123456789', options)).toBe(false)
+  })
+
+  it('should return true for valid original resident certificate number with only originalUiNumber option', () => {
+    const options: NationalIdNumberValidationOptions = {
+      nationalId: false,
+      uiNumber: false,
+      originalUiNumber: true
+    }
+    expect(isIdCardNumber('AB23456789', options)).toBe(true)
+  })
+
+  it('should return false for valid national ID number with only originalUiNumber option', () => {
+    const options: NationalIdNumberValidationOptions = {
+      nationalId: false,
+      uiNumber: false,
+      originalUiNumber: true
+    }
+    expect(isIdCardNumber('A123456789', options)).toBe(false)
+  })
+
+  it('should return true for valid national ID number with nationalId and uiNumber options', () => {
+    const options: NationalIdNumberValidationOptions = {
+      nationalId: true,
+      uiNumber: true,
+      originalUiNumber: false
+    }
+    expect(isIdCardNumber('A123456789', options)).toBe(true)
+  })
+
+  it('should return true for valid new resident certificate number with nationalId and uiNumber options', () => {
+    const options: NationalIdNumberValidationOptions = {
+      nationalId: true,
+      uiNumber: true,
+      originalUiNumber: false
+    }
+    expect(isIdCardNumber('A800000014', options)).toBe(true)
+  })
+
+  it('should return true for valid original resident certificate number with nationalId and originalUiNumber options', () => {
+    const options: NationalIdNumberValidationOptions = {
+      nationalId: true,
+      uiNumber: false,
+      originalUiNumber: true
+    }
+    expect(isIdCardNumber('AB23456789', options)).toBe(true)
+  })
+
+  it('should return false for invalid ID number with all options set to false', () => {
+    const options: NationalIdNumberValidationOptions = {
+      nationalId: false,
+      uiNumber: false,
+      originalUiNumber: false
+    }
+    expect(isIdCardNumber('A123456789', options)).toBe(false)
+  })
+
+  // tests for all true
+  it('should return false for invalid national ID number with all options set to true', () => {
+    const options: NationalIdNumberValidationOptions = {
+      nationalId: true,
+      uiNumber: true,
+      originalUiNumber: true
+    }
+    expect(isIdCardNumber('A123456780', options)).toBe(false)
+  })
+
+  it('should return false for invalid new resident certificate number with all options set to true', () => {
+    const options: NationalIdNumberValidationOptions = {
+      nationalId: true,
+      uiNumber: true,
+      originalUiNumber: true
+    }
+    expect(isIdCardNumber('A823456780', options)).toBe(false)
+  })
+
+  it('should return false for invalid original resident certificate number with all options set to true', () => {
+    const options: NationalIdNumberValidationOptions = {
+      nationalId: true,
+      uiNumber: true,
+      originalUiNumber: true
+    }
+    expect(isIdCardNumber('AB23456780', options)).toBe(false)
+  })
+
+  // tests for undefined options
+  it('should return true for valid national ID number with undefined options', () => {
+    const options: NationalIdNumberValidationOptions = {
+      nationalId: undefined,
+      uiNumber: undefined,
+      originalUiNumber: undefined
+    }
+    expect(isIdCardNumber('A123456789', options)).toBe(true)
+  })
+
+  it('should return true for valid new resident certificate number with undefined options', () => {
+    const options: NationalIdNumberValidationOptions = {
+      nationalId: undefined,
+      uiNumber: undefined,
+      originalUiNumber: undefined
+    }
+    expect(isIdCardNumber('A800000014', options)).toBe(true)
+  })
+
+  it('should return true for valid original resident certificate number with undefined options', () => {
+    const options: NationalIdNumberValidationOptions = {
+      nationalId: undefined,
+      uiNumber: undefined,
+      originalUiNumber: undefined
+    }
+    expect(isIdCardNumber('AB23456789', options)).toBe(true)
+  })
+
+  it('should return false for invalid national ID number with undefined options', () => {
+    const options: NationalIdNumberValidationOptions = {
+      nationalId: undefined,
+      uiNumber: undefined,
+      originalUiNumber: undefined
+    }
+    expect(isIdCardNumber('A123456780', options)).toBe(false)
+  })
+
+  it('should return false for invalid new resident certificate number with undefined options', () => {
+    const options: NationalIdNumberValidationOptions = {
+      nationalId: undefined,
+      uiNumber: undefined,
+      originalUiNumber: undefined
+    }
+    expect(isIdCardNumber('A823456780', options)).toBe(false)
+  })
+
+  it('should return false for invalid original resident certificate number with undefined options', () => {
+    const options: NationalIdNumberValidationOptions = {
+      nationalId: undefined,
+      uiNumber: undefined,
+      originalUiNumber: undefined
+    }
+    expect(isIdCardNumber('AB23456780', options)).toBe(false)
+  })
+})
 
 describe('isNationalIdentificationNumber', () => {
   it('should only accept strings with length 10', () => {
