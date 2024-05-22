@@ -16,12 +16,14 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module'
   },
-  plugins: ['@typescript-eslint', 'simple-import-sort'],
+  plugins: ['@typescript-eslint', 'import'],
   rules: {
     indent: 'off',
-    '@typescript-eslint/indent': ['error', 2],
-    'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single'],
-    semi: ['error', 'never']
+    'linebreak-style': ['error', 'unix'],
+    semi: ['error', 'never'],
+    'import/first': 'error',
+    'import/newline-after-import': 'error',
+    'import/no-duplicates': 'error'
   }
 }
