@@ -1,10 +1,61 @@
-import { zipWith, multiply, add } from './helper'
+import { zipWith, multiply, add, objectKeys } from './helper'
 
-export type NationalIdNumberValidationOptions = {
-  nationalId?: boolean
-  uiNumber?: boolean
-  originalUiNumber?: boolean
+export type NewUiValidatingOptions =
+  | Partial<{
+      foreignOrStateless: boolean
+      statelessResident: boolean
+      hkMacaoResident: boolean
+      mainlandChinaResident: boolean
+    }>
+  | boolean
+
+export type UiNumberValidatingOptions =
+  | Partial<{
+      oldFormat: boolean
+      newFormat: NewUiValidatingOptions
+    }>
+  | boolean
+
+export type IdCardValidatingOptions = Partial<{
+  nationalId: boolean
+  uiNumber: UiNumberValidatingOptions
+}>
+
+type Tree<T> = {
+  [key: string]: T | Tree<T>
 }
+
+const idCardRegExps: Tree<RegExp> = {
+  nationalId: /[A-Z][1,2]\d{8}/,
+  uiNumber: {
+    oldFormat: /[A-Z][A-D]\d{8}/,
+    newFormat: {
+      foreignOrStateless: /[A-Z][89][0-6]\d{7}/,
+      statelessResident: /[A-Z][89][7]\d{7}/,
+      hkMacaoResident: /[A-Z][89][8]\d{7}/,
+      mainlandChinaResident: /[A-Z][89][9]\d{7}/
+    }
+  }
+}
+
+const collectPatterns: (
+  regexTree: Tree<RegExp>,
+  validationOptions: Tree<boolean> | boolean
+) => RegExp[] = (regexTree, validationOptions) =>
+  objectKeys(regexTree).reduce((patterns, key) => {
+    const currentRegex = regexTree[key]
+
+    const currentOptions =
+      typeof validationOptions === 'boolean'
+        ? validationOptions
+        : validationOptions[key] ?? true
+
+    return currentRegex instanceof RegExp
+      ? currentOptions
+        ? patterns.concat(currentRegex)
+        : patterns
+      : patterns.concat(collectPatterns(currentRegex, currentOptions))
+  }, [] as RegExp[])
 
 /**
  * Verify the input is a valid identification number based on provided options.
@@ -14,100 +65,20 @@ export type NationalIdNumberValidationOptions = {
  * @returns `true` if the input is a valid identification number according to the specified options, otherwise `false`
  * @example
  * isIdCardNumber('A123456789') // true
- * isIdCardNumber('B123456789', {
- *   nationalId: true,
- *   uiNumber: false,
- *   originalUiNumber: false
- * }) // true
+ * isIdCardNumber('A123456789', { nationalId: false }) // false
  */
 export function isIdCardNumber(
   input: string,
-  options: NationalIdNumberValidationOptions = {
+  options: IdCardValidatingOptions = {
     nationalId: true,
-    uiNumber: true,
-    originalUiNumber: true
+    uiNumber: true
   }
 ): boolean {
-  if ((options.nationalId ?? true) && isNationalIdentificationNumber(input))
-    return true
-
-  if ((options.uiNumber ?? true) && isNewResidentCertificateNumber(input))
-    return true
-
-  if (
-    (options.originalUiNumber ?? true) &&
-    isOriginalResidentCertificateNumber(input)
-  )
-    return true
-
-  return false
-}
-
-/**
- * Verify the input is a valid National identification number (中華民國身分證字號)
- *
- * @param { string } input - National identification number
- * @returns { boolean } is `input` a valid national ID number
- * @example
- * isNationalIdentificationNumber('A123456789') // true
- * isNationalIdentificationNumber('Z123456789') // false
- */
-export function isNationalIdentificationNumber(input: string): boolean {
   if (typeof input !== 'string') return false
 
-  const regex = /^[A-Z][1,2]\d{8}$/
-
-  return regex.test(input) && verifyTaiwanIdIntermediateString(input)
-}
-
-/**
- * Verify the input is a valid resident certificate number (臺灣地區無戶籍國民、外國人、大陸地區人民及香港或澳門居民之專屬代號)
- *
- * @param { string } input - resident certificate number
- * @returns { boolean } is `input` a valid resident certificate number
- * @example
- * isResidentCertificateNumber('AB12345678') // true
- * isResidentCertificateNumber('AC12345678') // false
- */
-export function isResidentCertificateNumber(input: string): boolean {
-  if (typeof input !== 'string') return false
-
-  return (
-    isNewResidentCertificateNumber(input) ||
-    isOriginalResidentCertificateNumber(input)
-  )
-}
-
-/**
- * Verify the input is a valid new resident certificate number (臺灣地區無戶籍國民、外國人、大陸地區人民及香港或澳門居民之專屬代號)
- *
- * @param { string } input - resident certificate number
- * @returns { boolean } is `input` a valid new resident certificate number
- * @example
- * isNewResidentCertificateNumber('A812345678') // true
- * isNewResidentCertificateNumber('A712345678') // false
- */
-export function isNewResidentCertificateNumber(input: string): boolean {
-  if (typeof input !== 'string') return false
-
-  const regex = /^[A-Z][8,9]\d{8}$/
-
-  return regex.test(input) && verifyTaiwanIdIntermediateString(input)
-}
-
-/**
- * Verify the input is a original valid resident certificate number (臺灣地區無戶籍國民、外國人、大陸地區人民及香港或澳門居民之專屬代號)
- *
- * @param { string } input - resident certificate number
- * @returns { boolean } is `input` a valid original resident certificate number
- * @example
- * isOriginalResidentCertificateNumber('AB12345678') // true
- * isOriginalResidentCertificateNumber('A123456789') // false
- */
-export function isOriginalResidentCertificateNumber(input: string): boolean {
-  if (typeof input !== 'string') return false
-
-  const regex = /^[A-Z]{2}\d{8}$/
+  const patterns: RegExp[] = collectPatterns(idCardRegExps, options)
+  const joinedRegexString = patterns.map(r => r.source).join('|')
+  const regex = new RegExp(`^(${joinedRegexString})$`)
 
   return regex.test(input) && verifyTaiwanIdIntermediateString(input)
 }

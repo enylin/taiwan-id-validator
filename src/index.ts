@@ -2,4 +2,4 @@ export { isCitizenDigitalCertificateNumber } from './citizen-digital-certificate
 export { isEInvoiceCellPhoneBarcode } from './e-invoice-cell-phone-barcode'
 export { isEInvoiceDonateCode } from './e-invoice-donate-code'
 export { isGuiNumber } from './gui-number'
-export { isIdCardNumber } from './national-id-number'
+export { isIdCardNumber, IdCardValidatingOptions } from './id-card-number'
