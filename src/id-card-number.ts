@@ -2,22 +2,46 @@ import { zipWith, multiply, add, objectKeys } from './helper'
 
 export type NewUiValidatingOptions =
   | Partial<{
+      /**
+       * Foreigners or stateless persons (外國人或無國籍人士)
+       */
       foreignOrStateless: boolean
+      /**
+       * Stateless residents (無戶籍國民)
+       */
       statelessResident: boolean
+      /**
+       * Hong Kong or Macao residents (香港澳門居民)
+       */
       hkMacaoResident: boolean
+      /**
+       * Mainland China residents (大陸地區居民)
+       */
       mainlandChinaResident: boolean
     }>
   | boolean
 
 export type UiNumberValidatingOptions =
   | Partial<{
+      /**
+       * Old format UI number (舊版統一證號)
+       */
       oldFormat: boolean
+      /**
+       * New format UI number (新版統一證號)
+       */
       newFormat: NewUiValidatingOptions
     }>
   | boolean
 
 export type IdCardValidatingOptions = Partial<{
+  /**
+   * National identification number (身分證字號)
+   */
   nationalId: boolean
+  /**
+   * UI number (統一證號)
+   */
   uiNumber: UiNumberValidatingOptions
 }>
 
@@ -25,6 +49,9 @@ type Tree<T> = {
   [key: string]: T | Tree<T>
 }
 
+/**
+ * Tree structure containing RegExp patterns for identification numbers
+ */
 const idCardRegExps: Tree<RegExp> = {
   nationalId: /[A-Z][1,2]\d{8}/,
   uiNumber: {
@@ -38,6 +65,16 @@ const idCardRegExps: Tree<RegExp> = {
   }
 }
 
+/**
+ * Collect all the RegExp patterns from a tree structure.
+ * If the validation options are specified, only the patterns with the corresponding options will be collected.
+ * If the validation options are not specified, all patterns will be collected.
+ * Default options are `true` if not specified.
+ *
+ * @param { Tree<RegExp> } regexTree - The tree structure containing RegExp patterns
+ * @param { Tree<boolean> | boolean } validationOptions - The tree structure containing validation options
+ * @returns { RegExp[] } An array of RegExp patterns to be used for validation
+ */
 const collectPatterns: (
   regexTree: Tree<RegExp>,
   validationOptions: Tree<boolean> | boolean
@@ -48,7 +85,7 @@ const collectPatterns: (
     const currentOptions =
       typeof validationOptions === 'boolean'
         ? validationOptions
-        : validationOptions[key] ?? true
+        : validationOptions[key] ?? true // default to true if not specified
 
     return currentRegex instanceof RegExp
       ? currentOptions
@@ -61,7 +98,7 @@ const collectPatterns: (
  * Verify the input is a valid identification number based on provided options.
  *
  * @param { string } input - The identification number to verify
- * @param { NationalIdNumberValidationOptions } [options] - Options specifying which types of identification numbers to check
+ * @param { IdCardValidatingOptions } [options] - Options specifying which types of identification numbers to check
  * @returns `true` if the input is a valid identification number according to the specified options, otherwise `false`
  * @example
  * isIdCardNumber('A123456789') // true
@@ -76,7 +113,10 @@ export function isIdCardNumber(
 ): boolean {
   if (typeof input !== 'string') return false
 
+  // collect all the patterns based on the options
   const patterns: RegExp[] = collectPatterns(idCardRegExps, options)
+
+  // create a regex that matches any of the patterns
   const joinedRegexString = patterns.map(r => r.source).join('|')
   const regex = new RegExp(`^(${joinedRegexString})$`)
 
