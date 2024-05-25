@@ -1,5 +1,12 @@
 # taiwan-id-validator
 
+![NPM](https://img.shields.io/npm/l/taiwan-id-validator)
+![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/enylin/taiwan-id-validator/test.yml)
+[![codecov](https://codecov.io/gh/enylin/taiwan-id-validator/graph/badge.svg?token=5MTC59QF18)](https://codecov.io/gh/enylin/taiwan-id-validator)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/enylin/line-pay-merchant)
+![npm](https://img.shields.io/npm/dt/taiwan-id-validator)
+![npm](https://img.shields.io/npm/v/taiwan-id-validator)
+
 ## Features
 
 * 台灣身分證字號驗證
