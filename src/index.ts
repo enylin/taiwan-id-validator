@@ -1,5 +1,5 @@
 export { isCdcNumber } from './citizen-digital-certificate-number'
-export { isEInvoiceCellPhoneBarcode } from './e-invoice-cell-phone-barcode'
+export { isMobileBarcode } from './e-invoice-mobile-barcode'
 export { isEInvoiceDonateCode } from './e-invoice-donate-code'
 export { isBan } from './business-administration-number'
 export { isIdCardNumber, IdCardValidatingOptions } from './id-card-number'
