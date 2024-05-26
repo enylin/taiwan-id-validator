@@ -32,9 +32,9 @@
     - [isMobileBarcode(input)](#ismobilebarcodeinput)
     - [isCdcNumber(input)](#iscdcnumberinput)
   - [Types](#types)
-    - [IdCardValidatingOptions](#idcardvalidatingoptions)
-    - [UiNumberValidatingOptions](#uinumbervalidatingoptions)
-    - [NewUiValidatingOptions](#newuivalidatingoptions)
+    - [IdCardValidationOptions](#idcardvalidationoptions)
+    - [UiNumberValidationOptions](#uinumbervalidationoptions)
+    - [NewUiValidationOptions](#newuivalidationoptions)
     - [BanValidationOptions](#banvalidationoptions)
 - [Migration from v1](#migration-from-v1)
 - [Additional Information](#additional-information)
@@ -97,7 +97,7 @@ if (isIdCardNumber(input)) { // 身分證字號、新/舊式統號
 | Name | Type | Description |
 |----------|----------|----------|
 | input    | string   | The identification number to verify. This includes National Identification Numbers ([身分證字號](https://zh.wikipedia.org/zh-tw/%E4%B8%AD%E8%8F%AF%E6%B0%91%E5%9C%8B%E5%9C%8B%E6%B0%91%E8%BA%AB%E5%88%86%E8%AD%89#%E5%9C%8B%E6%B0%91%E8%BA%AB%E5%88%86%E8%AD%89%E7%B5%B1%E4%B8%80%E7%B7%A8%E8%99%9F)), and Unified Identification Numbers ([外來人口統一證號](https://zh.wikipedia.org/zh-tw/%E4%B8%AD%E8%8F%AF%E6%B0%91%E5%9C%8B%E5%B1%85%E7%95%99%E8%AD%89#%E5%A4%96%E4%BE%86%E4%BA%BA%E5%8F%A3%E7%B5%B1%E4%B8%80%E8%AD%89%E8%99%9F)). |
-| options<br>(optional)    | [IdCardValidatingOptions](#IdCardValidatingOptions)   | Options specifying which types of identification numbers to check<br>Default: `{ nationalId: true, uiNumber: true }` |
+| options<br>(optional)    | [IdCardValidationOptions](#IdCardValidationOptions)   | Options specifying which types of identification numbers to check<br>Default: `{ nationalId: true, uiNumber: true }` |
 
 <details>
 <summary>Example</summary>
@@ -184,21 +184,21 @@ isCdcNumber('A12345678901234'); // false
 
 ### Types
 
-#### IdCardValidatingOptions
+#### IdCardValidationOptions
 
 | Name | Type | Description |
 |----------|----------|----------|
 | nationalId<br/>(optional) | boolean | Indicates whether to validate national identification numbers (身分證字號)<br>Default: `true` |
-| uiNumber<br/>(optional) | [UiNumberValidatingOptions](#UiNumberValidatingOptions) \| boolean | Indicates whether to validate UI number (統一證號).<br>If a boolean value is provided instead of an object, all options within this object will inherit this boolean value.<br>Default: `true` |
+| uiNumber<br/>(optional) | [UiNumberValidationOptions](#UiNumberValidationOptions) \| boolean | Indicates whether to validate UI number (統一證號).<br>If a boolean value is provided instead of an object, all options within this object will inherit this boolean value.<br>Default: `true` |
 
-#### UiNumberValidatingOptions
+#### UiNumberValidationOptions
 
 | Name | Type | Description |
 |----------|----------|----------|
 | oldFormat<br/>(optional) | boolean | Indicates whether to validate old format UI numbers (舊式統一證號)<br>Default: `true` |
-| newFormat<br/>(optional) | [NewUiValidatingOptions](#NewUiValidatingOptions) \| boolean | Indicates whether to validate new format UI numbers (新式統一證號).<br>If a boolean value is provided instead of an object, all options within this object will inherit this boolean value.<br>Default: `true` |
+| newFormat<br/>(optional) | [NewUiValidationOptions](#NewUiValidationOptions) \| boolean | Indicates whether to validate new format UI numbers (新式統一證號).<br>If a boolean value is provided instead of an object, all options within this object will inherit this boolean value.<br>Default: `true` |
 
-#### NewUiValidatingOptions
+#### NewUiValidationOptions
 
 | Name | Type | Description |
 |----------|----------|----------|

@@ -1,6 +1,6 @@
 import { zipWith, multiply, add, objectKeys } from './helper'
 
-export type NewUiValidatingOptions =
+export type NewUiValidationOptions =
   | Partial<{
       /**
        * Foreigners or stateless persons (外國人或無國籍人士)
@@ -21,7 +21,7 @@ export type NewUiValidatingOptions =
     }>
   | boolean
 
-export type UiNumberValidatingOptions =
+export type UiNumberValidationOptions =
   | Partial<{
       /**
        * Old format UI number (舊版統一證號)
@@ -30,11 +30,11 @@ export type UiNumberValidatingOptions =
       /**
        * New format UI number (新版統一證號)
        */
-      newFormat: NewUiValidatingOptions
+      newFormat: NewUiValidationOptions
     }>
   | boolean
 
-export type IdCardValidatingOptions = Partial<{
+export type IdCardValidationOptions = Partial<{
   /**
    * National identification number (身分證字號)
    */
@@ -42,7 +42,7 @@ export type IdCardValidatingOptions = Partial<{
   /**
    * UI number (統一證號)
    */
-  uiNumber: UiNumberValidatingOptions
+  uiNumber: UiNumberValidationOptions
 }>
 
 type Tree<T> = {
@@ -98,7 +98,7 @@ const collectPatterns: (
  * Verify the input is a valid identification number based on provided options.
  *
  * @param { string } input - The identification number to verify
- * @param { IdCardValidatingOptions } [options] - Options specifying which types of identification numbers to check
+ * @param { IdCardValidationOptions } [options] - Options specifying which types of identification numbers to check
  * @returns `true` if the input is a valid identification number according to the specified options, otherwise `false`
  * @example
  * isIdCardNumber('A123456789') // true
@@ -106,7 +106,7 @@ const collectPatterns: (
  */
 export function isIdCardNumber(
   input: string,
-  options: IdCardValidatingOptions = {
+  options: IdCardValidationOptions = {
     nationalId: true,
     uiNumber: true
   }
