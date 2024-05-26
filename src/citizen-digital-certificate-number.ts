@@ -1,13 +1,13 @@
 /**
- * Verify the input is a valid citizen digital certificate number (自然人憑證)
+ * Verify the input is a valid Citizen Digital Certificate Number (自然人憑證)
  *
- * @param { string } input - citizen digital certificate number
- * @returns { boolean } is `input` a valid citizen digital certificate number
+ * @param { string } input - Citizen Digital Certificate Number
+ * @returns { boolean } is `input` a valid Citizen Digital Certificate Number
  * @example
- * isCitizenDigitalCertificateNumber('AB12345678901234') // true
- * isCitizenDigitalCertificateNumber('A12345678901234') // false
+ * isCdcNumber('AB12345678901234') // true
+ * isCdcNumber('A12345678901234') // false
  */
-export function isCitizenDigitalCertificateNumber(input: string): boolean {
+export function isCdcNumber(input: string): boolean {
   if (typeof input !== 'string') return false
 
   const n = input.toString()
