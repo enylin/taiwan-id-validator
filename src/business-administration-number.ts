@@ -1,6 +1,6 @@
 import { zipWith, multiply, add } from './helper'
 
-export type GuiNumberValidationOptions = {
+export type BanValidationOptions = {
   /**
    * validate `input` with old format only: https://www.fia.gov.tw/singlehtml/3?cntId=c4d9cff38c8642ef8872774ee9987283
    */
@@ -8,19 +8,19 @@ export type GuiNumberValidationOptions = {
 }
 
 /**
- * Verify the input is a valid GUI Number (中華民國統一編號)
+ * Verify the input is a valid Business Administration Number (營利事業統一編號)
  *
- * @param { string | number } input - GUI Number
- * @param { GuiNumberValidationOptions } [guiNumberValidationOptions] - GUI Number validation options
- * @returns { boolean } is `input` a valid GUI number
+ * @param { string | number } input - Business Administration Number
+ * @param { BanValidationOptions } [banValidationOptions] - Business Administration Number validation options
+ * @returns { boolean } is `input` a valid Business Administration Number
  * @example
- * isGuiNumber('12345675') // true
- * isGuiNumber('12345675', { applyOldRules: true }) // true
- * isGuiNumber('12345678') // false
+ * isBan('12345675') // true
+ * isBan('12345675', { applyOldRules: true }) // true
+ * isBan('12345678') // false
  */
-export function isGuiNumber(
+export function isBan(
   input: string | number,
-  options: GuiNumberValidationOptions = {}
+  options: BanValidationOptions = {}
 ): boolean {
   const { applyOldRules = false } = options
 
@@ -52,7 +52,7 @@ export function isGuiNumber(
    * (1 + 4 + 3 + 8 + 5 + 3 + 10 + 5) % 10 = 9
    */
 
-  const GUI_NUMBER_COEFFICIENTS = [1, 2, 1, 2, 1, 2, 4, 1]
+  const BAN_COEFFICIENTS = [1, 2, 1, 2, 1, 2, 4, 1]
 
   const n = input.toString()
   const regex = /^\d{8}$/
@@ -66,7 +66,7 @@ export function isGuiNumber(
 
   const intRadix = 10
   const checksum = zipWith(
-    GUI_NUMBER_COEFFICIENTS,
+    BAN_COEFFICIENTS,
     n.split('').map(c => parseInt(c, intRadix)),
     multiply
   )

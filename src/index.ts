@@ -1,5 +1,5 @@
 export { isCitizenDigitalCertificateNumber } from './citizen-digital-certificate-number'
 export { isEInvoiceCellPhoneBarcode } from './e-invoice-cell-phone-barcode'
 export { isEInvoiceDonateCode } from './e-invoice-donate-code'
-export { isGuiNumber } from './gui-number'
+export { isBan } from './business-administration-number'
 export { isIdCardNumber, IdCardValidatingOptions } from './id-card-number'
