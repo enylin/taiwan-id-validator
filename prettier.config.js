@@ -1,6 +1,5 @@
-module.exports = {
+export default {
   bracketSpacing: true,
-  jsxBracketSameLine: true,
   semi: false,
   singleQuote: true,
   trailingComma: 'none',

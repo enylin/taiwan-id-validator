@@ -1,24 +1,15 @@
 {
   "compilerOptions": {
-    "target": "ES5",
-    "module": "ES2022",
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022"],
     "strict": true,
-    "moduleResolution": "node",
-    "lib": ["es5"],
-    "experimentalDecorators": true,
-    "esModuleInterop": true,
-    "sourceMap": true,
-    "declaration": true,
-    "types": [
-      "jest"
-    ],
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    },
-    "outDir": "dist",
-    "rootDir": "./src",
+    "skipLibCheck": true,
+    "verbatimModuleSyntax": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": ["node", "vitest/globals"],
+    "noEmit": true
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*.ts", "*.config.ts"]
 }
