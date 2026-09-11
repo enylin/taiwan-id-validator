@@ -10,7 +10,7 @@ export type BanValidationOptions = {
 /**
  * Verify the input is a valid Business Administration Number (營利事業統一編號)
  *
- * @param { string | number } input - Business Administration Number
+ * @param { string } input - Business Administration Number
  * @param { BanValidationOptions } [banValidationOptions] - Business Administration Number validation options
  * @returns { boolean } is `input` a valid Business Administration Number
  * @example
@@ -19,12 +19,12 @@ export type BanValidationOptions = {
  * isBan('12345678') // false
  */
 export function isBan(
-  input: string | number,
+  input: string,
   options: BanValidationOptions = {}
 ): boolean {
   const { applyOldRules = false } = options
 
-  if (typeof input !== 'string' && typeof input !== 'number') return false
+  if (typeof input !== 'string') return false
 
   /**
    * Example: 12345675
@@ -54,10 +54,9 @@ export function isBan(
 
   const BAN_COEFFICIENTS = [1, 2, 1, 2, 1, 2, 4, 1]
 
-  const n = input.toString()
   const regex = /^\d{8}$/
 
-  if (!regex.test(n)) return false
+  if (!regex.test(input)) return false
 
   /**
    * Step 1: 先把統一編號的每個數字分別乘上對應的係數 (1, 2, 1, 2, 1, 2, 4, 1)
@@ -67,7 +66,7 @@ export function isBan(
   const intRadix = 10
   const checksum = zipWith(
     BAN_COEFFICIENTS,
-    n.split('').map(c => parseInt(c, intRadix)),
+    input.split('').map(c => parseInt(c, intRadix)),
     multiply
   )
     .map(n => (n % 10) + Math.floor(n / 10))
@@ -84,6 +83,7 @@ export function isBan(
 
   return (
     checksum % divisor === 0 ||
-    (parseInt(n.charAt(6), intRadix) === 7 && (checksum + 1) % divisor === 0)
+    (parseInt(input.charAt(6), intRadix) === 7 &&
+      (checksum + 1) % divisor === 0)
   )
 }
