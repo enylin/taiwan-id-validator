@@ -7,15 +7,15 @@ export type NewUiValidationOptions =
        */
       foreignOrStateless: boolean
       /**
-       * Stateless residents (無戶籍國民)
+       * Nationals without household registration in Taiwan (臺灣地區無戶籍國民)
        */
-      statelessResident: boolean
+      nationalWithoutHouseholdRegistration: boolean
       /**
        * Hong Kong or Macao residents (香港澳門居民)
        */
       hkMacaoResident: boolean
       /**
-       * Mainland China residents (大陸地區居民)
+       * Mainland China residents (大陸地區人民)
        */
       mainlandChinaResident: boolean
     }>
@@ -53,12 +53,12 @@ type Tree<T> = {
  * Tree structure containing RegExp patterns for identification numbers
  */
 const idCardRegExps: Tree<RegExp> = {
-  nationalId: /[A-Z][1,2]\d{8}/,
+  nationalId: /[A-Z][12]\d{8}/,
   uiNumber: {
     oldFormat: /[A-Z][A-D]\d{8}/,
     newFormat: {
       foreignOrStateless: /[A-Z][89][0-6]\d{7}/,
-      statelessResident: /[A-Z][89][7]\d{7}/,
+      nationalWithoutHouseholdRegistration: /[A-Z][89][7]\d{7}/,
       hkMacaoResident: /[A-Z][89][8]\d{7}/,
       mainlandChinaResident: /[A-Z][89][9]\d{7}/
     }

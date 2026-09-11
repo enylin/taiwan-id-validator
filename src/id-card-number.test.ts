@@ -20,6 +20,7 @@ describe('isIdCardNumber', () => {
     it('should invalidate an incorrect national ID number', () => {
       expect(isIdCardNumber('A12345678', nationalIdOptions)).toBe(false)
       expect(isIdCardNumber('a123456789', nationalIdOptions)).toBe(false)
+      expect(isIdCardNumber('A,23456789', nationalIdOptions)).toBe(false)
       expect(isIdCardNumber('A123456788', nationalIdOptions)).toBe(false)
       expect(isIdCardNumber('F131104091', nationalIdOptions)).toBe(false)
       expect(isIdCardNumber('O158238842', nationalIdOptions)).toBe(false)
@@ -117,7 +118,7 @@ describe('isIdCardNumber', () => {
             oldFormat: false,
             newFormat: {
               foreignOrStateless: true,
-              statelessResident: false,
+              nationalWithoutHouseholdRegistration: false,
               hkMacaoResident: false,
               mainlandChinaResident: false
             }
@@ -126,7 +127,7 @@ describe('isIdCardNumber', () => {
       ).toBe(true)
     })
 
-    it('should validate a correct new format UI number for stateless resident', () => {
+    it('should validate a correct new format UI number for a national without household registration', () => {
       expect(
         isIdCardNumber('A870000015', {
           nationalId: false,
@@ -134,7 +135,7 @@ describe('isIdCardNumber', () => {
             oldFormat: false,
             newFormat: {
               foreignOrStateless: false,
-              statelessResident: true,
+              nationalWithoutHouseholdRegistration: true,
               hkMacaoResident: false,
               mainlandChinaResident: false
             }
@@ -151,7 +152,7 @@ describe('isIdCardNumber', () => {
             oldFormat: false,
             newFormat: {
               foreignOrStateless: false,
-              statelessResident: false,
+              nationalWithoutHouseholdRegistration: false,
               hkMacaoResident: true,
               mainlandChinaResident: false
             }
@@ -168,7 +169,7 @@ describe('isIdCardNumber', () => {
             oldFormat: false,
             newFormat: {
               foreignOrStateless: false,
-              statelessResident: false,
+              nationalWithoutHouseholdRegistration: false,
               hkMacaoResident: false,
               mainlandChinaResident: true
             }
@@ -207,7 +208,7 @@ describe('isIdCardNumber', () => {
       expect(isIdCardNumber('A800000014')).toBe(true)
     })
 
-    it('should validate a new format UI number for stateless resident by default', () => {
+    it('should validate a new format UI number for a national without household registration by default', () => {
       expect(isIdCardNumber('A870000015')).toBe(true)
     })
 
