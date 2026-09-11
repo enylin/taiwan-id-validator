@@ -1,11 +1,11 @@
-export { isBan } from './business-administration-number'
-export type { BanValidationOptions } from './business-administration-number'
-export { isCdcNumber } from './citizen-digital-certificate-number'
-export { isDonateCode } from './e-invoice-donate-code'
-export { isMobileBarcode } from './e-invoice-mobile-barcode'
-export { isIdCardNumber } from './id-card-number'
+export { isBan } from './business-administration-number.js'
+export type { BanValidationOptions } from './business-administration-number.js'
+export { isCdcNumber } from './citizen-digital-certificate-number.js'
+export { isDonateCode } from './e-invoice-donate-code.js'
+export { isMobileBarcode } from './e-invoice-mobile-barcode.js'
+export { isIdCardNumber } from './id-card-number.js'
 export type {
   IdCardValidationOptions,
   NewUiValidationOptions,
   UiNumberValidationOptions
-} from './id-card-number'
+} from './id-card-number.js'

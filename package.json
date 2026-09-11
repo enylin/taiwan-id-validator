@@ -8,9 +8,14 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
       "default": "./dist/index.js"
     },
     "./package.json": "./package.json"
@@ -25,9 +30,11 @@
     "LICENSE"
   ],
   "sideEffects": false,
-  "packageManager": "npm@11.19.1",
+  "packageManager": "npm@12.0.2",
   "scripts": {
-    "build": "vite build && vite build --config vite.browser.config.ts",
+    "build": "vite build && npm run build:types && npm run build:cjs-types && vite build --config vite.browser.config.ts",
+    "build:types": "tsc6 --project tsconfig.build.json",
+    "build:cjs-types": "tsc6 --project tsconfig.build.cjs.json && node scripts/prepare-cjs-declarations.mjs",
     "check-types": "tsc --noEmit",
     "lint": "eslint \"src/**/*.ts\" \"*.config.ts\"",
     "format": "prettier --write \"src/**/*.ts\" \"*.config.{js,ts}\"",
@@ -36,6 +43,7 @@
     "test:watch": "vitest",
     "test:cov": "vitest run --coverage",
     "test:package": "npm run build && node scripts/test-package.mjs",
+    "test:attw": "attw --pack .",
     "check": "npm run check-types && npm run lint && npm run format:check && npm run test",
     "prepack": "npm run build"
   },
@@ -69,16 +77,16 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
     "@eslint/js": "^10.0.1",
-    "@microsoft/api-extractor": "^7.59.0",
-    "@types/node": "^22.20.2",
+    "@types/node": "^24.13.4",
+    "@typescript/native": "npm:typescript@^7.0.2",
     "@vitest/coverage-v8": "^5.0.0",
     "eslint": "^10.10.0",
     "prettier": "^3.9.6",
-    "typescript": "~6.0.3",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
     "typescript-eslint": "^8.70.0",
-    "unplugin-dts": "^1.1.0",
-    "vite": "^8.2.2",
+    "vite": "^8.3.0",
     "vitest": "^5.0.0"
   }
 }
