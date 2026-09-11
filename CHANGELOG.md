@@ -1,5 +1,46 @@
-# [2.0.0-0](https://github.com/enylin/taiwan-id-validator/compare/v1.5.0...v2.0.0-0) (2024-05-26)
+# 2.0.0 (2026-09-11)
 
+## Breaking changes
+
+- Replaced the v1 validator names with the shorter v2 API: `isIdCardNumber`, `isBan`, `isCdcNumber`, `isMobileBarcode`, and `isDonateCode`.
+- Removed credit card validation from this Taiwan-identifier-focused package.
+- `isBan` now accepts strings only so leading zeroes cannot be lost.
+- `isDonateCode` now accepts strings only so leading zeroes cannot be lost.
+- Renamed the v2 prerelease option `statelessResident` to `nationalWithoutHouseholdRegistration` to match the official UI Number category.
+- The browser bundle now targets ES2018 instead of v1's explicit ES5 compatibility target.
+
+## Added
+
+- ESM, CommonJS, TypeScript declaration, and browser UMD package outputs.
+- Packed-package smoke tests for ESM, CommonJS, TypeScript, browser-global, AMD, and package-metadata consumers.
+- Enforced coverage thresholds to prevent silent test coverage regressions.
+- Node.js 24 LTS CI and development baseline.
+- npm Trusted Publishing with provenance support.
+- Government specification references in `docs/specification-sources.md`.
+
+## Changed
+
+- Replaced Webpack with Vite library builds and upgraded Vite to 8.3.
+- Replaced Jest and ts-jest with Vitest and V8 coverage.
+- Migrated ESLint to flat configuration and separated formatting into Prettier.
+- Preserved duplicate-import linting with ESLint's core `no-duplicate-imports` rule.
+- Upgraded the development compiler to TypeScript 7 while retaining the official TypeScript 6 compatibility package for tools that still require the compiler API.
+- Generate declarations with the TypeScript 6 compatibility compiler and verify published declarations with the TypeScript 7 CLI in NodeNext mode.
+- Upgraded the repository package manager to npm 12 and regenerated the lockfile from a clean install using the official TypeScript transition layout.
+- Aligned Node.js types with the Node 24 development baseline.
+- Removed Husky, Commitizen, Webpack, Jest, `tslib`, API Extractor, `unplugin-dts`, and other obsolete tooling dependencies.
+- Simplified the core validator implementations and removed the generic helper layer.
+- Exported the public validation option types and package metadata subpath.
+
+## Fixed
+
+- Corrected the National Identification Number second-character pattern from `[1,2]` to `[12]`.
+- Aligned the new-format UI Number category name with the National Immigration Agency terminology.
+- Ensured BAN and donation-code APIs preserve leading zeroes by treating identifiers as strings.
+- Removed unreachable checksum branches and a redundant current-UI boolean check.
+- Preserved UMD/AMD browser-loader compatibility while keeping the `taiwanIdValidator` global.
+
+# [2.0.0-0](https://github.com/enylin/taiwan-id-validator/compare/v1.5.0...v2.0.0-0) (2024-05-26)
 
 ### Bug Fixes
 
@@ -16,13 +57,11 @@
 * use shorter names for functions ([16577ee](https://github.com/enylin/taiwan-id-validator/commit/16577ee693def6f3be8743a8cb4268255595c42e))
 * **webpack:** fix critical dependency warning ([12b530f](https://github.com/enylin/taiwan-id-validator/commit/12b530fb63d5dff71cee20d5b2bead2d8890f7b7))
 
-
 ### Features
 
 * **gui:** use new format rule as default validation rule ([ed45d89](https://github.com/enylin/taiwan-id-validator/commit/ed45d893a5d0c3d6667e247f87ad75a6c6757b13))
 * **id-card-number:** support more validating options in new ui numbers ([068bb1e](https://github.com/enylin/taiwan-id-validator/commit/068bb1e67c55bec4e22e8891e12e87e6aadc69ee))
 * **national-id:** add isIdCardNumber function ([1cf788a](https://github.com/enylin/taiwan-id-validator/commit/1cf788a96f8f46197aeafa2ca8edb1c3c9ec076b))
-
 
 ### BREAKING CHANGES
 
@@ -36,61 +75,41 @@
 * **gui:** should pass object instead of boolean to use new format
 * **gui:** use new rule as default rule
 
-
-
 # [1.5.0](https://github.com/enylin/taiwan-id-validator/compare/v1.4.1...v1.5.0) (2022-12-28)
-
 
 ### Bug Fixes
 
 * **js:** replace "substr" (deprecated) by "substring" ([0177111](https://github.com/enylin/taiwan-id-validator/commit/01771112e97cffd2ebde2a4fb581fc62034e2160))
 
-
 ### Features
 
 * **credit-card:** support credit card validation ([669f4ff](https://github.com/enylin/taiwan-id-validator/commit/669f4ff87a828f96d5aa4494860008bb60492982))
 
-
-
 ## [1.4.1](https://github.com/enylin/taiwan-id-validator/compare/v1.4.0...v1.4.1) (2021-12-14)
-
 
 ### Bug Fixes
 
 * make project compatible with es5 environment ([9cb9a44](https://github.com/enylin/taiwan-id-validator/commit/9cb9a440597974649ff79576b1723881b4e1aa26))
 
-
-
 # [1.4.0](https://github.com/enylin/taiwan-id-validator/compare/v1.3.1...v1.4.0) (2021-10-28)
-
 
 ### Features
 
 * **gui:** support extended GUI format validation ([617920a](https://github.com/enylin/taiwan-id-validator/commit/617920a8fcd11a782cb813928c2b606cd8281d59))
 
-
-
 ## [1.3.1](https://github.com/enylin/taiwan-id-validator/compare/v1.3.0...v1.3.1) (2021-09-11)
-
 
 ### Bug Fixes
 
 * **nodejs:** fix self is not defined issue on node js ([961fd8f](https://github.com/enylin/taiwan-id-validator/commit/961fd8fb940a9771e6f78ff0a709e564947a6fd0))
 
-
-
 # [1.3.0](https://github.com/enylin/taiwan-id-validator/compare/v1.2.0...v1.3.0) (2021-09-11)
 
-
-
 # [1.2.0](https://github.com/enylin/taiwan-id-validator/compare/v1.1.0...v1.2.0) (2021-08-22)
-
 
 ### Features
 
 * **input:** support more types of input ([5ff9b2a](https://github.com/enylin/taiwan-id-validator/commit/5ff9b2a6aab32498918b6ebe92bb6f4e9bdc67f7))
-
-
 
 # [1.1.0](https://github.com/enylin/taiwan-id-validator/compare/v1.0.0...v1.1.0) (2021-08-21)
 
@@ -101,11 +120,7 @@
 * **eslint:** fix eslint "Cannot read property 'loc' of undefined" ([4daef7a](https://github.com/enylin/taiwan-id-validator/commit/4daef7a09afe01fa91e4e5f84018d983e4bda4c1))
 * **test:** fix typo ([b5a0a78](https://github.com/enylin/taiwan-id-validator/commit/b5a0a78100d31229dae7ee92a3392b4e7433d60b))
 
-
 ### Features
 
 * **alias:** add function aliases ([a56c256](https://github.com/enylin/taiwan-id-validator/commit/a56c2568ac5bc15c022c00b04792b9a12d3b7e17))
 * **resident-certificate:** support new resident certificate format ([245441e](https://github.com/enylin/taiwan-id-validator/commit/245441efdc4b3c5c306712b7d172e1c05870523c))
-
-
-
