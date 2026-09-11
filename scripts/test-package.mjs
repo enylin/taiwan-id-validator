@@ -37,6 +37,7 @@ try {
     'dist/index.js',
     'dist/index.cjs',
     'dist/index.d.ts',
+    'dist/cjs/index.d.cts',
     'dist/index.global.min.js',
     'docs/specification-sources.md',
     'CHANGELOG.md',
@@ -52,6 +53,14 @@ try {
 
   if ([...packedPaths].some(path => path.startsWith('src/'))) {
     throw new Error('Published package must not contain source files')
+  }
+
+  if (
+    [...packedPaths].some(
+      path => path.startsWith('dist/cjs/') && path.endsWith('.d.ts')
+    )
+  ) {
+    throw new Error('CommonJS declarations must use the .d.cts extension')
   }
 
   consumerDirectory = await mkdtemp(join(tmpdir(), 'taiwan-id-validator-'))
@@ -100,6 +109,26 @@ try {
       '--moduleResolution',
       'NodeNext',
       'types.ts'
+    ],
+    { cwd: consumerDirectory, stdio: 'inherit' }
+  )
+
+  await writeFile(
+    join(consumerDirectory, 'types.cts'),
+    `import { isBan, type BanValidationOptions } from 'taiwan-id-validator'\n\nconst options: BanValidationOptions = { applyOldRules: true }\nconst valid: boolean = isBan('04595257', options)\nvoid valid\n`
+  )
+  execFileSync(
+    tsc,
+    [
+      '--noEmit',
+      '--strict',
+      '--target',
+      'ES2022',
+      '--module',
+      'NodeNext',
+      '--moduleResolution',
+      'NodeNext',
+      'types.cts'
     ],
     { cwd: consumerDirectory, stdio: 'inherit' }
   )

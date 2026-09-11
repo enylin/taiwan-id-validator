@@ -204,18 +204,16 @@ nationalWithoutHouseholdRegistration
 
 ## Compatibility
 
-The maintained development and package-consumer test matrix is:
-
-- Node.js 22
-- Node.js 24
-
-This matrix describes the environments used to develop and verify the package. The published package does not impose a Node.js `engines` restriction on consumers.
+The maintained development and CI baseline is Node.js 24 LTS with npm 12. The published package itself remains zero-runtime-dependency and does not impose a Node.js `engines` restriction on consumers.
 
 The browser build targets ES2018 and is published as UMD through the `unpkg` and `jsdelivr` package fields.
 
 ## Development
 
+Use Node.js 24. The repository includes an `.nvmrc`, so nvm users can run:
+
 ```sh
+nvm use
 npm ci
 npm run check
 npm run test:cov
@@ -223,6 +221,16 @@ npm run test:package
 ```
 
 `test:package` builds and packs the package, then validates the actual published shape through ESM, CommonJS, TypeScript NodeNext, browser-global, AMD, and package-metadata consumers.
+
+### TypeScript 7 transition
+
+The project typechecks with TypeScript 7. TypeScript 7 currently does not expose the compiler API used by parts of the ecosystem, so the development dependencies use TypeScript's recommended side-by-side transition:
+
+- `@typescript/native` aliases the TypeScript 7 package and provides the `tsc` CLI used for source typechecking.
+- `typescript` aliases `@typescript/typescript6`, which provides the TypeScript 6 compatibility API and the `tsc6` CLI.
+- Declaration files are emitted with `tsc6`, while the published declarations are verified with the TypeScript 7 `tsc` CLI in NodeNext mode.
+
+This compatibility alias should be removed once the relevant tooling supports the TypeScript 7 compiler API directly.
 
 ## Release
 
