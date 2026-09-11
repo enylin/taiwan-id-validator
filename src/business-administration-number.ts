@@ -1,89 +1,28 @@
-import { zipWith, multiply, add } from './helper'
-
 export type BanValidationOptions = {
-  /**
-   * validate `input` with old format only: https://www.fia.gov.tw/singlehtml/3?cntId=c4d9cff38c8642ef8872774ee9987283
-   */
+  /** Validate `input` with the legacy checksum rule. */
   applyOldRules?: boolean
 }
 
-/**
- * Verify the input is a valid Business Administration Number (營利事業統一編號)
- *
- * @param { string } input - Business Administration Number
- * @param { BanValidationOptions } [banValidationOptions] - Business Administration Number validation options
- * @returns { boolean } is `input` a valid Business Administration Number
- * @example
- * isBan('12345675') // true
- * isBan('12345675', { applyOldRules: true }) // true
- * isBan('12345678') // false
- */
+const BAN_PATTERN = /^\d{8}$/
+const BAN_COEFFICIENTS = [1, 2, 1, 2, 1, 2, 4, 1] as const
+
+/** Verify a Business Administration Number (營利事業統一編號). */
 export function isBan(
   input: string,
   options: BanValidationOptions = {}
 ): boolean {
-  const { applyOldRules = false } = options
+  if (typeof input !== 'string' || !BAN_PATTERN.test(input)) return false
 
-  if (typeof input !== 'string') return false
+  const checksum = input.split('').reduce((sum, character, index) => {
+    const product = Number(character) * BAN_COEFFICIENTS[index]
+    return sum + Math.floor(product / 10) + (product % 10)
+  }, 0)
 
-  /**
-   * Example: 12345675
-   * Step 1:
-   * 1 * 1 = 1
-   * 2 * 2 = 4
-   * 3 * 1 = 3
-   * 4 * 2 = 8
-   * 5 * 1 = 5
-   * 6 * 2 = 12
-   * 7 * 4 = 28
-   * 5 * 1 = 5
-   *
-   * Step 2:
-   * 1 -> 1
-   * 4 -> 4
-   * 3 -> 3
-   * 8 -> 8
-   * 5 -> 5
-   * 12 -> 1 + 2 = 3
-   * 28 -> 2 + 8 = 10
-   * 5 -> 5
-   *
-   * Step 3:
-   * (1 + 4 + 3 + 8 + 5 + 3 + 10 + 5) % 10 = 9
-   */
-
-  const BAN_COEFFICIENTS = [1, 2, 1, 2, 1, 2, 4, 1]
-
-  const regex = /^\d{8}$/
-
-  if (!regex.test(input)) return false
-
-  /**
-   * Step 1: 先把統一編號的每個數字分別乘上對應的係數 (1, 2, 1, 2, 1, 2, 4, 1)
-   * Step 2: 再把個別乘積的十位數與個位數相加，得出八個小於 10 的數字
-   */
-
-  const intRadix = 10
-  const checksum = zipWith(
-    BAN_COEFFICIENTS,
-    input.split('').map(c => parseInt(c, intRadix)),
-    multiply
-  )
-    .map(n => (n % 10) + Math.floor(n / 10))
-    .reduce(add, 0)
-
-  /**
-   * Step 3: 檢查把這 8 個數字相加之後計算此和除以 5 or 10 的餘數
-   * Step 4:
-   *  4-1: 若是餘數為 0，則為正確的統一編號
-   *  4-2: 若是餘數為 9，且原統一編號的第七位是 7，則也為正確的統一編號
-   */
-
-  const divisor = applyOldRules ? 10 : 5
+  const divisor = options.applyOldRules ? 10 : 5
+  const seventhDigitIsSeven = input[6] === '7'
 
   return (
     checksum % divisor === 0 ||
-    (parseInt(input.charAt(6), intRadix) === 7 &&
-      (checksum + 1) % divisor === 0)
+    (seventhDigitIsSeven && (checksum + 1) % divisor === 0)
   )
 }
