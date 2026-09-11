@@ -18,12 +18,8 @@ concurrency:
 
 jobs:
   test:
-    name: Node ${{ matrix.node-version }}
+    name: Node 24
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        node-version: [22, 24]
 
     steps:
       - name: Checkout repository
@@ -32,11 +28,21 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 24
+          check-latest: true
           cache: npm
+
+      - name: Use npm 12
+        run: npm install --global npm@12.0.2
 
       - name: Install dependencies
         run: npm ci --ignore-scripts
+
+      - name: Verify TypeScript transition layout
+        run: |
+          test "$(node -p "require('./node_modules/typescript/package.json').name")" = "@typescript/typescript6"
+          ./node_modules/.bin/tsc --version
+          ./node_modules/.bin/tsc6 --version
 
       - name: Typecheck
         run: npm run check-types
@@ -53,8 +59,10 @@ jobs:
       - name: Test packed package
         run: npm run test:package
 
+      - name: Check package type compatibility
+        run: npm run test:attw
+
       - name: Upload coverage to Codecov
-        if: matrix.node-version == 24
         uses: codecov/codecov-action@v6
         with:
           use_oidc: true
