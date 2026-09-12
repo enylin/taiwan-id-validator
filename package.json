@@ -42,7 +42,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:cov": "vitest run --coverage",
-    "test:package": "npm run build && node scripts/test-package.mjs",
+    "test:regression": "npm run build && npm run test:regression:built",
+    "test:regression:built": "node scripts/test-regression.mjs",
+    "test:package": "npm run build && node scripts/test-package.mjs && npm run test:regression:built",
     "test:attw": "attw --pack .",
     "check": "npm run check-types && npm run lint && npm run format:check && npm run test",
     "prepack": "npm run build"
