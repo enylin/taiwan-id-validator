@@ -27,6 +27,32 @@ export type IdCardValidationOptions = Partial<{
   uiNumber: UiNumberValidationOptions
 }>
 
+export type IdCardCategory =
+  | 'NATIONAL_ID'
+  | 'UI_NUMBER_LEGACY'
+  | 'UI_NUMBER_FOREIGN_OR_STATELESS'
+  | 'UI_NUMBER_NATIONAL_WITHOUT_HOUSEHOLD_REGISTRATION'
+  | 'UI_NUMBER_HK_MACAO_RESIDENT'
+  | 'UI_NUMBER_MAINLAND_CHINA_RESIDENT'
+
+type IdCardUncategorizedFailureReason =
+  'INVALID_INPUT_TYPE' | 'INVALID_LENGTH' | 'INVALID_FORMAT'
+
+type IdCardCategorizedFailureReason =
+  'INVALID_CHECKSUM' | 'CATEGORY_NOT_ALLOWED'
+
+export type IdCardValidationFailureReason =
+  IdCardUncategorizedFailureReason | IdCardCategorizedFailureReason
+
+export type IdCardValidationResult =
+  | { valid: true; category: IdCardCategory }
+  | { valid: false; reason: IdCardUncategorizedFailureReason }
+  | {
+      valid: false
+      reason: IdCardCategorizedFailureReason
+      category: IdCardCategory
+    }
+
 const NATIONAL_ID_PATTERN = /^[A-Z][12]\d{8}$/
 const LEGACY_UI_NUMBER_PATTERN = /^[A-Z][A-D]\d{8}$/
 
@@ -105,40 +131,94 @@ export function isIdCardNumber(
   input: string,
   options: IdCardValidationOptions = {}
 ): boolean {
-  if (typeof input !== 'string') return false
+  return analyzeIdCardNumber(input, options).valid
+}
 
-  if ((options.nationalId ?? true) && NATIONAL_ID_PATTERN.test(input)) {
-    return hasValidChecksum(input)
+/** Validate an identification number and return its category or failure reason. */
+export function validateIdCardNumber(
+  input: unknown,
+  options: IdCardValidationOptions = {}
+): IdCardValidationResult {
+  return analyzeIdCardNumber(input, options)
+}
+
+function analyzeIdCardNumber(
+  input: unknown,
+  options: IdCardValidationOptions
+): IdCardValidationResult {
+  if (typeof input !== 'string') {
+    return { valid: false, reason: 'INVALID_INPUT_TYPE' }
   }
+
+  if (input.length !== 10) {
+    return { valid: false, reason: 'INVALID_LENGTH' }
+  }
+
+  const category = getIdCardCategory(input)
+  if (category === null) {
+    return { valid: false, reason: 'INVALID_FORMAT' }
+  }
+
+  if (!hasValidChecksum(input)) {
+    return { valid: false, reason: 'INVALID_CHECKSUM', category }
+  }
+
+  if (!isCategoryAllowed(category, options)) {
+    return { valid: false, reason: 'CATEGORY_NOT_ALLOWED', category }
+  }
+
+  return { valid: true, category }
+}
+
+function getIdCardCategory(input: string): IdCardCategory | null {
+  if (NATIONAL_ID_PATTERN.test(input)) return 'NATIONAL_ID'
+  if (LEGACY_UI_NUMBER_PATTERN.test(input)) return 'UI_NUMBER_LEGACY'
+
+  if (CURRENT_UI_NUMBER_PATTERNS.foreignOrStateless.test(input)) {
+    return 'UI_NUMBER_FOREIGN_OR_STATELESS'
+  }
+
+  if (
+    CURRENT_UI_NUMBER_PATTERNS.nationalWithoutHouseholdRegistration.test(input)
+  ) {
+    return 'UI_NUMBER_NATIONAL_WITHOUT_HOUSEHOLD_REGISTRATION'
+  }
+
+  if (CURRENT_UI_NUMBER_PATTERNS.hkMacaoResident.test(input)) {
+    return 'UI_NUMBER_HK_MACAO_RESIDENT'
+  }
+
+  if (CURRENT_UI_NUMBER_PATTERNS.mainlandChinaResident.test(input)) {
+    return 'UI_NUMBER_MAINLAND_CHINA_RESIDENT'
+  }
+
+  return null
+}
+
+function isCategoryAllowed(
+  category: IdCardCategory,
+  options: IdCardValidationOptions
+): boolean {
+  if (category === 'NATIONAL_ID') return options.nationalId ?? true
 
   const uiNumber = options.uiNumber ?? true
-  if (uiNumber === false) return false
+  if (typeof uiNumber === 'boolean') return uiNumber
 
-  const oldFormatEnabled =
-    typeof uiNumber === 'boolean' ? uiNumber : (uiNumber.oldFormat ?? true)
+  if (category === 'UI_NUMBER_LEGACY') return uiNumber.oldFormat ?? true
 
-  if (oldFormatEnabled && LEGACY_UI_NUMBER_PATTERN.test(input)) {
-    return hasValidChecksum(input)
+  const newFormat = uiNumber.newFormat ?? true
+  if (typeof newFormat === 'boolean') return newFormat
+
+  switch (category) {
+    case 'UI_NUMBER_FOREIGN_OR_STATELESS':
+      return newFormat.foreignOrStateless ?? true
+    case 'UI_NUMBER_NATIONAL_WITHOUT_HOUSEHOLD_REGISTRATION':
+      return newFormat.nationalWithoutHouseholdRegistration ?? true
+    case 'UI_NUMBER_HK_MACAO_RESIDENT':
+      return newFormat.hkMacaoResident ?? true
+    case 'UI_NUMBER_MAINLAND_CHINA_RESIDENT':
+      return newFormat.mainlandChinaResident ?? true
   }
-
-  const newFormat =
-    typeof uiNumber === 'boolean' ? uiNumber : (uiNumber.newFormat ?? true)
-
-  if (newFormat === false) return false
-
-  const matchesCurrentFormat =
-    typeof newFormat === 'boolean'
-      ? Object.values(CURRENT_UI_NUMBER_PATTERNS).some(pattern =>
-          pattern.test(input)
-        )
-      : Object.entries(CURRENT_UI_NUMBER_PATTERNS).some(
-          ([key, pattern]) =>
-            (newFormat[key as keyof typeof CURRENT_UI_NUMBER_PATTERNS] ??
-              true) &&
-            pattern.test(input)
-        )
-
-  return matchesCurrentFormat && hasValidChecksum(input)
 }
 
 function hasValidChecksum(input: string): boolean {
