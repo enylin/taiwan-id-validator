@@ -1,6 +1,6 @@
 {
   "name": "taiwan-id-validator",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "中華民國統一編號、外來人口統一證號、國民身分證統一編號、自然人憑證及電子發票相關號碼驗證",
   "type": "module",
   "main": "./dist/index.cjs",
