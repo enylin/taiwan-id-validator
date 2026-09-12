@@ -38,6 +38,8 @@ try {
     'dist/index.cjs',
     'dist/index.d.ts',
     'dist/cjs/index.d.cts',
+    'dist/validation-result.d.ts',
+    'dist/cjs/validation-result.d.cts',
     'dist/index.global.min.js',
     'docs/specification-sources.md',
     'CHANGELOG.md',
@@ -77,7 +79,7 @@ try {
 
   await writeFile(
     join(consumerDirectory, 'esm.mjs'),
-    `import { isBan, isIdCardNumber } from 'taiwan-id-validator'\n\nif (!isBan('04595257') || !isIdCardNumber('A123456789')) process.exit(1)\n`
+    `import { isBan, isIdCardNumber, validateBan, validateCdcNumber, validateDonateCode, validateMobileBarcode, validateIdCardNumber } from 'taiwan-id-validator'\n\nconst detailedValidators = [validateBan, validateCdcNumber, validateDonateCode, validateMobileBarcode, validateIdCardNumber]\nif (!isBan('04595257') || !isIdCardNumber('A123456789') || !detailedValidators.every(value => typeof value === 'function') || !validateBan('04595252').valid) process.exit(1)\n`
   )
   execFileSync(process.execPath, ['esm.mjs'], {
     cwd: consumerDirectory,
@@ -86,7 +88,7 @@ try {
 
   await writeFile(
     join(consumerDirectory, 'cjs.cjs'),
-    `const { isBan, isIdCardNumber } = require('taiwan-id-validator')\nconst pkg = require('taiwan-id-validator/package.json')\n\nif (!isBan('04595257') || !isIdCardNumber('A123456789') || pkg.name !== 'taiwan-id-validator') process.exit(1)\n`
+    `const { isBan, isIdCardNumber, validateBan } = require('taiwan-id-validator')\nconst pkg = require('taiwan-id-validator/package.json')\n\nif (!isBan('04595257') || !isIdCardNumber('A123456789') || validateBan('12345678').reason !== 'INVALID_CHECKSUM' || pkg.name !== 'taiwan-id-validator') process.exit(1)\n`
   )
   execFileSync(process.execPath, ['cjs.cjs'], {
     cwd: consumerDirectory,
@@ -95,7 +97,7 @@ try {
 
   await writeFile(
     join(consumerDirectory, 'types.ts'),
-    `import { isBan, type IdCardValidationOptions } from 'taiwan-id-validator'\n\nconst options: IdCardValidationOptions = { nationalId: true }\nconst valid: boolean = isBan('04595257')\nvoid options\nvoid valid\n`
+    `import { validateBan, type BanValidationFailureReason, type BanValidationResult, type IdCardValidationOptions } from 'taiwan-id-validator'\n\nconst options: IdCardValidationOptions = { nationalId: true }\nconst result: BanValidationResult = validateBan('12345678')\nif (!result.valid) {\n  const reason: BanValidationFailureReason = result.reason\n  void reason\n}\nvoid options\n`
   )
   execFileSync(
     tsc,
@@ -115,7 +117,7 @@ try {
 
   await writeFile(
     join(consumerDirectory, 'types.cts'),
-    `import { isBan, type BanValidationOptions } from 'taiwan-id-validator'\n\nconst options: BanValidationOptions = { applyOldRules: true }\nconst valid: boolean = isBan('04595257', options)\nvoid valid\n`
+    `import { validateIdCardNumber, type IdCardCategory, type IdCardValidationResult } from 'taiwan-id-validator'\n\nconst result: IdCardValidationResult = validateIdCardNumber('A123456789')\nif (result.valid) {\n  const category: IdCardCategory = result.category\n  void category\n}\n`
   )
   execFileSync(
     tsc,
@@ -144,9 +146,11 @@ try {
 
   if (
     typeof globalContext.taiwanIdValidator?.isBan !== 'function' ||
-    !globalContext.taiwanIdValidator.isBan('04595257')
+    typeof globalContext.taiwanIdValidator?.validateBan !== 'function' ||
+    !globalContext.taiwanIdValidator.isBan('04595257') ||
+    !globalContext.taiwanIdValidator.validateBan('04595252').valid
   ) {
-    throw new Error('Browser bundle does not expose taiwanIdValidator')
+    throw new Error('Browser bundle does not expose detailed validation')
   }
 
   let amdExports
@@ -164,8 +168,13 @@ try {
   createContext(amdContext)
   runInContext(browserBundle, amdContext)
 
-  if (typeof amdExports?.isBan !== 'function' || !amdExports.isBan('04595257')) {
-    throw new Error('Browser UMD bundle does not support AMD loading')
+  if (
+    typeof amdExports?.isBan !== 'function' ||
+    typeof amdExports?.validateBan !== 'function' ||
+    !amdExports.isBan('04595257') ||
+    amdExports.validateBan('12345678').reason !== 'INVALID_CHECKSUM'
+  ) {
+    throw new Error('Browser UMD bundle does not support detailed AMD loading')
   }
 } finally {
   if (tarball) await rm(tarball, { force: true })
