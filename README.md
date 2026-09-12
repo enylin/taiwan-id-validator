@@ -57,7 +57,9 @@ isBan('04595257') // true
 
 The browser UMD build preserves the `taiwanIdValidator` global and also supports AMD loaders such as RequireJS.
 
-## API
+## Boolean API
+
+Use the `isXxx` functions when only a yes/no answer is needed.
 
 ### `isIdCardNumber(input, options?)`
 
@@ -171,26 +173,140 @@ isDonateCode('001') // true
 
 Donation codes are identifiers, so v2 accepts strings only and preserves leading zeroes.
 
+## Detailed validation API
+
+Use the parallel `validateXxx` functions when a caller needs the reason for a failure or the detected ID category. Detailed validators accept `unknown`, which makes them suitable for request bodies, form values, and other external-data boundaries.
+
+```ts
+import { validateBan } from 'taiwan-id-validator'
+
+const result = validateBan('12345678')
+
+if (!result.valid) {
+  result.reason // 'INVALID_CHECKSUM'
+}
+```
+
+The shared result type is:
+
+```ts
+export type ValidationResult<Reason extends string> =
+  | { valid: true }
+  | { valid: false; reason: Reason }
+```
+
+`valid` means that the input passed both the validator rules and any caller-supplied options. It does not mean that an identifier is currently issued, registered, active, or owned by a particular person or account.
+
+### Failure reasons
+
+Each detailed validator exposes its own closed failure-reason union. Failure reasons and their precedence are stable public API for the v2 major version, so exhaustive `switch` statements and `satisfies Record<Reason, ...>` are supported.
+
+| Validator | Failure reasons in precedence order |
+| --- | --- |
+| `validateBan` | `INVALID_INPUT_TYPE`, `INVALID_LENGTH`, `INVALID_CHARACTER`, `INVALID_CHECKSUM` |
+| `validateCdcNumber` | `INVALID_INPUT_TYPE`, `INVALID_LENGTH`, `INVALID_FORMAT` |
+| `validateDonateCode` | `INVALID_INPUT_TYPE`, `INVALID_LENGTH`, `INVALID_CHARACTER` |
+| `validateMobileBarcode` | `INVALID_INPUT_TYPE`, `INVALID_LENGTH`, `INVALID_PREFIX`, `INVALID_CHARACTER` |
+| `validateIdCardNumber` | `INVALID_INPUT_TYPE`, `INVALID_LENGTH`, `INVALID_FORMAT`, `INVALID_CHECKSUM`, `CATEGORY_NOT_ALLOWED` |
+
+For example:
+
+```ts
+import {
+  validateBan,
+  type BanValidationFailureReason
+} from 'taiwan-id-validator'
+
+const messages = {
+  INVALID_INPUT_TYPE: 'Input must be a string',
+  INVALID_LENGTH: 'Length is incorrect',
+  INVALID_CHARACTER: 'Input contains an unsupported character',
+  INVALID_CHECKSUM: 'Checksum is incorrect'
+} satisfies Record<BanValidationFailureReason, string>
+
+const result = validateBan('12AB5678')
+if (!result.valid) console.log(messages[result.reason])
+```
+
+### ID categories
+
+`validateIdCardNumber` also returns the detected category once the input structure identifies one:
+
+```ts
+import { validateIdCardNumber } from 'taiwan-id-validator'
+
+validateIdCardNumber('A123456789')
+// { valid: true, category: 'NATIONAL_ID' }
+
+validateIdCardNumber('A123456788')
+// { valid: false, reason: 'INVALID_CHECKSUM', category: 'NATIONAL_ID' }
+
+validateIdCardNumber('A800000014', { uiNumber: false })
+// {
+//   valid: false,
+//   reason: 'CATEGORY_NOT_ALLOWED',
+//   category: 'UI_NUMBER_FOREIGN_OR_STATELESS'
+// }
+```
+
+The public category union is:
+
+```ts
+export type IdCardCategory =
+  | 'NATIONAL_ID'
+  | 'UI_NUMBER_LEGACY'
+  | 'UI_NUMBER_FOREIGN_OR_STATELESS'
+  | 'UI_NUMBER_NATIONAL_WITHOUT_HOUSEHOLD_REGISTRATION'
+  | 'UI_NUMBER_HK_MACAO_RESIDENT'
+  | 'UI_NUMBER_MAINLAND_CHINA_RESIDENT'
+```
+
+| Category | Corresponding option |
+| --- | --- |
+| `NATIONAL_ID` | `nationalId` |
+| `UI_NUMBER_LEGACY` | `uiNumber.oldFormat` |
+| `UI_NUMBER_FOREIGN_OR_STATELESS` | `uiNumber.newFormat.foreignOrStateless` |
+| `UI_NUMBER_NATIONAL_WITHOUT_HOUSEHOLD_REGISTRATION` | `uiNumber.newFormat.nationalWithoutHouseholdRegistration` |
+| `UI_NUMBER_HK_MACAO_RESIDENT` | `uiNumber.newFormat.hkMacaoResident` |
+| `UI_NUMBER_MAINLAND_CHINA_RESIDENT` | `uiNumber.newFormat.mainlandChinaResident` |
+
+`INVALID_CHECKSUM` takes precedence over `CATEGORY_NOT_ALLOWED`. A structurally recognized but checksum-invalid identifier is therefore reported as a checksum failure even if its category is disabled by options.
+
+### Result-object compatibility
+
+The documented fields and their semantics are public API. Result objects are intentionally extensible, however: future minor releases may add optional informational metadata fields. Consumers should not depend on the exact set of object keys or use exact-object equality as an API contract.
+
+The closed `reason` and `IdCardCategory` unions are different: their member sets, precedence, and structure-to-category mapping remain stable throughout v2. If a future official format or checksum specification requires a behavioral change, it must be explicitly documented and versioned according to its compatibility impact rather than being introduced as an undocumented reclassification.
+
+Changes to whether an identifier is currently active are outside this library's structural-validation scope. For example, legacy UI Numbers remain structurally validatable for stored data even after their official active-use period ends.
+
+### Input normalization
+
+The library validates the input it receives and does not trim, uppercase, or otherwise normalize it. Applications may normalize user input before validation when that matches their UX policy.
+
+For example, `a123456789` is not silently converted to uppercase and currently returns `INVALID_FORMAT`.
+
 ## Migration from v1
 
 v2 intentionally simplifies the public API.
 
 | v1 | v2 |
 | --- | --- |
-| `isGuiNumberValid` | `isBan` |
-| `isNationalIdentificationNumberValid` | `isIdCardNumber` |
-| `isResidentCertificateNumberValid` | `isIdCardNumber` |
-| `isNewResidentCertificateNumberValid` | `isIdCardNumber` |
-| `isOriginalResidentCertificateNumberValid` | `isIdCardNumber` |
-| `isCitizenDigitalCertificateNumberValid` | `isCdcNumber` |
-| `isEInvoiceCellPhoneBarcodeValid` | `isMobileBarcode` |
-| `isEInvoiceDonateCodeValid` | `isDonateCode` |
-| `isCreditCardNumberValid` | Removed |
+| `isGuiNumberValid` / `isGUI` | `isBan` |
+| `isNationalIdentificationNumberValid` / `isNI` | `isIdCardNumber` |
+| `isResidentCertificateNumberValid` / `isRC` | `isIdCardNumber` |
+| `isNewResidentCertificateNumberValid` / `isNewRC` | `isIdCardNumber` |
+| `isOriginalResidentCertificateNumberValid` / `isOriginalRC` | `isIdCardNumber` |
+| `isCitizenDigitalCertificateNumberValid` / `isCDC` | `isCdcNumber` |
+| `isEInvoiceCellPhoneBarcodeValid` / `isCellPhoneBarcode` | `isMobileBarcode` |
+| `isEInvoiceDonateCodeValid` / v1 alias `isDonateCode` | `isDonateCode` |
+| `isCreditCardNumberValid` / `isCreditCard` | Removed |
 
 Other breaking changes:
 
 - `isBan` accepts a string instead of `string | number`.
-- `isDonateCode` accepts a string instead of `string | number`.
+- v1 `isGuiNumberValid` used the legacy `% 10` BAN checksum rule by default. v2 `isBan` uses the current `% 5` rule by default; pass `{ applyOldRules: true }` when validating legacy data.
+- `isDonateCode` accepts a string instead of `string | number`. This includes the same-named v1 alias, which previously pointed to `isEInvoiceDonateCodeValid` and accepted numbers.
 - Credit card validation was removed because it is outside the Taiwan identifier domain and issuer ranges change independently of this library.
 - The browser bundle now targets ES2018. v1's explicit ES5 compatibility is no longer provided.
 
@@ -220,7 +336,9 @@ npm run test:cov
 npm run test:package
 ```
 
-`test:package` builds and packs the package, then validates the actual published shape through ESM, CommonJS, TypeScript NodeNext, browser-global, AMD, and package-metadata consumers.
+`test:package` builds and packs the package, validates the published shape through ESM, CommonJS, TypeScript NodeNext, browser-global, AMD, and package-metadata consumers, then runs the v2 behavioral regression gate.
+
+The regression gate compares the current package against the actually published `taiwan-id-validator@2.0.0` dist bundle. The v2 contract is zero unexplained behavioral differences. A future official format or checksum change that intentionally changes existing boolean behavior must be reviewed separately and recorded in `scripts/regulatory-deltas.json` with its authoritative source and effective date. The v2.0.0 package is intentionally retained as the baseline oracle.
 
 ### TypeScript 7 transition
 
